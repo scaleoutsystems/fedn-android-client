@@ -50,4 +50,5 @@ dependencies {
     implementation("com.google.protobuf:protobuf-kotlin:3.24.1")
     implementation("io.grpc:grpc-kotlin-stub:1.3.0")
     implementation("io.grpc:grpc-protobuf:1.57.2")
+    implementation("io.grpc:grpc-okhttp:1.57.2")
 }

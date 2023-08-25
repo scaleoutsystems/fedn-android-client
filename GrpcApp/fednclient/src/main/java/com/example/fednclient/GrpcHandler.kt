@@ -1,5 +1,10 @@
 package com.example.fednclient
 
+import com.example.fednclient.grpc.CombinerGrpcKt
+import com.example.fednclient.grpc.ConnectorGrpc
+import com.example.fednclient.grpc.ConnectorGrpc.ConnectorStub
+import com.example.fednclient.grpc.ConnectorGrpcKt
+import com.example.fednclient.grpc.ModelServiceGrpcKt
 import io.grpc.CallOptions
 import io.grpc.Channel
 import io.grpc.ClientInterceptor
@@ -33,7 +38,8 @@ class AuthInterceptor(private val authToken: String) : ClientInterceptor {
     }
 }
 
-class GrpcHandler(private val url: String, private val port: Int, private val token: String) : Closeable {
+class GrpcHandler(private val url: String, private val port: Int, private val token: String) : IGrpcHandler,
+    Closeable {
 
     private var _managedChannel: ManagedChannel? = null
 
@@ -61,6 +67,14 @@ class GrpcHandler(private val url: String, private val port: Int, private val to
             return _channel ?: throw AssertionError("Set to null by another thread")
         }
 
+    val connectorStub: ConnectorGrpcKt.ConnectorCoroutineStub =
+        ConnectorGrpcKt.ConnectorCoroutineStub(channel)
+
+    val combinerStub: CombinerGrpcKt.CombinerCoroutineStub =
+        CombinerGrpcKt.CombinerCoroutineStub(channel)
+
+    val modelServiceStub: ModelServiceGrpcKt.ModelServiceCoroutineStub =
+        ModelServiceGrpcKt.ModelServiceCoroutineStub(channel)
 
     override fun close() {
 

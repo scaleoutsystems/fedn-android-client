@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.fednclient.Client
+import com.example.fednclient.GrpcHandler
 import com.example.fednclient.IClient
+import com.example.fednclient.IGrpcHandler
 import com.example.grpcapp.ui.theme.GrpcAppTheme
 import kotlinx.coroutines.runBlocking
 
@@ -22,8 +24,7 @@ class MainActivity : ComponentActivity() {
             GrpcAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     Greeting("Android")
                 }
@@ -42,23 +43,24 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     runBlocking {
 
         val clientConfig = client.assign(
-            "https://r80ea7a19.studio.scaleoutsystems.com:443",
-            "niklastestclient2",
-            null,
-            token
+            "https://r80ea7a19.studio.scaleoutsystems.com:443", "niklastestclient2", null, token
         )
 
-        if (clientConfig?.fqdn != null && clientConfig.host != null) {
+        if (clientConfig?.fqdn != null && clientConfig.fqdn != null && clientConfig.port != null) {
 
             println(clientConfig)
+
+            val grpcHandler: IGrpcHandler =
+                GrpcHandler(clientConfig.fqdn!!, clientConfig.port!!, token)
+
+            println(grpcHandler)
         }
     }
 
 
 
     Text(
-        text = "Hello $name!",
-        modifier = modifier
+        text = "Hello $name!", modifier = modifier
     )
 }
 
