@@ -13,18 +13,13 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.client.request.headers
 import io.ktor.client.call.body
 
-interface IClient {
-    suspend fun assign(
-        connectionString: String,
-        name: String,
-        preferredCombiner: String?,
-        token: String
-    ): AssignResponse?
+interface IClientHelper{
+    fun getUrl(connectionString: String, name: String, preferredCombiner: String?): String?
+    fun getVerifiedToken(token: String): String
 }
 
-class Client : IClient {
-
-    private fun getUrl(
+class ClientHelper: IClientHelper{
+    override fun getUrl(
         connectionString: String,
         name: String,
         preferredCombiner: String?
@@ -41,7 +36,7 @@ class Client : IClient {
         return if (valid) "$connectionStringStr/assign?name=$name$preferredCombinerStr" else null
     }
 
-    private fun getVerifiedToken(token: String): String {
+    override fun getVerifiedToken(token: String): String {
 
         var result = ""
 
@@ -51,6 +46,20 @@ class Client : IClient {
 
         return result
     }
+}
+
+interface IClient {
+    suspend fun assign(
+        connectionString: String,
+        name: String,
+        preferredCombiner: String?,
+        token: String
+    ): AssignResponse?
+}
+
+class Client : IClient {
+
+    private val clientHelper: IClientHelper = ClientHelper()
 
     override suspend fun assign(
         connectionString: String,
@@ -59,9 +68,9 @@ class Client : IClient {
         token: String
     ): AssignResponse? {
 
-        val url = getUrl(connectionString, name, preferredCombiner)
+        val url = clientHelper.getUrl(connectionString, name, preferredCombiner)
 
-        val verifiedToken: String = getVerifiedToken(token)
+        val verifiedToken: String = clientHelper.getVerifiedToken(token)
 
         if (!url.isNullOrBlank() && verifiedToken.isNotEmpty()) {
 
