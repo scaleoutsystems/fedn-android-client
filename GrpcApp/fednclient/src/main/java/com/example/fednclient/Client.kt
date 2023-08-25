@@ -1,52 +1,17 @@
 package com.example.fednclient
 
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.get
+import io.ktor.client.request.headers
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpHeaders
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.request.get
-import io.ktor.serialization.kotlinx.json.json
-import io.ktor.client.request.headers
-import io.ktor.client.call.body
-
-interface IClientHelper{
-    fun getUrl(connectionString: String, name: String, preferredCombiner: String?): String?
-    fun getVerifiedToken(token: String): String
-}
-
-class ClientHelper: IClientHelper{
-    override fun getUrl(
-        connectionString: String,
-        name: String,
-        preferredCombiner: String?
-    ): String? {
-
-        val valid = connectionString.isNotEmpty() && name.isNotEmpty()
-
-        val preferredCombinerStr: String =
-            if (!preferredCombiner.isNullOrEmpty()) "&combiner=$preferredCombiner" else ""
-
-        val connectionStringStr =
-            if (connectionString.contains("http")) connectionString else "http://$connectionString"
-
-        return if (valid) "$connectionStringStr/assign?name=$name$preferredCombinerStr" else null
-    }
-
-    override fun getVerifiedToken(token: String): String {
-
-        var result = ""
-
-        if (token.isNotEmpty()) {
-            result = if (token.startsWith("Token ")) token else "Token $token"
-        }
-
-        return result
-    }
-}
 
 interface IClient {
     suspend fun assign(
