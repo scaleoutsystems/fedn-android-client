@@ -10,7 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.fednclient.Client
+import com.example.fednclient.IClient
 import com.example.grpcapp.ui.theme.GrpcAppTheme
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +34,28 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+
+    val token = "393fc4d2973c52b785870276e2a701a71bcc29c5"
+
+    val client: IClient = Client()
+
+    runBlocking {
+
+        val clientConfig = client.assign(
+            "https://r80ea7a19.studio.scaleoutsystems.com:443",
+            "niklastestclient2",
+            null,
+            token
+        )
+
+        if (clientConfig?.fqdn != null && clientConfig.host != null) {
+
+            println(clientConfig)
+        }
+    }
+
+
+
     Text(
         text = "Hello $name!",
         modifier = modifier

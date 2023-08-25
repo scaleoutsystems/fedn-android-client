@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("plugin.serialization").version("1.8.20")
 }
 
 android {
@@ -32,6 +33,8 @@ android {
     }
 }
 
+val ktorVersion: String by project
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.10.1")
@@ -40,6 +43,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("com.google.protobuf:protobuf-kotlin:3.24.1")
     implementation("io.grpc:grpc-kotlin-stub:1.3.0")
     implementation("io.grpc:grpc-protobuf:1.57.2")
