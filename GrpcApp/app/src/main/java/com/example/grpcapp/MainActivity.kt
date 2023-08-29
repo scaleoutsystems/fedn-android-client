@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.fednclient.Client
+import com.example.fednclient.FednClient
 import com.example.fednclient.GrpcHandler
 import com.example.fednclient.IClient
 import com.example.fednclient.IGrpcHandler
 import com.example.grpcapp.ui.theme.GrpcAppTheme
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
@@ -38,26 +40,13 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
     val token = "393fc4d2973c52b785870276e2a701a71bcc29c5"
 
-    val client: IClient = Client()
 
-    runBlocking {
-
-        val clientConfig = client.assign(
-            "https://r80ea7a19.studio.scaleoutsystems.com:443", "niklastestclient2", null, token
-        )
-
-        if (clientConfig?.fqdn != null && clientConfig.fqdn != null && clientConfig.port != null) {
-
-            println(clientConfig)
-
-            val grpcHandler: IGrpcHandler =
-                GrpcHandler(clientConfig.fqdn!!, clientConfig.port!!, token)
-
-            println(grpcHandler)
-        }
-    }
-
-
+    val fednClient = FednClient(
+        "https://r80ea7a19.studio.scaleoutsystems.com:443",
+        "niklastestclient2",
+        null,
+        token
+    )
 
     Text(
         text = "Hello $name!", modifier = modifier
