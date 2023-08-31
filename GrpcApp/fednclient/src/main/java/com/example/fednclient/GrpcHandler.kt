@@ -1,40 +1,24 @@
 package com.example.fednclient
 
-import android.content.Context
-import android.graphics.ColorSpace.Model
-import androidx.core.content.ContentProviderCompat.requireContext
-import java.util.UUID;
 import com.example.fednclient.grpc.Client
 import com.example.fednclient.grpc.ClientAvailableMessage
 import com.example.fednclient.grpc.CombinerGrpcKt
 import com.example.fednclient.grpc.ConnectorGrpcKt
 import com.example.fednclient.grpc.Heartbeat
 import com.example.fednclient.grpc.ModelRequest
-import com.example.fednclient.grpc.ModelResponse
 import com.example.fednclient.grpc.ModelServiceGrpcKt
 import com.example.fednclient.grpc.ModelStatus
 import com.example.fednclient.grpc.ModelUpdate
 import com.example.fednclient.grpc.ModelUpdateRequest
 import com.example.fednclient.grpc.Role
 import com.google.protobuf.ByteString
-import com.google.protobuf.kotlin.toByteStringUtf8
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
-import io.ktor.utils.io.errors.IOException
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 import java.io.Closeable
-import java.io.File
-import java.io.FileInputStream
-import java.security.AccessController.getContext
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Date
+import java.util.UUID
 
 
 interface IGrpcHandler {
@@ -43,7 +27,6 @@ interface IGrpcHandler {
 }
 
 class GrpcHandler(
-    private val context: Context,
     private val name: String,
     private val url: String,
     private val port: Int,
@@ -56,9 +39,6 @@ class GrpcHandler(
         get() {
 
             if (_managedChannel == null) {
-
-                println("Setting managed channel | url: $url, port: $port")
-
 
                 _managedChannel =
                     ManagedChannelBuilder.forAddress(url, port).useTransportSecurity().build()
@@ -73,12 +53,12 @@ class GrpcHandler(
     private val combinerStub: CombinerGrpcKt.CombinerCoroutineStub =
         CombinerGrpcKt.CombinerCoroutineStub(managedChannel)
 
-    val modelServiceStub: ModelServiceGrpcKt.ModelServiceCoroutineStub =
+    private val modelServiceStub: ModelServiceGrpcKt.ModelServiceCoroutineStub =
         ModelServiceGrpcKt.ModelServiceCoroutineStub(managedChannel)
 
     override suspend fun sendHeartbeat() {
 
-        println("SendHeartBeat!!!")
+        println("sending Heartbeat...")
 
         try {
 
@@ -101,7 +81,7 @@ class GrpcHandler(
 
     override suspend fun listenToModelUpdateRequestStream() {
 
-        println("listenToModelUpdateRequestStream")
+        println("initialize listener for model update requests...")
 
         val clientAvailableMessage: ClientAvailableMessage =
             ClientAvailableMessage.newBuilder().setSender(
@@ -111,51 +91,13 @@ class GrpcHandler(
         val stream = combinerStub.modelUpdateRequestStream(clientAvailableMessage)
 
         stream.collect { value ->
-            println("I am in stream!")
 
             if (value.sender.role == Role.COMBINER) {
-
-                println("Is combiner, yeah man!!!")
 
                 processTrainingRequest(value)
             }
         }
-
-        println("end of method!")
     }
-
-    private suspend fun readSeedFileToByteString(): ByteString? {
-
-        return try {
-            val fileInputStream = context.openFileInput("seed.npz")
-            val fileBytes = fileInputStream.readBytes()
-            fileInputStream.close()
-
-            ByteString.copyFrom(fileBytes)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
-    }
-
-
-    private fun splitByteStringIntoChunks(
-        byteString: ByteString,
-        chunkSize: Int
-    ): List<ByteString> {
-        val chunks = mutableListOf<ByteString>()
-        var currentIndex = 0
-
-        while (currentIndex < byteString.size()) {
-            val endIndex = (currentIndex + chunkSize).coerceAtMost(byteString.size())
-            val chunk = byteString.substring(currentIndex, endIndex)
-            chunks.add(chunk)
-            currentIndex = endIndex
-        }
-
-        return chunks
-    }
-
 
     private suspend fun processTrainingRequest(value: ModelUpdateRequest) {
 
@@ -188,31 +130,21 @@ class GrpcHandler(
                         .build()
                 emit(modelRequest)
             }
-
         }
 
         try {
 
             val result = modelServiceStub.upload(flow)
 
-            println(result.message)
+            println("Upload response: ${result.message}")
 
         } catch (e: io.grpc.StatusException) {
 
             println(e)
         }
 
-
         sendModelUpdate(uuidStr, value)
     }
-
-
-    fun getCurrentTimestamp(): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val currentDate = Date()
-        return dateFormat.format(currentDate)
-    }
-
 
     private suspend fun sendModelUpdate(updatedModelId: String, value: ModelUpdateRequest) {
 
@@ -229,7 +161,7 @@ class GrpcHandler(
 
         val response = combinerStub.sendModelUpdate(modelUpdate)
 
-        println("response: $response")
+        println("model update response: $response")
     }
 
     private suspend fun getModel(value: ModelUpdateRequest): ByteString? {
@@ -273,7 +205,6 @@ class GrpcHandler(
             }
         }
 
-        println("getModel done!")
         return result
     }
 

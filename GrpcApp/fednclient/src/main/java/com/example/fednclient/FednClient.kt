@@ -2,12 +2,15 @@ package com.example.fednclient
 
 import android.content.Context
 import com.example.fednclient.grpc.response
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import java.security.cert.X509Certificate
 
@@ -16,7 +19,6 @@ interface IFednClient {
 }
 
 class FednClient(
-    private val context: Context,
     private val connectionString: String,
     private val name: String,
     private val preferredCombiner: String?,
@@ -25,16 +27,15 @@ class FednClient(
 ) : IFednClient {
 
     private val client: IClient = Client()
-    private val certificate: Certificate = Certificate()
     private var grpcHandler: IGrpcHandler? = null
-    private val computePackageHandler: IComputePackageHandler = ComputePackageHandler(context)
+
+    private val scope = CoroutineScope(Job() + Dispatchers.Main)
 
     override fun doWork() {
 
-        runBlocking {
-            async {
-                doWorkInternal()
-            }
+        scope.launch {
+
+            doWorkInternal()
         }
     }
 
@@ -45,7 +46,7 @@ class FednClient(
         if (response?.fqdn != null && response.port != null) {
 
             val fqdn = response.fqdn
-            grpcHandler = GrpcHandler(context, name, fqdn, 443, token)
+            grpcHandler = GrpcHandler(name, fqdn, 443, token)
 
             async {
 
@@ -56,14 +57,11 @@ class FednClient(
         }
     }
 
-    private suspend fun sendHeartbeats() = withContext(Dispatchers.Default) {
-
-        var counter: Int = 0
+    private suspend fun sendHeartbeats() {
 
         while (true) {
 
             grpcHandler?.sendHeartbeat()
-            counter++
             delay(heartBeatInterval)
         }
     }

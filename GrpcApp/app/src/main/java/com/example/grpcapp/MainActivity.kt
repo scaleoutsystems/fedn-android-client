@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.contextaware.withContextAvailable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -17,8 +18,10 @@ import com.example.fednclient.GrpcHandler
 import com.example.fednclient.IClient
 import com.example.fednclient.IGrpcHandler
 import com.example.grpcapp.ui.theme.GrpcAppTheme
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
 
@@ -31,13 +34,12 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    Greeting("Fedn")
                 }
             }
         }
 
         val fednClient: FednClient = FednClient(
-            this,
             "https://r80ea7a19.studio.scaleoutsystems.com:443",
             "niklastestclient2",
             null,
