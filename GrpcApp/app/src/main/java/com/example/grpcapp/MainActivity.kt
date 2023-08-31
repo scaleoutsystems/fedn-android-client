@@ -1,5 +1,6 @@
 package com.example.grpcapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,8 +21,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             GrpcAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -32,21 +35,22 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        val fednClient: FednClient = FednClient(
+            this,
+            "https://r80ea7a19.studio.scaleoutsystems.com:443",
+            "niklastestclient2",
+            null,
+            "393fc4d2973c52b785870276e2a701a71bcc29c5",
+            heartBeatInterval = 4000
+        )
+
+        fednClient.doWork()
     }
 }
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-
-    val token = "393fc4d2973c52b785870276e2a701a71bcc29c5"
-
-
-    val fednClient = FednClient(
-        "https://r80ea7a19.studio.scaleoutsystems.com:443",
-        "niklastestclient2",
-        null,
-        token
-    )
 
     Text(
         text = "Hello $name!", modifier = modifier
