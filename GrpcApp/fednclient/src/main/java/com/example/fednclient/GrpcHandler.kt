@@ -173,34 +173,14 @@ class GrpcHandler(
 
         stream.collect { s ->
 
-            val status: ModelStatus = s.status
+            if (s.status == ModelStatus.IN_PROGRESS || s.status == ModelStatus.OK) {
 
-            when (status) {
-                ModelStatus.IN_PROGRESS -> {
+                if (result == null) {
 
-                    if (result == null) {
+                    result = s.data
+                } else {
 
-                        result = s.data
-                    } else {
-
-                        result!!.concat(s.data)
-                    }
-                }
-
-                ModelStatus.OK -> {
-
-                    if (result == null) {
-
-                        result = s.data
-                    } else {
-
-                        result!!.concat(s.data)
-                    }
-                }
-
-                else -> {
-
-                    println("getModel Failed")
+                    result!!.concat(s.data)
                 }
             }
         }
