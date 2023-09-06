@@ -34,6 +34,7 @@ android {
 }
 
 val ktorVersion: String by project
+val mockkVersion: String = "1.13.7"
 
 dependencies {
 
@@ -41,6 +42,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:${mockkVersion}")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("io.ktor:ktor-client-core:$ktorVersion")

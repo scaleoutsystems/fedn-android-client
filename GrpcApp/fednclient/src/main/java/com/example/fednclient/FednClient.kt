@@ -1,5 +1,8 @@
 package com.example.fednclient
 
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -9,6 +12,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+import io.ktor.serialization.kotlinx.json.json
 
 
 enum class ModelUpdateState {
@@ -32,7 +37,21 @@ class FednClient(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : IFednClient {
 
-    private val client: IClient = Client()
+    private var _client: IClient? = null
+    private val client: IClient
+        get() {
+
+            if (_client == null) {
+
+                val httpClientWrapper: IHttpClientWrapper<AssignResponse> =
+                    HttpClientAssignWrapper()
+                _client = Client(httpClientWrapper)
+            }
+
+            return _client!!
+        }
+
+
     private var grpcHandler: IGrpcHandler? = null
 
     override suspend fun doWork(
@@ -60,7 +79,7 @@ class FednClient(
     }
 
     private suspend fun sendHeartbeats() {
-
+//        TODO Should be able to set timeout
         while (true) {
 
             grpcHandler?.sendHeartbeat()

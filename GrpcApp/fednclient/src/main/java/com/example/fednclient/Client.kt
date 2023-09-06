@@ -2,17 +2,13 @@ package com.example.fednclient
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 
 
 enum class AssignState {
@@ -29,20 +25,35 @@ enum class AssignResponseStatus {
     ERROR
 }
 
+@Serializable
+data class AssignResponse(
+    val status: String? = null,
+    val host: String? = null,
+    val fqdn: String? = null,
+    val ip: String? = null,
+    val port: Int? = null,
+    val certificate: String? = null,
+    val msg: String? = null,
+    @SerialName("package") val myPackage: String? = null,
+    @SerialName("model_type") val modelType: String? = null
+)
+
 internal interface IClient {
     suspend fun assign(
         connectionString: String,
         name: String,
-        token: String
+        token: String,
+        onStateChanged: ((state: AssignState) -> Unit)? = null
     ): Pair<AssignResponse?, AssignResponseStatus>
 }
 
-internal class Client : IClient {
+internal class Client(private val httpClientWrapper: IHttpClientWrapper<AssignResponse>) : IClient {
 
     override suspend fun assign(
         connectionString: String,
         name: String,
-        token: String
+        token: String,
+        onStateChanged: ((state: AssignState) -> Unit)?
     ): Pair<AssignResponse?, AssignResponseStatus> {
 
         var response: AssignResponseStatus = AssignResponseStatus.OK
@@ -57,33 +68,25 @@ internal class Client : IClient {
             response = AssignResponseStatus.INVALID_TOKEN
         } else {
 
-            try {
+            onStateChanged?.invoke(AssignState.INITIALIZED)
 
-                val client = HttpClient(CIO) {
-                    install(ContentNegotiation) {
-                        json(Json {
-                            prettyPrint = true
-                            isLenient = true
-                        })
-                    }
-                    followRedirects = true
-                }
+            val (assignResponse, statusCode, successful) = httpClientWrapper.httpGet(
+                url,
+                verifiedToken
+            )
 
-                val httpResponse: HttpResponse = client.get(url) {
-                    headers {
-                        append(HttpHeaders.Authorization, verifiedToken)
-                        append(HttpHeaders.Accept, "application/json")
-                    }
-                }
+            result = assignResponse
 
-                if (httpResponse.status == HttpStatusCode.OK) {
-                    result = httpResponse.body<AssignResponse>()
+            if (successful) {
+
+                if (statusCode == HttpStatusCode.OK) {
+
+                    onStateChanged?.invoke(AssignState.ASSIGNED)
                 } else {
+                    onStateChanged?.invoke(AssignState.FAILED)
                     response = AssignResponseStatus.SERVER_RESPONSE_NOT_200
                 }
-
-                client.close()
-            } catch (e: Exception) {
+            } else {
                 response = AssignResponseStatus.ERROR
             }
         }
@@ -91,16 +94,3 @@ internal class Client : IClient {
         return Pair(result, response)
     }
 }
-
-@Serializable
-data class AssignResponse(
-    val status: String? = null,
-    val host: String? = null,
-    val fqdn: String? = null,
-    val ip: String? = null,
-    val port: Int? = null,
-    val certificate: String? = null,
-    val msg: String? = null,
-    @SerialName("package") val myPackage: String? = null,
-    @SerialName("model_type") val modelType: String? = null
-)

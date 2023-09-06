@@ -3,7 +3,7 @@ package com.example.fednclient
 import org.junit.Assert
 import org.junit.Test
 
-class ClientHelperUnitTest {
+class ClientUtilityFunctionsUnitTest {
 
 
     @Test
