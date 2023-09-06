@@ -8,7 +8,7 @@ import org.junit.Assert
 import org.junit.Test
 
 
-class ClientUnitTests {
+class HttpHandlerUnitTests {
     private val connectionString = "connectionString"
     private val name = "name"
     private val token = "token"
@@ -21,12 +21,12 @@ class ClientUnitTests {
         val assignResponse: AssignResponse? = AssignResponse()
 
         val response = Triple(
-            assignResponse, HttpStatusCode.OK, true
+            assignResponse, HttpStatusCode.OK, null
         )
 
         coEvery { httpClientWrapper.httpGet(any(), any()) } returns response
 
-        val client: IClient = Client(httpClientWrapper)
+        val client: IHttpHandler = HttpHandler(httpClientWrapper)
 
         val onStateChanged: ((state: AssignState) -> Unit)? = { state ->
             Assert.assertNotEquals(AssignState.FAILED, state)
@@ -38,7 +38,10 @@ class ClientUnitTests {
                 connectionString, name, token, onStateChanged
             )
 
-            Assert.assertEquals(AssignResponseStatus.OK, responseStatus)
+            val (statusCode, statusMessage) = responseStatus
+
+            Assert.assertEquals(AssignResponseStatus.OK, statusCode)
+            Assert.assertEquals(MESSAGE_OK, statusMessage)
             Assert.assertNotNull(response)
         }
     }
@@ -51,12 +54,12 @@ class ClientUnitTests {
         val assignResponse: AssignResponse? = null
 
         val response = Triple(
-            assignResponse, HttpStatusCode.ServiceUnavailable, true
+            assignResponse, HttpStatusCode.ServiceUnavailable, null
         )
 
         coEvery { httpClientWrapper.httpGet(any(), any()) } returns response
 
-        val client: IClient = Client(httpClientWrapper)
+        val client: IHttpHandler = HttpHandler(httpClientWrapper)
 
         val onStateChanged: ((state: AssignState) -> Unit)? = { state ->
             Assert.assertNotEquals(AssignState.ASSIGNED, state)
@@ -68,7 +71,10 @@ class ClientUnitTests {
                 connectionString, name, token, onStateChanged
             )
 
-            Assert.assertEquals(AssignResponseStatus.SERVER_RESPONSE_NOT_200, responseStatus)
+            val (statusCode, statusMessage) = responseStatus
+
+            Assert.assertEquals(AssignResponseStatus.SERVER_RESPONSE_NOT_200, statusCode)
+            Assert.assertEquals(MESSAGE_SERVER_RESPONSE_NOT_200, statusMessage)
             Assert.assertNull(response)
         }
     }
@@ -78,15 +84,15 @@ class ClientUnitTests {
 
         val httpClientWrapper = mockk<IHttpClientWrapper<AssignResponse>>()
 
-        val assignResponse: AssignResponse? = null
+        val expectedMessage: String = "Error message"
 
         val response = Triple(
-            assignResponse, null, false
+            null, null, expectedMessage
         )
 
         coEvery { httpClientWrapper.httpGet(any(), any()) } returns response
 
-        val client: IClient = Client(httpClientWrapper)
+        val client: IHttpHandler = HttpHandler(httpClientWrapper)
 
         val onStateChanged: ((state: AssignState) -> Unit)? = { state ->
             Assert.assertNotEquals(AssignState.ASSIGNED, state)
@@ -97,8 +103,10 @@ class ClientUnitTests {
             val (response, responseStatus) = client.assign(
                 connectionString, name, token, onStateChanged
             )
+            val (statusCode, statusMessage) = responseStatus
 
-            Assert.assertEquals(AssignResponseStatus.ERROR, responseStatus)
+            Assert.assertEquals(AssignResponseStatus.ERROR, statusCode)
+            Assert.assertEquals(expectedMessage, statusMessage)
             Assert.assertNull(response)
         }
     }

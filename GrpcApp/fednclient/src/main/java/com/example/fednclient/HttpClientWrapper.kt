@@ -17,7 +17,7 @@ interface IHttpClientWrapper<T> : Closeable {
 
     suspend fun httpGet(
         url: String, token: String
-    ): Triple<T?, HttpStatusCode?, Boolean>
+    ): Triple<T?, HttpStatusCode?, String?>
 }
 
 
@@ -35,7 +35,7 @@ class HttpClientAssignWrapper : IHttpClientWrapper<AssignResponse> {
 
     override suspend fun httpGet(
         url: String, token: String
-    ): Triple<AssignResponse?, HttpStatusCode?, Boolean> {
+    ): Triple<AssignResponse?, HttpStatusCode?, String?> {
 
         try {
 
@@ -46,17 +46,17 @@ class HttpClientAssignWrapper : IHttpClientWrapper<AssignResponse> {
                 }
             }
 
-            var result: AssignResponse? = if (httpResponse.status == HttpStatusCode.OK) {
+            val result: AssignResponse? = if (httpResponse.status == HttpStatusCode.OK) {
                 httpResponse.body<AssignResponse>()
             } else null
 
-            return Triple(result, httpResponse.status, true)
+            return Triple(result, httpResponse.status, null)
 
         } catch (e: Exception) {
 
             println(e.message)
 
-            return Triple(null, null, false)
+            return Triple(null, null, e.message)
         }
     }
 
