@@ -8,61 +8,87 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-interface IClient {
+
+enum class AssignState {
+    INITIALIZED,
+    ASSIGNED,
+    FAILED
+}
+
+enum class AssignResponseStatus {
+    OK,
+    INVALID_URL,
+    INVALID_TOKEN,
+    SERVER_RESPONSE_NOT_200,
+    ERROR
+}
+
+internal interface IClient {
     suspend fun assign(
         connectionString: String,
         name: String,
-        preferredCombiner: String?,
         token: String
-    ): AssignResponse?
+    ): Pair<AssignResponse?, AssignResponseStatus>
 }
 
-class Client : IClient {
-
-    private val clientHelper: IClientHelper = ClientHelper()
+internal class Client : IClient {
 
     override suspend fun assign(
         connectionString: String,
         name: String,
-        preferredCombiner: String?,
         token: String
-    ): AssignResponse? {
+    ): Pair<AssignResponse?, AssignResponseStatus> {
 
-        val url = clientHelper.getUrl(connectionString, name, preferredCombiner)
+        var response: AssignResponseStatus = AssignResponseStatus.OK
+        var result: AssignResponse? = null
 
-        val verifiedToken: String = clientHelper.getVerifiedToken(token)
+        val url: String? = getUrl(connectionString, name)
+        val verifiedToken: String? = getVerifiedToken(token)
 
-        if (!url.isNullOrBlank() && verifiedToken.isNotEmpty()) {
+        if (url.isNullOrBlank()) {
+            response = AssignResponseStatus.INVALID_URL
+        } else if (verifiedToken.isNullOrBlank()) {
+            response = AssignResponseStatus.INVALID_TOKEN
+        } else {
 
-            val client = HttpClient(CIO) {
-                install(ContentNegotiation) {
-                    json(Json {
-                        prettyPrint = true
-                        isLenient = true
-                    })
+            try {
+
+                val client = HttpClient(CIO) {
+                    install(ContentNegotiation) {
+                        json(Json {
+                            prettyPrint = true
+                            isLenient = true
+                        })
+                    }
+                    followRedirects = true
                 }
-                followRedirects = true
-            }
 
-            val response: HttpResponse = client.get(url) {
-                headers {
-                    append(HttpHeaders.Authorization, verifiedToken)
-                    append(HttpHeaders.Accept, "application/json")
+                val httpResponse: HttpResponse = client.get(url) {
+                    headers {
+                        append(HttpHeaders.Authorization, verifiedToken)
+                        append(HttpHeaders.Accept, "application/json")
+                    }
                 }
+
+                if (httpResponse.status == HttpStatusCode.OK) {
+                    result = httpResponse.body<AssignResponse>()
+                } else {
+                    response = AssignResponseStatus.SERVER_RESPONSE_NOT_200
+                }
+
+                client.close()
+            } catch (e: Exception) {
+                response = AssignResponseStatus.ERROR
             }
-
-            val res = response.body<AssignResponse>()
-            client.close()
-
-            return res
         }
 
-        return null
+        return Pair(result, response)
     }
 }
 

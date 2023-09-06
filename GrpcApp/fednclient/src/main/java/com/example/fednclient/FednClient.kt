@@ -1,60 +1,62 @@
 package com.example.fednclient
 
-import android.content.Context
-import com.example.fednclient.grpc.response
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
-import java.security.cert.X509Certificate
+
+
+enum class ModelUpdateState {
+    IDLE, SESSION_STARTED, SESSION_FINISHED, SESSION_ABORTED
+}
 
 interface IFednClient {
-    fun doWork()
+    suspend fun doWork(
+        onAssignStateChanged: (state: AssignState) -> Unit,
+        onUpdateModelStateChanged: (state: ModelUpdateState) -> Unit
+    ): Pair<String, Boolean>
+
+    suspend fun assign(onStateChanged: (state: AssignState) -> Unit): Pair<String, Boolean>
+    suspend fun listenToModelUpdateRequestStream(onStateChanged: (state: ModelUpdateState) -> Unit): Pair<String, Boolean>
 }
 
 class FednClient(
     private val connectionString: String,
     private val name: String,
-    private val preferredCombiner: String?,
     private val token: String,
-    private val heartBeatInterval: Long = 1000
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : IFednClient {
 
     private val client: IClient = Client()
     private var grpcHandler: IGrpcHandler? = null
 
-    private val scope = CoroutineScope(Job() + Dispatchers.Main)
+    override suspend fun doWork(
+        onAssignStateChanged: (state: AssignState) -> Unit,
+        onUpdateModelStateChanged: (state: ModelUpdateState) -> Unit
+    ): Pair<String, Boolean> = withContext(defaultDispatcher) {
+        val (result, response) = client.assign(connectionString, name, token)
+        onAssignStateChanged(AssignState.ASSIGNED)
 
-    override fun doWork() {
+        if (response == AssignResponseStatus.OK && result?.fqdn != null && result.port != null) {
 
-        scope.launch {
-
-            doWorkInternal()
-        }
-    }
-
-    private suspend fun doWorkInternal() = withContext(Dispatchers.Default) {
-
-        val response = client.assign(connectionString, name, preferredCombiner, token)
-
-        if (response?.fqdn != null && response.port != null) {
-
-            val fqdn = response.fqdn
+            val fqdn = result.fqdn
             grpcHandler = GrpcHandler(name, fqdn, 443, token)
 
-            async {
+            launch {
 
                 sendHeartbeats()
             }
 
             grpcHandler?.listenToModelUpdateRequestStream()
+            onUpdateModelStateChanged(ModelUpdateState.SESSION_FINISHED)
         }
+
+        return@withContext Pair("Success", true)
     }
 
     private suspend fun sendHeartbeats() {
@@ -62,7 +64,17 @@ class FednClient(
         while (true) {
 
             grpcHandler?.sendHeartbeat()
-            delay(heartBeatInterval)
+            delay(4000)
         }
     }
+
+    override suspend fun assign(onStateChanged: (state: AssignState) -> Unit): Pair<String, Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun listenToModelUpdateRequestStream(onStateChanged: (state: ModelUpdateState) -> Unit): Pair<String, Boolean> {
+        TODO("Not yet implemented")
+    }
+
+
 }

@@ -5,7 +5,6 @@ import org.junit.Test
 
 class ClientHelperUnitTest {
 
-    private val clientHelper: IClientHelper = ClientHelper()
 
     @Test
     fun getUrl() {
@@ -14,9 +13,9 @@ class ClientHelperUnitTest {
         val name: String = "name"
         val preferredCombiner: String = "preferredCombiner"
 
-        val expected = "$connectionString/assign?name=$name&combiner=$preferredCombiner"
+        val expected = "$connectionString/assign?name=$name"
 
-        val actual = clientHelper.getUrl(connectionString, name, preferredCombiner)
+        val actual = getUrl(connectionString, name)
 
         Assert.assertEquals(expected, actual)
     }
@@ -28,23 +27,40 @@ class ClientHelperUnitTest {
         val name: String = "name"
         val preferredCombiner: String = "preferredCombiner"
 
-        val expected = "http://$connectionString/assign?name=$name&combiner=$preferredCombiner"
+        val expected = "http://$connectionString/assign?name=$name"
 
-        val actual = clientHelper.getUrl(connectionString, name, preferredCombiner)
+        val actual = getUrl(connectionString, name)
+
+        Assert.assertEquals(expected, actual)
+    }
+    @Test
+    fun getVerifiedToken() {
+
+        val token = "Token myToken"
+        val expected = "Token myToken"
+
+        val actual = getVerifiedToken(token)
 
         Assert.assertEquals(expected, actual)
     }
 
     @Test
-    fun getUrlNoPreferredCombiner() {
+    fun getVerifiedTokenPrefix() {
 
-        val connectionString: String = "connectionString"
-        val name: String = "name"
+        val token = "myToken"
+        val expected = "Token myToken"
 
-        val expected = "http://$connectionString/assign?name=$name"
-
-        val actual = clientHelper.getUrl(connectionString, name, null)
+        val actual = getVerifiedToken(token)
 
         Assert.assertEquals(expected, actual)
+    }
+    @Test
+    fun getVerifiedTokenEmpty() {
+
+        val token = ""
+
+        val actual = getVerifiedToken(token)
+
+        Assert.assertNull(actual)
     }
 }
