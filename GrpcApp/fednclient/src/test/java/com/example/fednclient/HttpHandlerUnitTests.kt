@@ -3,7 +3,7 @@ package com.example.fednclient
 import io.ktor.http.HttpStatusCode
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
 
@@ -14,17 +14,17 @@ class HttpHandlerUnitTests {
     private val token = "token"
 
     @Test
-    fun assign() {
+    fun assign() = runTest {
 
         val httpClientWrapper = mockk<IHttpClientWrapper<AssignResponse>>()
 
         val assignResponse: AssignResponse? = AssignResponse()
 
-        val response = Triple(
+        val mockResponse = Triple(
             assignResponse, HttpStatusCode.OK, null
         )
 
-        coEvery { httpClientWrapper.httpGet(any(), any()) } returns response
+        coEvery { httpClientWrapper.httpGet(any(), any()) } returns mockResponse
 
         val client: IHttpHandler = HttpHandler(httpClientWrapper)
 
@@ -32,32 +32,30 @@ class HttpHandlerUnitTests {
             Assert.assertNotEquals(AssignState.FAILED, state)
         }
 
-        runBlocking {
 
-            val (response, responseStatus) = client.assign(
-                connectionString, name, token, onStateChanged
-            )
+        val (response, responseStatus) = client.assign(
+            connectionString, name, token, onStateChanged
+        )
 
-            val (statusCode, statusMessage) = responseStatus
+        val (statusCode, statusMessage) = responseStatus
 
-            Assert.assertEquals(AssignResponseStatus.OK, statusCode)
-            Assert.assertEquals(MESSAGE_OK, statusMessage)
-            Assert.assertNotNull(response)
-        }
+        Assert.assertEquals(AssignResponseStatus.OK, statusCode)
+        Assert.assertEquals(MESSAGE_OK, statusMessage)
+        Assert.assertNotNull(response)
     }
 
     @Test
-    fun assignServerIssues() {
+    fun assignServerIssues() = runTest {
 
         val httpClientWrapper = mockk<IHttpClientWrapper<AssignResponse>>()
 
         val assignResponse: AssignResponse? = null
 
-        val response = Triple(
+        val mockResponse = Triple(
             assignResponse, HttpStatusCode.ServiceUnavailable, null
         )
 
-        coEvery { httpClientWrapper.httpGet(any(), any()) } returns response
+        coEvery { httpClientWrapper.httpGet(any(), any()) } returns mockResponse
 
         val client: IHttpHandler = HttpHandler(httpClientWrapper)
 
@@ -65,32 +63,30 @@ class HttpHandlerUnitTests {
             Assert.assertNotEquals(AssignState.ASSIGNED, state)
         }
 
-        runBlocking {
 
-            val (response, responseStatus) = client.assign(
-                connectionString, name, token, onStateChanged
-            )
+        val (response, responseStatus) = client.assign(
+            connectionString, name, token, onStateChanged
+        )
 
-            val (statusCode, statusMessage) = responseStatus
+        val (statusCode, statusMessage) = responseStatus
 
-            Assert.assertEquals(AssignResponseStatus.SERVER_RESPONSE_NOT_200, statusCode)
-            Assert.assertEquals(MESSAGE_SERVER_RESPONSE_NOT_200, statusMessage)
-            Assert.assertNull(response)
-        }
+        Assert.assertEquals(AssignResponseStatus.SERVER_RESPONSE_NOT_200, statusCode)
+        Assert.assertEquals(MESSAGE_SERVER_RESPONSE_NOT_200, statusMessage)
+        Assert.assertNull(response)
     }
 
     @Test
-    fun assignNetworkIssues() {
+    fun assignNetworkIssues() = runTest {
 
         val httpClientWrapper = mockk<IHttpClientWrapper<AssignResponse>>()
 
         val expectedMessage: String = "Error message"
 
-        val response = Triple(
+        val mockResponse = Triple(
             null, null, expectedMessage
         )
 
-        coEvery { httpClientWrapper.httpGet(any(), any()) } returns response
+        coEvery { httpClientWrapper.httpGet(any(), any()) } returns mockResponse
 
         val client: IHttpHandler = HttpHandler(httpClientWrapper)
 
@@ -98,16 +94,13 @@ class HttpHandlerUnitTests {
             Assert.assertNotEquals(AssignState.ASSIGNED, state)
         }
 
-        runBlocking {
+        val (response, responseStatus) = client.assign(
+            connectionString, name, token, onStateChanged
+        )
+        val (statusCode, statusMessage) = responseStatus
 
-            val (response, responseStatus) = client.assign(
-                connectionString, name, token, onStateChanged
-            )
-            val (statusCode, statusMessage) = responseStatus
-
-            Assert.assertEquals(AssignResponseStatus.ERROR, statusCode)
-            Assert.assertEquals(expectedMessage, statusMessage)
-            Assert.assertNull(response)
-        }
+        Assert.assertEquals(AssignResponseStatus.ERROR, statusCode)
+        Assert.assertEquals(expectedMessage, statusMessage)
+        Assert.assertNull(response)
     }
 }
