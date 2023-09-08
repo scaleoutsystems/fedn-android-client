@@ -16,6 +16,8 @@ enum class ModelUpdateState {
 const val MESSAGE_RUN_PROCESS_OK = "runProcess ran to completion"
 const val MESSAGE_GRPC_HANDLER_NOT_INITIALIZED =
     "Grpc handler not initialized, attachClientToNetwork must run first"
+const val MESSAGE_HEARTBEATS_NOT_INITIALIZED =
+    "Heartbeats not initialized, sendHeartbeats must run (in background) first"
 
 interface IFednClient {
     suspend fun runProcess(
@@ -24,6 +26,7 @@ interface IFednClient {
     ): Pair<String, Boolean>
 
     suspend fun attachClientToNetwork(onStateChanged: ((state: AttachState) -> Unit)? = null): Pair<String, Boolean>
+    suspend fun sendHeartbeats()
     suspend fun listenToModelUpdateRequestStream(onStateChanged: ((state: ModelUpdateState) -> Unit)? = null): Pair<String, Boolean>
 }
 
@@ -38,6 +41,10 @@ class FednClient(
     private var _httpHandler: IHttpHandler? = null,
     private var _grpcHandler: IGrpcHandler? = null
 ) : IFednClient {
+
+    var attached: Boolean = false
+    var heartbeatsInitiated: Boolean = false
+    var listeningToModelUpdate: Boolean = false
 
     private val httpHandler: IHttpHandler
         get() {
@@ -107,6 +114,8 @@ class FednClient(
 
             grpcHandler = GrpcHandler(name, fqdn, port, token)
 
+            attached = true
+
         } else {
 
             result = false
@@ -115,20 +124,9 @@ class FednClient(
         return Pair(msg, result)
     }
 
-    override suspend fun listenToModelUpdateRequestStream(onStateChanged: ((state: ModelUpdateState) -> Unit)?): Pair<String, Boolean> {
+    override suspend fun sendHeartbeats() {
 
-        if (grpcHandler != null) {
-
-            grpcHandler?.listenToModelUpdateRequestStream()
-
-            return Pair("Success", true)
-        }
-
-        return Pair(MESSAGE_GRPC_HANDLER_NOT_INITIALIZED, false)
-    }
-
-    internal suspend fun sendHeartbeats() {
-
+        heartbeatsInitiated = true
         var counter: Long = 0
 
         while (maxNumberOfHearbeats == null || counter < maxNumberOfHearbeats) {
@@ -139,4 +137,21 @@ class FednClient(
         }
     }
 
+    override suspend fun listenToModelUpdateRequestStream(onStateChanged: ((state: ModelUpdateState) -> Unit)?): Pair<String, Boolean> {
+
+        return if (!attached || grpcHandler == null) {
+
+            Pair(MESSAGE_GRPC_HANDLER_NOT_INITIALIZED, false)
+        } else if (!heartbeatsInitiated) {
+
+            Pair(MESSAGE_HEARTBEATS_NOT_INITIALIZED, false)
+        } else {
+
+            listeningToModelUpdate = true
+
+            grpcHandler?.listenToModelUpdateRequestStream()
+
+            Pair("Success", true)
+        }
+    }
 }
