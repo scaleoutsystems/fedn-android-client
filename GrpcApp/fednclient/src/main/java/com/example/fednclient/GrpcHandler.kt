@@ -33,8 +33,12 @@ class GrpcHandler(
     private val token: String,
 ) : IGrpcHandler, Closeable {
 
-    private var _managedChannel: ManagedChannel? = null
+    private val headers = Metadata().apply {
+        val key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
+        put(key, "Token $token")
+    }
 
+    private var _managedChannel: ManagedChannel? = null
     private val managedChannel: ManagedChannel
         get() {
 
@@ -68,11 +72,6 @@ class GrpcHandler(
                 ).build()
             ).build()
 
-            val headers = Metadata().apply {
-                val key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
-                put(key, "Token $token")
-            }
-
             connectorStub.sendHeartbeat(request, headers)
         } catch (e: Exception) {
             println("Error: ${e.message}")
@@ -88,7 +87,7 @@ class GrpcHandler(
                 Client.newBuilder().setName(name).setRole(Role.WORKER).build()
             ).build()
 
-        val stream = combinerStub.modelUpdateRequestStream(clientAvailableMessage)
+        val stream = combinerStub.modelUpdateRequestStream(clientAvailableMessage, headers)
 
         stream.collect { value ->
 
@@ -134,7 +133,7 @@ class GrpcHandler(
 
         try {
 
-            val result = modelServiceStub.upload(flow)
+            val result = modelServiceStub.upload(flow, headers)
 
             println("Upload response: ${result.message}")
 
@@ -159,7 +158,7 @@ class GrpcHandler(
                 .setTimestamp(getCurrentTimestamp()).setCorrelationId(value.correlationId)
                 .setMeta("").build()
 
-        val response = combinerStub.sendModelUpdate(modelUpdate)
+        val response = combinerStub.sendModelUpdate(modelUpdate, headers)
 
         println("model update response: $response")
     }
@@ -167,7 +166,7 @@ class GrpcHandler(
     private suspend fun getModel(value: ModelUpdateRequest): ByteString? {
 
         val request: ModelRequest = ModelRequest.newBuilder().setId(value.modelId).build()
-        val stream = modelServiceStub.download(request)
+        val stream = modelServiceStub.download(request, headers)
 
         var result: ByteString? = null
 

@@ -18,18 +18,7 @@ interface IHttpClientWrapper<T> {
     ): Triple<T?, HttpStatusCode?, String?>
 }
 
-
 class HttpClientAssignWrapper : IHttpClientWrapper<AttachResponse> {
-
-//    private val httpClient: HttpClient = HttpClient(CIO) {
-//        install(ContentNegotiation) {
-//            json(Json {
-//                prettyPrint = true
-//                isLenient = true
-//            })
-//        }
-//        followRedirects = true
-//    }
 
     override suspend fun httpGet(
         url: String, token: String
@@ -46,8 +35,6 @@ class HttpClientAssignWrapper : IHttpClientWrapper<AttachResponse> {
                 }
                 followRedirects = true
             }
-
-            println("url: $url, token: $token")
 
             val httpResponse = httpClient.get(url) {
                 headers {
@@ -69,8 +56,4 @@ class HttpClientAssignWrapper : IHttpClientWrapper<AttachResponse> {
             return Triple(null, null, e.message)
         }
     }
-
-//    override fun close() {
-//        httpClient.close()
-//    }
 }
