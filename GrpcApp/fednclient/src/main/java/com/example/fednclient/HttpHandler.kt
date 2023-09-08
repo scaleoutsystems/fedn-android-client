@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
-enum class AssignState {
+enum class AttachState {
     INITIALIZED, ASSIGNED, FAILED
 }
 
@@ -15,7 +15,7 @@ const val MESSAGE_INVALID_TOKEN = "Invalid token"
 const val MESSAGE_SERVER_RESPONSE_NOT_200 = "Server response not 200"
 const val MESSAGE_ERROR = "Unknown error. Possibly serialization problems or service unavailable"
 
-enum class AssignResponseStatus(private val displayName: String) {
+enum class AttachResponseStatus(private val displayName: String) {
     OK(MESSAGE_OK), INVALID_URL(MESSAGE_INVALID_URL), INVALID_TOKEN(MESSAGE_INVALID_TOKEN), SERVER_RESPONSE_NOT_200(
         MESSAGE_SERVER_RESPONSE_NOT_200
     ),
@@ -27,7 +27,7 @@ enum class AssignResponseStatus(private val displayName: String) {
 }
 
 @Serializable
-data class AssignResponse(
+data class AttachResponse(
     val status: String? = null,
     val host: String? = null,
     val fqdn: String? = null,
@@ -40,65 +40,65 @@ data class AssignResponse(
 )
 
 interface IHttpHandler {
-    suspend fun assign(
+    suspend fun attach(
         connectionString: String,
         name: String,
         token: String,
-        onStateChanged: ((state: AssignState) -> Unit)? = null
-    ): Pair<AssignResponse?, Pair<AssignResponseStatus, String>>
+        onStateChanged: ((state: AttachState) -> Unit)? = null
+    ): Pair<AttachResponse?, Pair<AttachResponseStatus, String>>
 }
 
-internal class HttpHandler(private val httpClientWrapper: IHttpClientWrapper<AssignResponse>) :
+internal class HttpHandler(private val httpClientWrapper: IHttpClientWrapper<AttachResponse>) :
     IHttpHandler {
 
-    override suspend fun assign(
+    override suspend fun attach(
         connectionString: String,
         name: String,
         token: String,
-        onStateChanged: ((state: AssignState) -> Unit)?
-    ): Pair<AssignResponse?, Pair<AssignResponseStatus, String>> {
+        onStateChanged: ((state: AttachState) -> Unit)?
+    ): Pair<AttachResponse?, Pair<AttachResponseStatus, String>> {
 
-        var response: Pair<AssignResponseStatus, String> =
-            Pair(AssignResponseStatus.OK, AssignResponseStatus.OK.toString())
-        var result: AssignResponse? = null
+        var response: Pair<AttachResponseStatus, String> =
+            Pair(AttachResponseStatus.OK, AttachResponseStatus.OK.toString())
+        var result: AttachResponse? = null
 
         val url: String? = getUrl(connectionString, name)
         val verifiedToken: String? = getVerifiedToken(token)
 
         if (url.isNullOrBlank()) {
             response =
-                Pair(AssignResponseStatus.INVALID_URL, AssignResponseStatus.INVALID_URL.toString())
+                Pair(AttachResponseStatus.INVALID_URL, AttachResponseStatus.INVALID_URL.toString())
         } else if (verifiedToken.isNullOrBlank()) {
             response = Pair(
-                AssignResponseStatus.INVALID_TOKEN,
-                AssignResponseStatus.INVALID_TOKEN.toString()
+                AttachResponseStatus.INVALID_TOKEN,
+                AttachResponseStatus.INVALID_TOKEN.toString()
             )
         } else {
 
-            onStateChanged?.invoke(AssignState.INITIALIZED)
+            onStateChanged?.invoke(AttachState.INITIALIZED)
 
-            val (assignResponse, statusCode, msg) = httpClientWrapper.httpGet(
+            val (attachResponse, statusCode, msg) = httpClientWrapper.httpGet(
                 url, verifiedToken
             )
 
-            result = assignResponse
+            result = attachResponse
 
             if (statusCode != null) {
 
                 if (statusCode == HttpStatusCode.OK) {
 
-                    onStateChanged?.invoke(AssignState.ASSIGNED)
+                    onStateChanged?.invoke(AttachState.ASSIGNED)
                 } else {
-                    onStateChanged?.invoke(AssignState.FAILED)
+                    onStateChanged?.invoke(AttachState.FAILED)
                     response = Pair(
-                        AssignResponseStatus.SERVER_RESPONSE_NOT_200,
-                        AssignResponseStatus.SERVER_RESPONSE_NOT_200.toString()
+                        AttachResponseStatus.SERVER_RESPONSE_NOT_200,
+                        AttachResponseStatus.SERVER_RESPONSE_NOT_200.toString()
                     )
                 }
             } else {
 
                 response =
-                    Pair(AssignResponseStatus.ERROR, msg ?: AssignResponseStatus.ERROR.toString())
+                    Pair(AttachResponseStatus.ERROR, msg ?: AttachResponseStatus.ERROR.toString())
             }
         }
 

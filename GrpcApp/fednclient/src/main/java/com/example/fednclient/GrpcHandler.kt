@@ -58,7 +58,7 @@ class GrpcHandler(
 
     override suspend fun sendHeartbeat() {
 
-//        println("sending Heartbeat...")
+        println("sending Heartbeat...")
 
         try {
 
@@ -75,7 +75,7 @@ class GrpcHandler(
 
             connectorStub.sendHeartbeat(request, headers)
         } catch (e: Exception) {
-//            println("Error: ${e.message}")
+            println("Error: ${e.message}")
         }
     }
 

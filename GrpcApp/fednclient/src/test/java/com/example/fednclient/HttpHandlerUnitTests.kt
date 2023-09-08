@@ -16,30 +16,30 @@ class HttpHandlerUnitTests {
     @Test
     fun assign() = runTest {
 
-        val httpClientWrapper = mockk<IHttpClientWrapper<AssignResponse>>()
+        val httpClientWrapper = mockk<IHttpClientWrapper<AttachResponse>>()
 
-        val assignResponse: AssignResponse? = AssignResponse()
+        val attachResponse: AttachResponse? = AttachResponse()
 
         val mockResponse = Triple(
-            assignResponse, HttpStatusCode.OK, null
+            attachResponse, HttpStatusCode.OK, null
         )
 
         coEvery { httpClientWrapper.httpGet(any(), any()) } returns mockResponse
 
         val client: IHttpHandler = HttpHandler(httpClientWrapper)
 
-        val onStateChanged: ((state: AssignState) -> Unit)? = { state ->
-            Assert.assertNotEquals(AssignState.FAILED, state)
+        val onStateChanged: ((state: AttachState) -> Unit)? = { state ->
+            Assert.assertNotEquals(AttachState.FAILED, state)
         }
 
 
-        val (response, responseStatus) = client.assign(
+        val (response, responseStatus) = client.attach(
             connectionString, name, token, onStateChanged
         )
 
         val (statusCode, statusMessage) = responseStatus
 
-        Assert.assertEquals(AssignResponseStatus.OK, statusCode)
+        Assert.assertEquals(AttachResponseStatus.OK, statusCode)
         Assert.assertEquals(MESSAGE_OK, statusMessage)
         Assert.assertNotNull(response)
     }
@@ -47,30 +47,30 @@ class HttpHandlerUnitTests {
     @Test
     fun assignServerIssues() = runTest {
 
-        val httpClientWrapper = mockk<IHttpClientWrapper<AssignResponse>>()
+        val httpClientWrapper = mockk<IHttpClientWrapper<AttachResponse>>()
 
-        val assignResponse: AssignResponse? = null
+        val attachResponse: AttachResponse? = null
 
         val mockResponse = Triple(
-            assignResponse, HttpStatusCode.ServiceUnavailable, null
+            attachResponse, HttpStatusCode.ServiceUnavailable, null
         )
 
         coEvery { httpClientWrapper.httpGet(any(), any()) } returns mockResponse
 
         val client: IHttpHandler = HttpHandler(httpClientWrapper)
 
-        val onStateChanged: ((state: AssignState) -> Unit)? = { state ->
-            Assert.assertNotEquals(AssignState.ASSIGNED, state)
+        val onStateChanged: ((state: AttachState) -> Unit)? = { state ->
+            Assert.assertNotEquals(AttachState.ASSIGNED, state)
         }
 
 
-        val (response, responseStatus) = client.assign(
+        val (response, responseStatus) = client.attach(
             connectionString, name, token, onStateChanged
         )
 
         val (statusCode, statusMessage) = responseStatus
 
-        Assert.assertEquals(AssignResponseStatus.SERVER_RESPONSE_NOT_200, statusCode)
+        Assert.assertEquals(AttachResponseStatus.SERVER_RESPONSE_NOT_200, statusCode)
         Assert.assertEquals(MESSAGE_SERVER_RESPONSE_NOT_200, statusMessage)
         Assert.assertNull(response)
     }
@@ -78,7 +78,7 @@ class HttpHandlerUnitTests {
     @Test
     fun assignNetworkIssues() = runTest {
 
-        val httpClientWrapper = mockk<IHttpClientWrapper<AssignResponse>>()
+        val httpClientWrapper = mockk<IHttpClientWrapper<AttachResponse>>()
 
         val expectedMessage: String = "Error message"
 
@@ -90,16 +90,16 @@ class HttpHandlerUnitTests {
 
         val client: IHttpHandler = HttpHandler(httpClientWrapper)
 
-        val onStateChanged: ((state: AssignState) -> Unit)? = { state ->
-            Assert.assertNotEquals(AssignState.ASSIGNED, state)
+        val onStateChanged: ((state: AttachState) -> Unit)? = { state ->
+            Assert.assertNotEquals(AttachState.ASSIGNED, state)
         }
 
-        val (response, responseStatus) = client.assign(
+        val (response, responseStatus) = client.attach(
             connectionString, name, token, onStateChanged
         )
         val (statusCode, statusMessage) = responseStatus
 
-        Assert.assertEquals(AssignResponseStatus.ERROR, statusCode)
+        Assert.assertEquals(AttachResponseStatus.ERROR, statusCode)
         Assert.assertEquals(expectedMessage, statusMessage)
         Assert.assertNull(response)
     }

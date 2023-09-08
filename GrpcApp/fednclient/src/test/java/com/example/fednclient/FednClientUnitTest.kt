@@ -1,14 +1,10 @@
 package com.example.fednclient
 
-import io.ktor.http.HttpStatusCode
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import kotlin.system.measureTimeMillis
 import kotlinx.coroutines.test.runTest
 
 class FednClientUnitTest {
@@ -18,17 +14,55 @@ class FednClientUnitTest {
     private val token = "token"
 
     @Test
+    fun listenToModelUpdateRequestStream() = runTest {
+
+        val grpcHandler = mockk<IGrpcHandler>()
+
+        coEvery { grpcHandler.listenToModelUpdateRequestStream() } returns Unit
+
+        val fednClient = FednClient(
+            connectionString,
+            name,
+            token,
+            1,
+            0,
+            _grpcHandler = grpcHandler,
+        )
+
+        val (msg, result) = fednClient.listenToModelUpdateRequestStream()
+        coVerify(exactly = 1) { grpcHandler.listenToModelUpdateRequestStream() }
+
+        Assert.assertTrue(result)
+    }
+
+    @Test
+    fun listenToModelUpdateRequestStreamNoGrpcHandler() = runTest {
+
+        val fednClient = FednClient(
+            connectionString,
+            name,
+            token,
+            1,
+            0,
+        )
+
+        val (msg, result) = fednClient.listenToModelUpdateRequestStream()
+
+        Assert.assertFalse(result)
+    }
+
+    @Test
     fun attachClientToNetwork() = runTest {
 
         val httpHandler = mockk<IHttpHandler>()
         val grpcHandler = mockk<IGrpcHandler>()
 
-        val assignResponse: AssignResponse = AssignResponse(fqdn = "fqdn", port = 80)
-        val assignResponseStatusCode: AssignResponseStatus = AssignResponseStatus.OK
-        val assignResponseMessage: String = AssignResponseStatus.OK.toString()
+        val attachResponse: AttachResponse = AttachResponse(fqdn = "fqdn", port = 80)
+        val attachResponseStatusCode: AttachResponseStatus = AttachResponseStatus.OK
+        val assignResponseMessage: String = AttachResponseStatus.OK.toString()
 
-        coEvery { httpHandler.assign(any(), any(), any()) } returns Pair(
-            assignResponse, Pair(assignResponseStatusCode, assignResponseMessage)
+        coEvery { httpHandler.attach(any(), any(), any()) } returns Pair(
+            attachResponse, Pair(attachResponseStatusCode, assignResponseMessage)
         )
 
         coEvery { grpcHandler.sendHeartbeat() } returns Unit
@@ -45,7 +79,7 @@ class FednClientUnitTest {
 
         val (msg, result) = fednClient.attachClientToNetwork()
 
-        coVerify(exactly = 1) { httpHandler.assign(any(), any(), any()) }
+        coVerify(exactly = 1) { httpHandler.attach(any(), any(), any()) }
 
         Assert.assertTrue(result)
         Assert.assertEquals(msg, MESSAGE_OK)

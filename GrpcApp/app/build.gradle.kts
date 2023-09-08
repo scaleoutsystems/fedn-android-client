@@ -49,6 +49,8 @@ android {
     }
 }
 
+val work_version = "2.8.1"
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -67,4 +69,5 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("androidx.work:work-runtime-ktx:$work_version")
 }

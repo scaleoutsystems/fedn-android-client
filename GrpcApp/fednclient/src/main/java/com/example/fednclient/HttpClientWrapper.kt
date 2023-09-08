@@ -6,14 +6,12 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
-import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import java.io.Closeable
 
-interface IHttpClientWrapper<T> : Closeable {
+interface IHttpClientWrapper<T> {
 
     suspend fun httpGet(
         url: String, token: String
@@ -21,33 +19,45 @@ interface IHttpClientWrapper<T> : Closeable {
 }
 
 
-class HttpClientAssignWrapper : IHttpClientWrapper<AssignResponse> {
+class HttpClientAssignWrapper : IHttpClientWrapper<AttachResponse> {
 
-    private val httpClient: HttpClient = HttpClient(CIO) {
-        install(ContentNegotiation) {
-            json(Json {
-                prettyPrint = true
-                isLenient = true
-            })
-        }
-        followRedirects = true
-    }
+//    private val httpClient: HttpClient = HttpClient(CIO) {
+//        install(ContentNegotiation) {
+//            json(Json {
+//                prettyPrint = true
+//                isLenient = true
+//            })
+//        }
+//        followRedirects = true
+//    }
 
     override suspend fun httpGet(
         url: String, token: String
-    ): Triple<AssignResponse?, HttpStatusCode?, String?> {
+    ): Triple<AttachResponse?, HttpStatusCode?, String?> {
 
         try {
 
-            val httpResponse: HttpResponse = httpClient.get(url) {
+            val httpClient: HttpClient = HttpClient(CIO) {
+                install(ContentNegotiation) {
+                    json(Json {
+                        prettyPrint = true
+                        isLenient = true
+                    })
+                }
+                followRedirects = true
+            }
+
+            println("url: $url, token: $token")
+
+            val httpResponse = httpClient.get(url) {
                 headers {
                     append(HttpHeaders.Authorization, token)
                     append(HttpHeaders.Accept, "application/json")
                 }
             }
 
-            val result: AssignResponse? = if (httpResponse.status == HttpStatusCode.OK) {
-                httpResponse.body<AssignResponse>()
+            val result: AttachResponse? = if (httpResponse.status == HttpStatusCode.OK) {
+                httpResponse.body<AttachResponse>()
             } else null
 
             return Triple(result, httpResponse.status, null)
@@ -60,7 +70,7 @@ class HttpClientAssignWrapper : IHttpClientWrapper<AssignResponse> {
         }
     }
 
-    override fun close() {
-        httpClient.close()
-    }
+//    override fun close() {
+//        httpClient.close()
+//    }
 }

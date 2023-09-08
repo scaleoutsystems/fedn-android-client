@@ -10,6 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.example.fednclient.FednClient
 import com.example.grpcapp.ui.theme.GrpcAppTheme
 import kotlinx.coroutines.launch
@@ -20,27 +23,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val fednWorkRequest: WorkRequest =
+            OneTimeWorkRequestBuilder<FednWorker>()
+                .build()
 
-        val fednClient: FednClient = FednClient(
-            "https://r80ea7a19.studio.scaleoutsystems.com:443",
-            "niklastestclient2",
-            "393fc4d2973c52b785870276e2a701a71bcc29c5",
-        )
+        WorkManager
+            .getInstance(this)
+            .enqueue(fednWorkRequest)
 
-        runBlocking {
-            launch {
-
-                fednClient.doWork(onAssignStateChanged = { state ->
-
-                    println("onAssignStateChanged: $state")
-
-                }, onUpdateModelStateChanged = { state ->
-
-                    println("onUpdateModelStateChanged $state")
-
-                })
-            }
-        }
 
         setContent {
             GrpcAppTheme {

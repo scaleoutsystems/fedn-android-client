@@ -2,8 +2,10 @@ package com.example.fednclient
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 
@@ -11,14 +13,18 @@ enum class ModelUpdateState {
     IDLE, SESSION_STARTED, SESSION_FINISHED, SESSION_ABORTED
 }
 
+const val MESSAGE_RUN_PROCESS_OK = "runProcess ran to completion"
+const val MESSAGE_GRPC_HANDLER_NOT_INITIALIZED =
+    "Grpc handler not initialized, attachClientToNetwork must run first"
+
 interface IFednClient {
-    suspend fun doWork(
-        onAssignStateChanged: (state: AssignState) -> Unit,
-        onUpdateModelStateChanged: (state: ModelUpdateState) -> Unit
+    suspend fun runProcess(
+        onAttachStateChanged: ((state: AttachState) -> Unit)?,
+        onUpdateModelStateChanged: ((state: ModelUpdateState) -> Unit)?
     ): Pair<String, Boolean>
 
-    suspend fun attachClientToNetwork(onStateChanged: ((state: AssignState) -> Unit)? = null): Pair<String, Boolean>
-    suspend fun listenToModelUpdateRequestStream(onStateChanged: (state: ModelUpdateState) -> Unit): Pair<String, Boolean>
+    suspend fun attachClientToNetwork(onStateChanged: ((state: AttachState) -> Unit)? = null): Pair<String, Boolean>
+    suspend fun listenToModelUpdateRequestStream(onStateChanged: ((state: ModelUpdateState) -> Unit)? = null): Pair<String, Boolean>
 }
 
 class FednClient(
@@ -38,7 +44,7 @@ class FednClient(
 
             if (_httpHandler == null) {
 
-                val httpClientWrapper: IHttpClientWrapper<AssignResponse> =
+                val httpClientWrapper: IHttpClientWrapper<AttachResponse> =
                     HttpClientAssignWrapper()
                 _httpHandler = HttpHandler(httpClientWrapper)
             }
@@ -54,64 +60,71 @@ class FednClient(
             _grpcHandler = value
         }
 
-    override suspend fun doWork(
-        onAssignStateChanged: (state: AssignState) -> Unit,
-        onUpdateModelStateChanged: (state: ModelUpdateState) -> Unit
+    override suspend fun runProcess(
+        onAttachStateChanged: ((state: AttachState) -> Unit)?,
+        onUpdateModelStateChanged: ((state: ModelUpdateState) -> Unit)?
     ): Pair<String, Boolean> = withContext(defaultDispatcher) {
-        val (response, responseStatus) = httpHandler.assign(connectionString, name, token)
+
+        val (msgAttach, successfullyAttached) = attachClientToNetwork(onAttachStateChanged)
+
+        if (!successfullyAttached) {
+
+            return@withContext Pair(msgAttach, false)
+        }
+
+        launch {
+
+            sendHeartbeats()
+        }
+
+        val (msgModelUpdate, successfullyListedToModelUpdate) = listenToModelUpdateRequestStream(
+            onUpdateModelStateChanged
+        )
+
+        if (!successfullyListedToModelUpdate) {
+
+            return@withContext Pair(msgModelUpdate, false)
+        }
+
+        return@withContext Pair(MESSAGE_RUN_PROCESS_OK, true)
+    }
+
+    override suspend fun attachClientToNetwork(onStateChanged: ((state: AttachState) -> Unit)?): Pair<String, Boolean> {
+
+        var result: Boolean = true
+
+        val (response, responseStatus) = httpHandler.attach(
+            connectionString, name, token, onStateChanged
+        )
 
         val (statusCode, statusMessage) = responseStatus
 
-        if (statusCode == AssignResponseStatus.OK && response?.fqdn != null && response.port != null) {
+        val msg: String = statusMessage
+
+        if (statusCode == AttachResponseStatus.OK && response?.fqdn != null && response.port != null) {
 
             val fqdn = response.fqdn
-            _grpcHandler = GrpcHandler(name, fqdn, 443, token)
 
-            launch {
+            grpcHandler = GrpcHandler(name, fqdn, port, token)
 
-                sendHeartbeats()
-            }
+        } else {
 
-            _grpcHandler?.listenToModelUpdateRequestStream()
-            onUpdateModelStateChanged(ModelUpdateState.SESSION_FINISHED)
+            result = false
         }
 
-        return@withContext Pair("Success", true)
+        return Pair(msg, result)
     }
 
-    override suspend fun attachClientToNetwork(onStateChanged: ((state: AssignState) -> Unit)?): Pair<String, Boolean> =
-        withContext(defaultDispatcher) {
+    override suspend fun listenToModelUpdateRequestStream(onStateChanged: ((state: ModelUpdateState) -> Unit)?): Pair<String, Boolean> {
 
-            var result: Boolean = true
+        if (grpcHandler != null) {
 
-            val (response, responseStatus) = httpHandler.assign(
-                connectionString, name, token, onStateChanged
-            )
+            grpcHandler?.listenToModelUpdateRequestStream()
 
-            val (statusCode, statusMessage) = responseStatus
-
-            val msg: String = statusMessage
-
-            if (statusCode == AssignResponseStatus.OK && response?.fqdn != null && response.port != null) {
-
-                val fqdn = response.fqdn
-
-                grpcHandler = GrpcHandler(name, fqdn, port, token)
-
-                launch {
-
-                    sendHeartbeats()
-                }
-            } else {
-
-                result = false
-            }
-
-            return@withContext Pair(msg, result)
+            return Pair("Success", true)
         }
 
-    override suspend fun listenToModelUpdateRequestStream(onStateChanged: (state: ModelUpdateState) -> Unit): Pair<String, Boolean> {
-        TODO("Not yet implemented")
+        return Pair(MESSAGE_GRPC_HANDLER_NOT_INITIALIZED, false)
     }
 
     internal suspend fun sendHeartbeats() {
