@@ -70,5 +70,4 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("androidx.work:work-runtime-ktx:$work_version")
-    implementation("com.google.protobuf:protobuf-kotlin:3.24.1")
 }

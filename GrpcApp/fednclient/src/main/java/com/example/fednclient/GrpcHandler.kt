@@ -29,7 +29,7 @@ enum class ModelUpdateState {
 interface IGrpcHandler {
     suspend fun sendHeartbeat()
     suspend fun listenToModelUpdateRequestStream(
-        trainModel: (ByteString?) -> ByteString?,
+        trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)? = null
     )
 }
@@ -87,7 +87,7 @@ internal class GrpcHandler(
     }
 
     override suspend fun listenToModelUpdateRequestStream(
-        trainModel: (modelIn: ByteString?) -> ByteString?,
+        trainModel: (modelIn: ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?
     ) {
 
@@ -113,62 +113,61 @@ internal class GrpcHandler(
 
     private suspend fun processTrainingRequest(
         value: ModelUpdateRequest,
-        trainModel: (ByteString?) -> ByteString?,
+        trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?
     ) {
 
         val serverModel: ByteString? = getServerModel(value)
 
-        val byteArray = serverModel?.toByteArray()
-
-        ByteString.copyFrom(byteArray)
-
-
         onStateChanged?.invoke(ModelUpdateState.SERVER_MODEL_DOWNLOADED)
 
-        val trainedModel: ByteString? = trainModel(serverModel)
+        if (serverModel != null) {
 
-        onStateChanged?.invoke(ModelUpdateState.TRAINING_COMPLETED)
+            val serveModelByteArray: ByteArray = serverModel.toByteArray()
+            val trainedModelByteArray: ByteArray = trainModel(serveModelByteArray)
+            val trainedModel: ByteString? = ByteString.copyFrom(trainedModelByteArray)
 
-        val uuid = UUID.randomUUID()
-        val uuidStr = uuid.toString()
+            onStateChanged?.invoke(ModelUpdateState.TRAINING_COMPLETED)
 
-        val flow: Flow<ModelRequest> = flow {
+            val uuid = UUID.randomUUID()
+            val uuidStr = uuid.toString()
 
-            if (trainedModel != null) {
+            val flow: Flow<ModelRequest> = flow {
 
-                val arr: List<ByteString> = splitByteStringIntoChunks(trainedModel, CHUNK_SIZE)
+                if (trainedModel != null) {
 
-                for (chunk in arr) {
+                    val arr: List<ByteString> = splitByteStringIntoChunks(trainedModel, CHUNK_SIZE)
+
+                    for (chunk in arr) {
+
+                        val modelRequest: ModelRequest =
+                            ModelRequest.newBuilder().setData(chunk).setId(uuidStr)
+                                .setStatus(ModelStatus.IN_PROGRESS).build()
+                        emit(modelRequest)
+                    }
 
                     val modelRequest: ModelRequest =
-                        ModelRequest.newBuilder().setData(chunk).setId(uuidStr)
-                            .setStatus(ModelStatus.IN_PROGRESS).build()
+                        ModelRequest.newBuilder().setId(uuidStr).setStatus(ModelStatus.OK).build()
                     emit(modelRequest)
+                } else {
+
+                    println("Training resulted in null")
                 }
-
-                val modelRequest: ModelRequest =
-                    ModelRequest.newBuilder().setId(uuidStr).setStatus(ModelStatus.OK).build()
-                emit(modelRequest)
             }
-            else{
 
-                throw Exception("Noooo")
+            try {
+
+                val result = modelServiceStub.upload(flow, headers)
+
+                println("Upload response: ${result.message}")
+
+            } catch (e: io.grpc.StatusException) {
+
+                println(e)
             }
+
+            sendModelUpdate(uuidStr, value, onStateChanged)
         }
-
-        try {
-
-            val result = modelServiceStub.upload(flow, headers)
-
-            println("Upload response: ${result.message}")
-
-        } catch (e: io.grpc.StatusException) {
-
-            println(e)
-        }
-
-        sendModelUpdate(uuidStr, value, onStateChanged)
     }
 
     private suspend fun sendModelUpdate(

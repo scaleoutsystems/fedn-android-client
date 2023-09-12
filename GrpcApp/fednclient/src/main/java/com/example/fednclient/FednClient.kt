@@ -1,12 +1,9 @@
 package com.example.fednclient
 
-import com.google.protobuf.ByteString
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 const val MESSAGE_RUN_PROCESS_OK = "runProcess ran to completion"
@@ -17,15 +14,14 @@ const val MESSAGE_HEARTBEATS_NOT_INITIALIZED =
 
 interface IFednClient {
     suspend fun runProcess(
-        trainModel: (ByteString?) -> ByteString?,
+        trainModel: (ByteArray) -> ByteArray,
         onAttachStateChanged: ((state: AttachState) -> Unit)? = null,
         onUpdateModelStateChanged: ((state: ModelUpdateState) -> Unit)? = null
     ): Pair<String, Boolean>
-
     suspend fun attachClientToNetwork(onStateChanged: ((state: AttachState) -> Unit)? = null): Pair<String, Boolean>
     suspend fun sendHeartbeats()
     suspend fun listenToModelUpdateRequestStream(
-        trainModel: (ByteString?) -> ByteString?,
+        trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)? = null
     ): Pair<String, Boolean>
 }
@@ -68,7 +64,7 @@ class FednClient(
         }
 
     override suspend fun runProcess(
-        trainModel: (ByteString?) -> ByteString?,
+        trainModel: (ByteArray) -> ByteArray,
         onAttachStateChanged: ((state: AttachState) -> Unit)?,
         onUpdateModelStateChanged: ((state: ModelUpdateState) -> Unit)?
     ): Pair<String, Boolean> = withContext(defaultDispatcher) {
@@ -83,11 +79,6 @@ class FednClient(
         launch {
 
             sendHeartbeats()
-        }
-
-
-        val trainModel: (ByteString?) -> ByteString? = { modelIn ->
-            modelIn
         }
 
         val (msgModelUpdate, successfullyListedToModelUpdate) = listenToModelUpdateRequestStream(
@@ -145,7 +136,7 @@ class FednClient(
     }
 
     override suspend fun listenToModelUpdateRequestStream(
-        trainModel: (ByteString?) -> ByteString?,
+        trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?
     ): Pair<String, Boolean> {
 

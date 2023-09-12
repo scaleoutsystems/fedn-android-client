@@ -2,12 +2,10 @@ package com.example.grpcapp
 
 import android.content.Context
 import androidx.work.CoroutineWorker
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.fednclient.FednClient
-import com.google.protobuf.ByteString
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FednWorker(appContext: Context, workerParams: WorkerParameters) :
@@ -15,6 +13,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
 
     override suspend fun doWork(): Result =
         withContext(Dispatchers.IO) {
+
             val fednClient: FednClient = FednClient(
                 "https://r80ea7a19.studio.scaleoutsystems.com",
                 "niklastestclient2",
@@ -22,7 +21,8 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
                 maxNumberOfHearbeats = 500
             )
 
-            val trainModel: (ByteString?) -> ByteString? = { modelIn ->
+            val trainModel: (ByteArray) -> ByteArray = { modelIn ->
+                //run training here
                 modelIn
             }
 

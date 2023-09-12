@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                 .build()
 
         WorkManager
-            .getInstance(this)
+            .getInstance(applicationContext)
             .enqueue(fednWorkRequest)
 
         setContent {
