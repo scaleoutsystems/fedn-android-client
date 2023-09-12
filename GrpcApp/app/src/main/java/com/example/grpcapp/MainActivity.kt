@@ -1,5 +1,6 @@
 package com.example.grpcapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,7 +32,6 @@ class MainActivity : ComponentActivity() {
             .getInstance(this)
             .enqueue(fednWorkRequest)
 
-
         setContent {
             GrpcAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -43,6 +43,16 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+fun initWorkerManager(context: Context) {
+    val fednWorkRequest: WorkRequest =
+        OneTimeWorkRequestBuilder<FednWorker>()
+            .build()
+
+    WorkManager
+        .getInstance(context)
+        .enqueue(fednWorkRequest)
 }
 
 @Composable

@@ -47,6 +47,8 @@ class HttpClientAssignWrapper : IHttpClientWrapper<AttachResponse> {
                 httpResponse.body<AttachResponse>()
             } else null
 
+            httpClient.close()
+
             return Triple(result, httpResponse.status, null)
 
         } catch (e: Exception) {

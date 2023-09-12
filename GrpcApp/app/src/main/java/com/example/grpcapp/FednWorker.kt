@@ -1,26 +1,32 @@
 package com.example.grpcapp
 
 import android.content.Context
+import androidx.work.CoroutineWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.fednclient.FednClient
+import com.google.protobuf.ByteString
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class FednWorker(appContext: Context, workerParams: WorkerParameters) :
-    Worker(appContext, workerParams) {
+    CoroutineWorker(appContext, workerParams) {
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result =
+        withContext(Dispatchers.IO) {
+            val fednClient: FednClient = FednClient(
+                "https://r80ea7a19.studio.scaleoutsystems.com",
+                "niklastestclient2",
+                "393fc4d2973c52b785870276e2a701a71bcc29c5",
+                maxNumberOfHearbeats = 500
+            )
 
-        val fednClient: FednClient = FednClient(
-            "https://r80ea7a19.studio.scaleoutsystems.com",
-            "niklastestclient2",
-            "393fc4d2973c52b785870276e2a701a71bcc29c5",
-            maxNumberOfHearbeats = 500
-        )
+            val trainModel: (ByteString?) -> ByteString? = { modelIn ->
+                modelIn
+            }
 
-        runBlocking {
-
-            fednClient.runProcess(onAttachStateChanged = { state ->
+            fednClient.runProcess(trainModel, onAttachStateChanged = { state ->
 
                 println("onAssignStateChanged: $state")
 
@@ -29,8 +35,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
                 println("onUpdateModelStateChanged $state")
 
             })
-        }
 
-        return Result.success()
-    }
+            return@withContext Result.success()
+        }
 }

@@ -20,13 +20,21 @@ import kotlinx.coroutines.flow.flow
 import java.io.Closeable
 import java.util.UUID
 
+const val CHUNK_SIZE: Int = 1024 * 1024
+
+enum class ModelUpdateState {
+    LISTENER_INITIALIZED, SERVER_MODEL_DOWNLOADED, TRAINING_COMPLETED, MODEL_UPLOADED
+}
 
 interface IGrpcHandler {
     suspend fun sendHeartbeat()
-    suspend fun listenToModelUpdateRequestStream()
+    suspend fun listenToModelUpdateRequestStream(
+        trainModel: (ByteString?) -> ByteString?,
+        onStateChanged: ((state: ModelUpdateState) -> Unit)? = null
+    )
 }
 
-class GrpcHandler(
+internal class GrpcHandler(
     private val name: String,
     private val url: String,
     private val port: Int,
@@ -78,7 +86,10 @@ class GrpcHandler(
         }
     }
 
-    override suspend fun listenToModelUpdateRequestStream() {
+    override suspend fun listenToModelUpdateRequestStream(
+        trainModel: (modelIn: ByteString?) -> ByteString?,
+        onStateChanged: ((state: ModelUpdateState) -> Unit)?
+    ) {
 
         println("initialize listener for model update requests...")
 
@@ -89,45 +100,60 @@ class GrpcHandler(
 
         val stream = combinerStub.modelUpdateRequestStream(clientAvailableMessage, headers)
 
+        onStateChanged?.invoke(ModelUpdateState.LISTENER_INITIALIZED)
+
         stream.collect { value ->
 
             if (value.sender.role == Role.COMBINER) {
 
-                processTrainingRequest(value)
+                processTrainingRequest(value, trainModel, onStateChanged)
             }
         }
     }
 
-    private suspend fun processTrainingRequest(value: ModelUpdateRequest) {
+    private suspend fun processTrainingRequest(
+        value: ModelUpdateRequest,
+        trainModel: (ByteString?) -> ByteString?,
+        onStateChanged: ((state: ModelUpdateState) -> Unit)?
+    ) {
 
-        val model: ByteString? = getModel(value)
+        val serverModel: ByteString? = getServerModel(value)
+
+        val byteArray = serverModel?.toByteArray()
+
+        ByteString.copyFrom(byteArray)
+
+
+        onStateChanged?.invoke(ModelUpdateState.SERVER_MODEL_DOWNLOADED)
+
+        val trainedModel: ByteString? = trainModel(serverModel)
+
+        onStateChanged?.invoke(ModelUpdateState.TRAINING_COMPLETED)
 
         val uuid = UUID.randomUUID()
         val uuidStr = uuid.toString()
 
         val flow: Flow<ModelRequest> = flow {
 
-            val byteString: ByteString? = model
+            if (trainedModel != null) {
 
-            if (byteString != null) {
-
-                val arr: List<ByteString> = splitByteStringIntoChunks(byteString, 1024 * 1024)
-
+                val arr: List<ByteString> = splitByteStringIntoChunks(trainedModel, CHUNK_SIZE)
 
                 for (chunk in arr) {
 
                     val modelRequest: ModelRequest =
                         ModelRequest.newBuilder().setData(chunk).setId(uuidStr)
-                            .setStatus(ModelStatus.IN_PROGRESS)
-                            .build()
+                            .setStatus(ModelStatus.IN_PROGRESS).build()
                     emit(modelRequest)
                 }
 
                 val modelRequest: ModelRequest =
-                    ModelRequest.newBuilder().setId(uuidStr)
-                        .setStatus(ModelStatus.OK)
-                        .build()
+                    ModelRequest.newBuilder().setId(uuidStr).setStatus(ModelStatus.OK).build()
                 emit(modelRequest)
+            }
+            else{
+
+                throw Exception("Noooo")
             }
         }
 
@@ -142,28 +168,33 @@ class GrpcHandler(
             println(e)
         }
 
-        sendModelUpdate(uuidStr, value)
+        sendModelUpdate(uuidStr, value, onStateChanged)
     }
 
-    private suspend fun sendModelUpdate(updatedModelId: String, value: ModelUpdateRequest) {
+    private suspend fun sendModelUpdate(
+        updatedModelId: String,
+        value: ModelUpdateRequest,
+        onStateChanged: ((state: ModelUpdateState) -> Unit)?
+    ) {
 
-        val modelUpdate: ModelUpdate =
-            ModelUpdate.newBuilder().setSender(
-                Client.newBuilder().setName(
-                    name
-                ).setRole(Role.WORKER)
-            ).setReceiver(
-                Client.newBuilder().setName(value.sender.name).setRole(value.sender.role)
-            ).setModelId(value.modelId).setModelUpdateId(updatedModelId)
-                .setTimestamp(getCurrentTimestamp()).setCorrelationId(value.correlationId)
-                .setMeta("").build()
+        val modelUpdate: ModelUpdate = ModelUpdate.newBuilder().setSender(
+            Client.newBuilder().setName(
+                name
+            ).setRole(Role.WORKER)
+        ).setReceiver(
+            Client.newBuilder().setName(value.sender.name).setRole(value.sender.role)
+        ).setModelId(value.modelId).setModelUpdateId(updatedModelId)
+            .setTimestamp(getCurrentTimestamp()).setCorrelationId(value.correlationId).setMeta("")
+            .build()
 
         val response = combinerStub.sendModelUpdate(modelUpdate, headers)
+
+        onStateChanged?.invoke(ModelUpdateState.MODEL_UPLOADED)
 
         println("model update response: $response")
     }
 
-    private suspend fun getModel(value: ModelUpdateRequest): ByteString? {
+    private suspend fun getServerModel(value: ModelUpdateRequest): ByteString? {
 
         val request: ModelRequest = ModelRequest.newBuilder().setId(value.modelId).build()
         val stream = modelServiceStub.download(request, headers)
