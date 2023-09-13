@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import androidx.work.workDataOf
 import com.example.fednclient.FednClient
 import com.example.grpcapp.ui.theme.GrpcAppTheme
 import kotlinx.coroutines.launch
@@ -26,6 +27,12 @@ class MainActivity : ComponentActivity() {
 
         val fednWorkRequest: WorkRequest =
             OneTimeWorkRequestBuilder<FednWorker>()
+                .setInputData(
+                    workDataOf(
+                        "CONNECTION_STRING" to "https://r80ea7a19.studio.scaleoutsystems.com",
+                        "TOKEN" to "393fc4d2973c52b785870276e2a701a71bcc29c5"
+                    )
+                )
                 .build()
 
         WorkManager
@@ -43,16 +50,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-fun initWorkerManager(context: Context) {
-    val fednWorkRequest: WorkRequest =
-        OneTimeWorkRequestBuilder<FednWorker>()
-            .build()
-
-    WorkManager
-        .getInstance(context)
-        .enqueue(fednWorkRequest)
 }
 
 @Composable

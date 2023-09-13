@@ -16,31 +16,37 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
     override suspend fun doWork(): Result =
         withContext(Dispatchers.IO) {
 
-            val fednClient: IFednClient = FednClient(
-                "https://r80ea7a19.studio.scaleoutsystems.com",
-                "393fc4d2973c52b785870276e2a701a71bcc29c5",
-            )
+            val connectionString: String? = inputData.getString("CONNECTION_STRING")
+            val token: String? = inputData.getString("TOKEN")
 
-            val trainModel: (ByteArray) -> ByteArray = { modelIn ->
-                //run training here
-                modelIn
-            }
+            if (connectionString != null && token != null) {
 
-            launch {
-
-                val result = fednClient.runProcess(trainModel, onAttachStateChanged = { state ->
-
-                    println("onAssignStateChanged: $state")
-
-                }, onUpdateModelStateChanged = { state ->
-
-                    println("onUpdateModelStateChanged $state")
-
-                },
-                    timeoutAfterMillis = 30000
+                val fednClient: IFednClient = FednClient(
+                    connectionString,
+                    token,
                 )
 
-                println(result)
+                val trainModel: (ByteArray) -> ByteArray = { modelIn ->
+                    //run training here
+                    modelIn
+                }
+
+                launch {
+
+                    val result = fednClient.runProcess(trainModel, onAttachStateChanged = { state ->
+
+                        println("onAssignStateChanged: $state")
+
+                    }, onUpdateModelStateChanged = { state ->
+
+                        println("onUpdateModelStateChanged $state")
+
+                    },
+                        timeoutAfterMillis = 30000
+                    )
+
+                    println(result)
+                }
             }
 
             return@withContext Result.success()
