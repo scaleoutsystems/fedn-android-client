@@ -7,18 +7,30 @@ import org.junit.Assert
 import org.junit.Test
 import kotlinx.coroutines.test.runTest
 
+const val TIMEOUT_AFTER_MILLIS: Long = 60000
+
 class FednClientUnitTest {
 
     private val connectionString = "connectionString"
     private val name = "name"
     private val token = "token"
 
+
+    private val trainModel: (ByteArray) -> ByteArray by lazy {
+        { modelIn ->
+            //run training here
+            modelIn
+        }
+    }
+
     @Test
     fun listenToModelUpdateRequestStream() = runTest {
 
         val grpcHandler = mockk<IGrpcHandler>()
 
-        coEvery { grpcHandler.listenToModelUpdateRequestStream() } returns Unit
+        coEvery {
+            grpcHandler.listenToModelUpdateRequestStream(trainModel)
+        } returns Unit
 
         val fednClient = FednClient(
             connectionString,
@@ -32,8 +44,10 @@ class FednClientUnitTest {
         fednClient.attached = true
         fednClient.heartbeatsInitiated = true
 
-        val (_, result) = fednClient.listenToModelUpdateRequestStream()
-        coVerify(exactly = 1) { grpcHandler.listenToModelUpdateRequestStream() }
+        val (_, result) = fednClient.listenToModelUpdateRequestStream(trainModel)
+        coVerify(exactly = 1) {
+            grpcHandler.listenToModelUpdateRequestStream(trainModel)
+        }
 
         Assert.assertTrue(result)
         Assert.assertTrue(fednClient.listeningToModelUpdate)
@@ -50,7 +64,7 @@ class FednClientUnitTest {
             0,
         )
 
-        val (msg, result) = fednClient.listenToModelUpdateRequestStream()
+        val (msg, result) = fednClient.listenToModelUpdateRequestStream(trainModel)
 
         Assert.assertFalse(result)
         Assert.assertEquals(msg, MESSAGE_GRPC_HANDLER_NOT_INITIALIZED)
@@ -61,7 +75,9 @@ class FednClientUnitTest {
 
         val grpcHandler = mockk<IGrpcHandler>()
 
-        coEvery { grpcHandler.listenToModelUpdateRequestStream() } returns Unit
+        coEvery {
+            grpcHandler.listenToModelUpdateRequestStream(trainModel)
+        } returns Unit
 
         val fednClient = FednClient(
             connectionString,
@@ -74,7 +90,7 @@ class FednClientUnitTest {
 
         fednClient.attached = true
 
-        val (msg, result) = fednClient.listenToModelUpdateRequestStream()
+        val (msg, result) = fednClient.listenToModelUpdateRequestStream(trainModel)
 
         Assert.assertFalse(result)
         Assert.assertEquals(msg, MESSAGE_HEARTBEATS_NOT_INITIALIZED)
@@ -127,7 +143,8 @@ class FednClientUnitTest {
             connectionString, name, token, 10, 0, _grpcHandler = grpcHandler
         )
 
-        fednClient.sendHeartbeats()
+        fednClient.running = true
+        fednClient.sendHeartbeats(100)
         coVerify(exactly = 10) { grpcHandler.sendHeartbeat() }
     }
 }

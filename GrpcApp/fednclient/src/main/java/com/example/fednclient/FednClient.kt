@@ -2,9 +2,11 @@ package com.example.fednclient
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 
 const val MESSAGE_RUN_PROCESS_OK = "runProcess ran to completion"
 const val MESSAGE_GRPC_HANDLER_NOT_INITIALIZED =
@@ -12,25 +14,29 @@ const val MESSAGE_GRPC_HANDLER_NOT_INITIALIZED =
 const val MESSAGE_HEARTBEATS_NOT_INITIALIZED =
     "Heartbeats not initialized, sendHeartbeats must run (in background) first"
 
+const val MESSAGE_MODEL_UPDATE_STREAM_RAN_TO_COMPLETION = "Model update stream ran to completion"
+
 interface IFednClient {
     suspend fun runProcess(
         trainModel: (ByteArray) -> ByteArray,
         onAttachStateChanged: ((state: AttachState) -> Unit)? = null,
-        onUpdateModelStateChanged: ((state: ModelUpdateState) -> Unit)? = null
+        onUpdateModelStateChanged: ((state: ModelUpdateState) -> Unit)? = null,
+        timeoutAfterMillis: Long = 60000
     ): Pair<String, Boolean>
+
     suspend fun attachClientToNetwork(onStateChanged: ((state: AttachState) -> Unit)? = null): Pair<String, Boolean>
-    suspend fun sendHeartbeats()
+    suspend fun sendHeartbeats(timeoutAfterMillis: Long = 60000)
     suspend fun listenToModelUpdateRequestStream(
         trainModel: (ByteArray) -> ByteArray,
-        onStateChanged: ((state: ModelUpdateState) -> Unit)? = null
+        onStateChanged: ((state: ModelUpdateState) -> Unit)? = null,
+        timeoutAfterMillis: Long = 60000
     ): Pair<String, Boolean>
 }
 
 class FednClient(
     private val connectionString: String,
-    private val name: String,
     private val token: String,
-    private val maxNumberOfHearbeats: Long? = null,
+    private val name: String? = null,
     private val heartbeatInterval: Long = 5000,
     private val port: Int = 443,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
@@ -38,6 +44,7 @@ class FednClient(
     private var _grpcHandler: IGrpcHandler? = null
 ) : IFednClient {
 
+    var running: Boolean = false
     var attached: Boolean = false
     var heartbeatsInitiated: Boolean = false
     var listeningToModelUpdate: Boolean = false
@@ -66,8 +73,11 @@ class FednClient(
     override suspend fun runProcess(
         trainModel: (ByteArray) -> ByteArray,
         onAttachStateChanged: ((state: AttachState) -> Unit)?,
-        onUpdateModelStateChanged: ((state: ModelUpdateState) -> Unit)?
+        onUpdateModelStateChanged: ((state: ModelUpdateState) -> Unit)?,
+        timeoutAfterMillis: Long
     ): Pair<String, Boolean> = withContext(defaultDispatcher) {
+
+        running = true
 
         val (msgAttach, successfullyAttached) = attachClientToNetwork(onAttachStateChanged)
 
@@ -78,13 +88,16 @@ class FednClient(
 
         launch {
 
-            sendHeartbeats()
+            sendHeartbeats(timeoutAfterMillis)
         }
 
+        heartbeatsInitiated = true
+
         val (msgModelUpdate, successfullyListedToModelUpdate) = listenToModelUpdateRequestStream(
-            trainModel = trainModel,
-            onUpdateModelStateChanged
+            trainModel = trainModel, onUpdateModelStateChanged, timeoutAfterMillis
         )
+
+        stopProcess()
 
         if (!successfullyListedToModelUpdate) {
 
@@ -98,8 +111,10 @@ class FednClient(
 
         var result: Boolean = true
 
+        val clientName: String = name ?: generateRandomString()
+
         val (response, responseStatus) = httpHandler.attach(
-            connectionString, name, token, onStateChanged
+            connectionString, clientName, token, onStateChanged
         )
 
         val (statusCode, statusMessage) = responseStatus
@@ -110,7 +125,7 @@ class FednClient(
 
             val fqdn = response.fqdn
 
-            grpcHandler = GrpcHandler(name, fqdn, port, token)
+            grpcHandler = GrpcHandler(clientName, fqdn, port, token)
 
             attached = true
 
@@ -122,24 +137,25 @@ class FednClient(
         return Pair(msg, result)
     }
 
-    override suspend fun sendHeartbeats() {
+    override suspend fun sendHeartbeats(timeoutAfterMillis: Long) {
 
         heartbeatsInitiated = true
-        var counter: Long = 0
 
-        while (maxNumberOfHearbeats == null || counter < maxNumberOfHearbeats) {
+        withTimeoutOrNull(timeoutAfterMillis) {
 
-            grpcHandler?.sendHeartbeat()
-            delay(heartbeatInterval)
-            counter++
+            while (running) {
+
+                grpcHandler?.sendHeartbeat()
+                delay(heartbeatInterval)
+            }
         }
     }
 
     override suspend fun listenToModelUpdateRequestStream(
         trainModel: (ByteArray) -> ByteArray,
-        onStateChanged: ((state: ModelUpdateState) -> Unit)?
+        onStateChanged: ((state: ModelUpdateState) -> Unit)?,
+        timeoutAfterMillis: Long
     ): Pair<String, Boolean> {
-
 
         return if (!attached || grpcHandler == null) {
 
@@ -151,9 +167,21 @@ class FednClient(
 
             listeningToModelUpdate = true
 
-            grpcHandler?.listenToModelUpdateRequestStream(trainModel, onStateChanged)
+            withTimeoutOrNull(timeoutAfterMillis) {
 
-            Pair("Success", true)
+                grpcHandler?.listenToModelUpdateRequestStream(
+                    trainModel,
+                    onStateChanged,
+                )
+            }
+
+            Pair(MESSAGE_MODEL_UPDATE_STREAM_RAN_TO_COMPLETION, true)
         }
+    }
+
+    private fun stopProcess() {
+
+        running = false
+        grpcHandler?.close()
     }
 }

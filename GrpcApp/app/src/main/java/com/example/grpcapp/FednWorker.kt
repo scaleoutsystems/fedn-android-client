@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.fednclient.FednClient
+import com.example.fednclient.IFednClient
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -14,11 +16,9 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
     override suspend fun doWork(): Result =
         withContext(Dispatchers.IO) {
 
-            val fednClient: FednClient = FednClient(
+            val fednClient: IFednClient = FednClient(
                 "https://r80ea7a19.studio.scaleoutsystems.com",
-                "niklastestclient2",
                 "393fc4d2973c52b785870276e2a701a71bcc29c5",
-                maxNumberOfHearbeats = 500
             )
 
             val trainModel: (ByteArray) -> ByteArray = { modelIn ->
@@ -26,15 +26,22 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
                 modelIn
             }
 
-            fednClient.runProcess(trainModel, onAttachStateChanged = { state ->
+            launch {
 
-                println("onAssignStateChanged: $state")
+                val result = fednClient.runProcess(trainModel, onAttachStateChanged = { state ->
 
-            }, onUpdateModelStateChanged = { state ->
+                    println("onAssignStateChanged: $state")
 
-                println("onUpdateModelStateChanged $state")
+                }, onUpdateModelStateChanged = { state ->
 
-            })
+                    println("onUpdateModelStateChanged $state")
+
+                },
+                    timeoutAfterMillis = 30000
+                )
+
+                println(result)
+            }
 
             return@withContext Result.success()
         }

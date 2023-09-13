@@ -17,6 +17,8 @@ import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.withTimeoutOrNull
 import java.io.Closeable
 import java.util.UUID
 
@@ -26,11 +28,11 @@ enum class ModelUpdateState {
     LISTENER_INITIALIZED, SERVER_MODEL_DOWNLOADED, TRAINING_COMPLETED, MODEL_UPLOADED
 }
 
-interface IGrpcHandler {
+interface IGrpcHandler : Closeable {
     suspend fun sendHeartbeat()
     suspend fun listenToModelUpdateRequestStream(
         trainModel: (ByteArray) -> ByteArray,
-        onStateChanged: ((state: ModelUpdateState) -> Unit)? = null
+        onStateChanged: ((state: ModelUpdateState) -> Unit)? = null,
     )
 }
 
@@ -39,7 +41,7 @@ internal class GrpcHandler(
     private val url: String,
     private val port: Int,
     private val token: String,
-) : IGrpcHandler, Closeable {
+) : IGrpcHandler {
 
     private val headers = Metadata().apply {
         val key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
@@ -88,7 +90,7 @@ internal class GrpcHandler(
 
     override suspend fun listenToModelUpdateRequestStream(
         trainModel: (modelIn: ByteArray) -> ByteArray,
-        onStateChanged: ((state: ModelUpdateState) -> Unit)?
+        onStateChanged: ((state: ModelUpdateState) -> Unit)?,
     ) {
 
         println("initialize listener for model update requests...")
@@ -143,16 +145,19 @@ internal class GrpcHandler(
                         val modelRequest: ModelRequest =
                             ModelRequest.newBuilder().setData(chunk).setId(uuidStr)
                                 .setStatus(ModelStatus.IN_PROGRESS).build()
+
                         emit(modelRequest)
                     }
 
-                    val modelRequest: ModelRequest =
-                        ModelRequest.newBuilder().setId(uuidStr).setStatus(ModelStatus.OK).build()
-                    emit(modelRequest)
                 } else {
 
                     println("Training resulted in null")
                 }
+
+                val modelRequest: ModelRequest =
+                    ModelRequest.newBuilder().setId(uuidStr).setStatus(ModelStatus.OK).build()
+
+                emit(modelRequest)
             }
 
             try {
