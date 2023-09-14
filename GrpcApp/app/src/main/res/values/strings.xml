@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GrpcApp</string>
+    <string name="startProcess">Start process</string>
 </resources>

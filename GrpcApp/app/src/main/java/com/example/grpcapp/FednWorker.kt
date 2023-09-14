@@ -18,12 +18,14 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
 
             val connectionString: String? = inputData.getString("CONNECTION_STRING")
             val token: String? = inputData.getString("TOKEN")
+            val name: String? = inputData.getString("NAME")
 
             if (connectionString != null && token != null) {
 
                 val fednClient: IFednClient = FednClient(
                     connectionString,
                     token,
+                    name = name
                 )
 
                 val trainModel: (ByteArray) -> ByteArray = { modelIn ->
