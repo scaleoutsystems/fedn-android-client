@@ -22,7 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.work.OneTimeWorkRequestBuilder
@@ -30,18 +29,54 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
 import com.example.grpcapp.ui.theme.GrpcAppTheme
+import java.io.BufferedReader
+import java.io.FileInputStream
+import java.io.InputStreamReader
 
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        readCsvFile()
         setContent {
             GrpcAppTheme {
                 // A surface container using the 'background' color from the theme
                 App()
             }
         }
+    }
+
+    private fun readCsvFile() {
+
+        var fileInputStream: FileInputStream? = openFileInput("fashionmnist.csv")
+        var inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
+        val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
+        var text: String? = null
+
+        val list: MutableList<List<Float>> = mutableListOf()
+
+        while (run {
+                text = bufferedReader.readLine()
+                text
+            } != null) {
+
+            if (text != null) {
+
+                val innerList: MutableList<Float> = mutableListOf()
+                val arr: List<String> = text!!.split(",")
+
+                for (item in arr) {
+
+                    val n: Float = item.toFloat()
+                    innerList.add(n)
+                }
+
+                list.add(innerList)
+            }
+        }
+
     }
 
     @Preview
@@ -53,13 +88,6 @@ class MainActivity : ComponentActivity() {
                 .wrapContentSize(Alignment.Center)
         )
     }
-
-
-//    discover_host: r80ea7a19.studio.scaleoutsystems.com
-//    name: niklastestclient2
-//    network_id: fedn_test_network
-//    token: 393fc4d2973c52b785870276e2a701a71b6e2a7cc29c5
-
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -76,33 +104,37 @@ class MainActivity : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Row {
-                TextField(
-                    value = connectionString, onValueChange = {
-                        connectionString = it
-                    }
-                )
+            Row(Modifier.padding(vertical = 8.dp)) {
+                Column {
+                    Text(text = "Connection string", Modifier.padding(bottom = 8.dp))
+                    TextField(
+                        value = connectionString, onValueChange = {
+                            connectionString = it
+                        }
+                    )
+                }
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Row {
-                TextField(
-                    value = token, onValueChange = {
-                        token = it
-                    }
-                )
+            Row(Modifier.padding(vertical = 8.dp)) {
+                Column {
+                    Text(text = "Token", Modifier.padding(bottom = 8.dp))
+                    TextField(
+                        value = token, onValueChange = {
+                            token = it
+                        }
+                    )
+                }
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Row {
-                TextField(
-                    value = name, onValueChange = {
-                        name = it
-                    }, placeholder = {
-                        "Name (optional)"
-                    }
-                )
+            Row(Modifier.padding(vertical = 8.dp)) {
+                Column {
+                    Text(text = "Name (optional)", Modifier.padding(bottom = 8.dp))
+                    TextField(
+                        value = name, onValueChange = {
+                            name = it
+                        }
+                    )
+                }
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Row {
+            Row(Modifier.padding(vertical = 8.dp)) {
                 Button(onClick = {
 
                     val fednWorkRequest: WorkRequest =
