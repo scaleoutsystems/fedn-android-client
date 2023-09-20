@@ -5,9 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
@@ -28,18 +26,39 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
+import com.example.fednclient.InterpreterWrapper
 import com.example.grpcapp.ui.theme.GrpcAppTheme
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tflite.java.TfLite
 import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.InputStreamReader
 
 class MainActivity : ComponentActivity() {
 
+    var interpreterWrapper: InterpreterWrapper? = null
+//    val initializeTask: Task<Void> by lazy {
+//        TfLite.initialize(this).addOnFailureListener {
+//            println(it.message)
+//        }
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+//        initializeTask.addOnSuccessListener {
+//            interpreterWrapper = InterpreterWrapper(this)
+//            val images: List<List<Float>> = readCsvFile()
+//
+//
+//            interpreterWrapper!!.runInference(images)
+//        }
 
-        readCsvFile()
+        interpreterWrapper = InterpreterWrapper(this)
+        val images: List<List<Float>> = readCsvFile()
+
+        interpreterWrapper!!.runInference(images)
+
         setContent {
             GrpcAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -48,14 +67,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun readCsvFile() {
+    private fun readCsvFile(): List<List<Float>> {
 
         var fileInputStream: FileInputStream? = openFileInput("fashionmnist.csv")
         var inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
         val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
         var text: String? = null
 
-        val list: MutableList<List<Float>> = mutableListOf()
+        val result: MutableList<List<Float>> = mutableListOf()
 
         while (run {
                 text = bufferedReader.readLine()
@@ -64,19 +83,20 @@ class MainActivity : ComponentActivity() {
 
             if (text != null) {
 
-                val innerList: MutableList<Float> = mutableListOf()
+                val list: MutableList<Float> = mutableListOf()
                 val arr: List<String> = text!!.split(",")
 
                 for (item in arr) {
 
                     val n: Float = item.toFloat()
-                    innerList.add(n)
+                    list.add(n)
                 }
 
-                list.add(innerList)
+                result.add(list)
             }
         }
 
+        return result
     }
 
     @Preview
