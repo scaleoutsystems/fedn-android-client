@@ -28,36 +28,19 @@ import androidx.work.WorkRequest
 import androidx.work.workDataOf
 import com.example.fednclient.InterpreterWrapper
 import com.example.grpcapp.ui.theme.GrpcAppTheme
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tflite.java.TfLite
 import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.InputStreamReader
 
 class MainActivity : ComponentActivity() {
 
-    var interpreterWrapper: InterpreterWrapper? = null
-//    val initializeTask: Task<Void> by lazy {
-//        TfLite.initialize(this).addOnFailureListener {
-//            println(it.message)
-//        }
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        initializeTask.addOnSuccessListener {
-//            interpreterWrapper = InterpreterWrapper(this)
-//            val images: List<List<Float>> = readCsvFile()
-//
-//
-//            interpreterWrapper!!.runInference(images)
-//        }
-
-        interpreterWrapper = InterpreterWrapper(this)
+        val interpreterWrapper = InterpreterWrapper(this)
         val images: List<List<Float>> = readCsvFile()
 
-        interpreterWrapper!!.runInference(images)
+        interpreterWrapper.runInference(images)
 
         setContent {
             GrpcAppTheme {
