@@ -26,7 +26,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
-import com.example.fednclient.InterpreterWrapper
 import com.example.grpcapp.ui.theme.GrpcAppTheme
 import java.io.BufferedReader
 import java.io.FileInputStream
@@ -40,7 +39,7 @@ class MainActivity : ComponentActivity() {
         val interpreterWrapper = InterpreterWrapper(this)
         val images: List<List<Float>> = readCsvFile()
 
-        interpreterWrapper.runInference(images)
+        interpreterWrapper.runTraining(images)
 
         setContent {
             GrpcAppTheme {
@@ -103,56 +102,45 @@ class MainActivity : ComponentActivity() {
         val padding = 16.dp
 
         Column(
-            Modifier.padding(padding),
-            horizontalAlignment = Alignment.CenterHorizontally
+            Modifier.padding(padding), horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Row(Modifier.padding(vertical = 8.dp)) {
                 Column {
                     Text(text = "Connection string", Modifier.padding(bottom = 8.dp))
-                    TextField(
-                        value = connectionString, onValueChange = {
-                            connectionString = it
-                        }
-                    )
+                    TextField(value = connectionString, onValueChange = {
+                        connectionString = it
+                    })
                 }
             }
             Row(Modifier.padding(vertical = 8.dp)) {
                 Column {
                     Text(text = "Token", Modifier.padding(bottom = 8.dp))
-                    TextField(
-                        value = token, onValueChange = {
-                            token = it
-                        }
-                    )
+                    TextField(value = token, onValueChange = {
+                        token = it
+                    })
                 }
             }
             Row(Modifier.padding(vertical = 8.dp)) {
                 Column {
                     Text(text = "Name (optional)", Modifier.padding(bottom = 8.dp))
-                    TextField(
-                        value = name, onValueChange = {
-                            name = it
-                        }
-                    )
+                    TextField(value = name, onValueChange = {
+                        name = it
+                    })
                 }
             }
             Row(Modifier.padding(vertical = 8.dp)) {
                 Button(onClick = {
 
                     val fednWorkRequest: WorkRequest =
-                        OneTimeWorkRequestBuilder<FednWorker>()
-                            .setInputData(
+                        OneTimeWorkRequestBuilder<FednWorker>().setInputData(
                                 workDataOf(
                                     "CONNECTION_STRING" to connectionString,
                                     "TOKEN" to token,
                                     "NAME" to if (name.isNullOrBlank()) null else name
                                 )
-                            )
-                            .build()
-                    WorkManager
-                        .getInstance(applicationContext)
-                        .enqueue(fednWorkRequest)
+                            ).build()
+                    WorkManager.getInstance(applicationContext).enqueue(fednWorkRequest)
 
                 }) {
                     Text(stringResource(R.string.startProcess))
