@@ -11,13 +11,14 @@ const val MODEL_PATH = "model.tflite"
 
 class InterpreterWrapper(private val context: Context) {
 
-    fun runTraining(images: List<List<Float>>) {
+    fun runTraining(images: List<List<Float>>, labels: List<List<Float>>) {
 
         Interpreter(FileUtil.loadMappedFile(context, MODEL_PATH)).use { interpreter ->
 
             try {
 
                 val image = images.take(28)
+                val label = labels[0]
 
                 val trainImages: FloatBuffer =
                     FloatBuffer.allocate(IMG_SIZE * IMG_SIZE)
@@ -31,6 +32,15 @@ class InterpreterWrapper(private val context: Context) {
 
                 trainImages.rewind()
 
+                val trainLabel: FloatBuffer =
+                    FloatBuffer.allocate(10)
+
+                for (value in label) {
+                    trainLabel.put(value)
+                }
+
+                trainLabel.rewind()
+
                 // Run encoding signature.
                 val inputs: MutableMap<String, Any> =
                     HashMap()
@@ -39,7 +49,7 @@ class InterpreterWrapper(private val context: Context) {
                 val trainLabels: FloatBuffer = FloatBuffer.allocate(10)
                 trainLabels.rewind()
 
-                inputs["y"] = trainLabels
+                inputs["y"] = trainLabel
 
                 val outputs: MutableMap<String, Any> =
                     HashMap()

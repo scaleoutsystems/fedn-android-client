@@ -6,51 +6,86 @@ import androidx.work.WorkerParameters
 import com.example.fednclient.FednClient
 import com.example.fednclient.IFednClient
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.BufferedReader
+import java.io.FileInputStream
+import java.io.InputStreamReader
 
 class FednWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
 
-    override suspend fun doWork(): Result =
-        withContext(Dispatchers.IO) {
+    private fun readCsvFile(fileName: String): List<List<Float>> {
 
-            val connectionString: String? = inputData.getString("CONNECTION_STRING")
-            val token: String? = inputData.getString("TOKEN")
-            val name: String? = inputData.getString("NAME")
+        var fileInputStream: FileInputStream? = applicationContext.openFileInput("fashionmnist.csv")
+        var inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
+        val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
+        var text: String? = null
 
-            if (connectionString != null && token != null) {
+        val result: MutableList<List<Float>> = mutableListOf()
 
-                val fednClient: IFednClient = FednClient(
-                    connectionString,
-                    token,
-                    name = name
-                )
+        while (run {
+                text = bufferedReader.readLine()
+                text
+            } != null) {
 
-                val trainModel: (ByteArray) -> ByteArray = { modelIn ->
-                    //run training here
-                    modelIn
+            if (text != null) {
+
+                val list: MutableList<Float> = mutableListOf()
+                val arr: List<String> = text!!.split(",")
+
+                for (item in arr) {
+
+                    val n: Float = item.toFloat()
+                    list.add(n)
                 }
 
-                launch {
+                result.add(list)
+            }
+        }
 
-                    val result = fednClient.runProcess(trainModel, onAttachStateChanged = { state ->
+        return result
+    }
 
-                        println("onAssignStateChanged: $state")
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 
-                    }, onUpdateModelStateChanged = { state ->
+        val connectionString: String? = inputData.getString("CONNECTION_STRING")
+        val token: String? = inputData.getString("TOKEN")
+        val name: String? = inputData.getString("NAME")
 
-                        println("onUpdateModelStateChanged $state")
+        val images: List<List<Float>> = readCsvFile("fashionmnist.csv")
+        val labels: List<List<Float>> = readCsvFile("fashionmnist_labels.csv")
 
-                    },
-                        timeoutAfterMillis = 30000
-                    )
+        if (connectionString != null && token != null) {
 
-                    println(result)
-                }
+            val fednClient: IFednClient = FednClient(
+                connectionString, token, name = name
+            )
+
+            val trainModel: (ByteArray) -> ByteArray = { modelIn ->
+                //run training here
+                val interpreterWrapper: InterpreterWrapper = InterpreterWrapper(applicationContext)
+                interpreterWrapper.runTraining(images, labels)
+                modelIn
             }
 
-            return@withContext Result.success()
+            launch {
+
+                val result = fednClient.runProcess(trainModel, onAttachStateChanged = { state ->
+
+                    println("onAssignStateChanged: $state")
+
+                }, onUpdateModelStateChanged = { state ->
+
+                    println("onUpdateModelStateChanged $state")
+
+                }, timeoutAfterMillis = 30000
+                )
+
+                println(result)
+            }
         }
+
+        return@withContext Result.success()
+    }
 }
