@@ -17,7 +17,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
 
     private fun readCsvFile(fileName: String): List<List<Float>> {
 
-        var fileInputStream: FileInputStream? = applicationContext.openFileInput("fashionmnist.csv")
+        var fileInputStream: FileInputStream? = applicationContext.openFileInput(fileName)
         var inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
         val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
         var text: String? = null

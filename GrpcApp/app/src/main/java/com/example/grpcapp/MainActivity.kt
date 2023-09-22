@@ -29,6 +29,9 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
 import com.example.grpcapp.ui.theme.GrpcAppTheme
+import java.io.BufferedReader
+import java.io.FileInputStream
+import java.io.InputStreamReader
 
 const val TRAINING_ROUND_PROCESS = "TRAINING_ROUND_PROCESS"
 
@@ -37,26 +40,52 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val fednWorkRequest: OneTimeWorkRequest =
-            OneTimeWorkRequestBuilder<FednWorker>().setInputData(
-                workDataOf(
-                    "CONNECTION_STRING" to "https://r80ea7a19.studio.scaleoutsystems.com",
-                    "TOKEN" to "393fc4d2973c52b785870276e2a701a71bcc29c5",
-                    "NAME" to null,
-                )
-            ).build()
 
-        WorkManager.getInstance(applicationContext).enqueueUniqueWork(
-            TRAINING_ROUND_PROCESS,
-            ExistingWorkPolicy.KEEP,
-            fednWorkRequest
-        )
+        val images: List<List<Float>> = readCsvFile("fashionmnist.csv")
+        val labels: List<List<Float>> = readCsvFile("fashionmnist_labels_new.csv")
+
+        val interpreterWrapper: InterpreterWrapper = InterpreterWrapper(applicationContext)
+//        interpreterWrapper.runTraining(images, labels)
+        interpreterWrapper.runInference(images)
+
         setContent {
             GrpcAppTheme {
                 // A surface container using the 'background' color from the theme
                 App()
             }
         }
+    }
+
+    private fun readCsvFile(fileName: String): List<List<Float>> {
+
+        var fileInputStream: FileInputStream? = applicationContext.openFileInput(fileName)
+        var inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
+        val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
+        var text: String? = null
+
+        val result: MutableList<List<Float>> = mutableListOf()
+
+        while (run {
+                text = bufferedReader.readLine()
+                text
+            } != null) {
+
+            if (text != null) {
+
+                val list: MutableList<Float> = mutableListOf()
+                val arr: List<String> = text!!.split(",")
+
+                for (item in arr) {
+
+                    val n: Float = item.toFloat()
+                    list.add(n)
+                }
+
+                result.add(list)
+            }
+        }
+
+        return result
     }
 
 
