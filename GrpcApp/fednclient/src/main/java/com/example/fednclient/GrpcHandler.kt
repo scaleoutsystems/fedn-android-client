@@ -15,6 +15,8 @@ import com.google.protobuf.ByteString
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
+import io.grpc.Status
+import io.grpc.StatusException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
@@ -83,8 +85,10 @@ internal class GrpcHandler(
             ).build()
 
             connectorStub.sendHeartbeat(request, headers)
+        } catch (e: StatusException) {
+            println("StatusException: ${e.message}")
         } catch (e: Exception) {
-            println("Error: ${e.message}")
+            println("Exception: ${e.message}")
         }
     }
 
@@ -102,14 +106,20 @@ internal class GrpcHandler(
 
         val stream = combinerStub.modelUpdateRequestStream(clientAvailableMessage, headers)
 
-        onStateChanged?.invoke(ModelUpdateState.LISTENER_INITIALIZED)
+        try {
+            onStateChanged?.invoke(ModelUpdateState.LISTENER_INITIALIZED)
 
-        stream.collect { value ->
+            stream.collect { value ->
 
-            if (value.sender.role == Role.COMBINER) {
+                if (value.sender.role == Role.COMBINER) {
 
-                processTrainingRequest(value, trainModel, onStateChanged)
+                    processTrainingRequest(value, trainModel, onStateChanged)
+                }
             }
+        } catch (e: StatusException) {
+            println("StatusException: ${e.message}")
+        } catch (e: Exception) {
+            println("Exception: ${e.message}")
         }
     }
 
@@ -163,12 +173,11 @@ internal class GrpcHandler(
             try {
 
                 val result = modelServiceStub.upload(flow, headers)
-
                 println("Upload response: ${result.message}")
-
-            } catch (e: io.grpc.StatusException) {
-
-                println(e)
+            } catch (e: StatusException) {
+                println("StatusException: ${e.message}")
+            } catch (e: Exception) {
+                println("Exception: ${e.message}")
             }
 
             sendModelUpdate(uuidStr, value, onStateChanged)
@@ -181,43 +190,57 @@ internal class GrpcHandler(
         onStateChanged: ((state: ModelUpdateState) -> Unit)?
     ) {
 
-        val modelUpdate: ModelUpdate = ModelUpdate.newBuilder().setSender(
-            Client.newBuilder().setName(
-                name
-            ).setRole(Role.WORKER)
-        ).setReceiver(
-            Client.newBuilder().setName(value.sender.name).setRole(value.sender.role)
-        ).setModelId(value.modelId).setModelUpdateId(updatedModelId)
-            .setTimestamp(getCurrentTimestamp()).setCorrelationId(value.correlationId).setMeta("")
-            .build()
+        try {
+            val modelUpdate: ModelUpdate = ModelUpdate.newBuilder().setSender(
+                Client.newBuilder().setName(
+                    name
+                ).setRole(Role.WORKER)
+            ).setReceiver(
+                Client.newBuilder().setName(value.sender.name).setRole(value.sender.role)
+            ).setModelId(value.modelId).setModelUpdateId(updatedModelId)
+                .setTimestamp(getCurrentTimestamp()).setCorrelationId(value.correlationId)
+                .setMeta("")
+                .build()
 
-        val response = combinerStub.sendModelUpdate(modelUpdate, headers)
+            val response = combinerStub.sendModelUpdate(modelUpdate, headers)
 
-        onStateChanged?.invoke(ModelUpdateState.MODEL_UPLOADED)
+            onStateChanged?.invoke(ModelUpdateState.MODEL_UPLOADED)
 
-        println("model update response: $response")
+            println("model update response: $response")
+        } catch (e: StatusException) {
+            println("StatusException: ${e.message}")
+        } catch (e: Exception) {
+            println("Exception: ${e.message}")
+        }
     }
 
     private suspend fun getServerModel(value: ModelUpdateRequest): ByteString? {
 
-        val request: ModelRequest = ModelRequest.newBuilder().setId(value.modelId).build()
-        val stream = modelServiceStub.download(request, headers)
-
         var result: ByteString? = null
 
-        stream.collect { s ->
+        try {
+            val request: ModelRequest = ModelRequest.newBuilder().setId(value.modelId).build()
+            val stream = modelServiceStub.download(request, headers)
 
-            if (s.status == ModelStatus.IN_PROGRESS || s.status == ModelStatus.OK) {
+            stream.collect { s ->
 
-                if (result == null) {
+                if (s.status == ModelStatus.IN_PROGRESS || s.status == ModelStatus.OK) {
 
-                    result = s.data
-                } else {
+                    if (result == null) {
 
-                    result!!.concat(s.data)
+                        result = s.data
+                    } else {
+
+                        result!!.concat(s.data)
+                    }
                 }
             }
+        } catch (e: StatusException) {
+            println("StatusException: ${e.message}")
+        } catch (e: Exception) {
+            println("Exception: ${e.message}")
         }
+
 
         return result
     }
