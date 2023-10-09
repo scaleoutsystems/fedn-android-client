@@ -24,17 +24,17 @@ class HttpClientAssignWrapper : IHttpClientWrapper<AttachResponse> {
         url: String, token: String
     ): Triple<AttachResponse?, HttpStatusCode?, String?> {
 
-        try {
-
-            val httpClient: HttpClient = HttpClient(CIO) {
-                install(ContentNegotiation) {
-                    json(Json {
-                        prettyPrint = true
-                        isLenient = true
-                    })
-                }
-                followRedirects = true
+        val httpClient: HttpClient = HttpClient(CIO) {
+            install(ContentNegotiation) {
+                json(Json {
+                    prettyPrint = true
+                    isLenient = true
+                })
             }
+            followRedirects = true
+        }
+
+        val result = try {
 
             val httpResponse = httpClient.get(url) {
                 headers {
@@ -47,15 +47,16 @@ class HttpClientAssignWrapper : IHttpClientWrapper<AttachResponse> {
                 httpResponse.body<AttachResponse>()
             } else null
 
-            httpClient.close()
-
-            return Triple(result, httpResponse.status, null)
+            Triple(result, httpResponse.status, null)
 
         } catch (e: Exception) {
 
             println(e.message)
-
-            return Triple(null, null, e.message)
+            Triple(null, null, e.message)
         }
+
+        httpClient.close()
+
+        return result
     }
 }
