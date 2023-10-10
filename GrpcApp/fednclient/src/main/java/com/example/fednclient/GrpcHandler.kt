@@ -15,19 +15,16 @@ import com.google.protobuf.ByteString
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
-import io.grpc.Status
 import io.grpc.StatusException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.withTimeoutOrNull
 import java.io.Closeable
 import java.util.UUID
 
 const val CHUNK_SIZE: Int = 1024 * 1024
 
 enum class ModelUpdateState {
-    LISTENER_INITIALIZED, SERVER_MODEL_DOWNLOADED, TRAINING_COMPLETED, MODEL_UPLOADED
+    LISTENER_INITIALIZED, SERVER_MODEL_DOWNLOADED, TRAINING_STARTED, TRAINING_COMPLETED, MODEL_UPLOADED, TRAINING_ROUND_FINISHED
 }
 
 interface IGrpcHandler : Closeable {
@@ -35,6 +32,7 @@ interface IGrpcHandler : Closeable {
     suspend fun listenToModelUpdateRequestStream(
         trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)? = null,
+        onStateChangedInternal: (state: ModelUpdateState) -> Unit
     )
 }
 
@@ -95,6 +93,7 @@ internal class GrpcHandler(
     override suspend fun listenToModelUpdateRequestStream(
         trainModel: (modelIn: ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?,
+        onStateChangedInternal: (state: ModelUpdateState) -> Unit
     ) {
 
         println("initialize listener for model update requests...")
@@ -108,12 +107,18 @@ internal class GrpcHandler(
 
         try {
             onStateChanged?.invoke(ModelUpdateState.LISTENER_INITIALIZED)
+            onStateChangedInternal.invoke(ModelUpdateState.LISTENER_INITIALIZED)
 
             stream.collect { value ->
 
                 if (value.sender.role == Role.COMBINER) {
 
-                    processTrainingRequest(value, trainModel, onStateChanged)
+                    processTrainingRequest(
+                        value,
+                        trainModel,
+                        onStateChanged,
+                        onStateChangedInternal
+                    )
                 }
             }
         } catch (e: StatusException) {
@@ -126,68 +131,79 @@ internal class GrpcHandler(
     private suspend fun processTrainingRequest(
         value: ModelUpdateRequest,
         trainModel: (ByteArray) -> ByteArray,
-        onStateChanged: ((state: ModelUpdateState) -> Unit)?
+        onStateChanged: ((state: ModelUpdateState) -> Unit)?,
+        onStateChangedInternal: (state: ModelUpdateState) -> Unit
     ) {
 
         val serverModel: ByteString? = getServerModel(value)
 
         onStateChanged?.invoke(ModelUpdateState.SERVER_MODEL_DOWNLOADED)
+        onStateChangedInternal.invoke(ModelUpdateState.SERVER_MODEL_DOWNLOADED)
 
         if (serverModel != null) {
 
-            val serveModelByteArray: ByteArray = serverModel.toByteArray()
-            val trainedModelByteArray: ByteArray = trainModel(serveModelByteArray)
-            val trainedModel: ByteString? = ByteString.copyFrom(trainedModelByteArray)
-
-            onStateChanged?.invoke(ModelUpdateState.TRAINING_COMPLETED)
-
-            val uuid = UUID.randomUUID()
-            val uuidStr = uuid.toString()
-
-            val flow: Flow<ModelRequest> = flow {
-
-                if (trainedModel != null) {
-
-                    val arr: List<ByteString> = splitByteStringIntoChunks(trainedModel, CHUNK_SIZE)
-
-                    for (chunk in arr) {
-
-                        val modelRequest: ModelRequest =
-                            ModelRequest.newBuilder().setData(chunk).setId(uuidStr)
-                                .setStatus(ModelStatus.IN_PROGRESS).build()
-
-                        emit(modelRequest)
-                    }
-
-                } else {
-
-                    println("Training resulted in null")
-                }
-
-                val modelRequest: ModelRequest =
-                    ModelRequest.newBuilder().setId(uuidStr).setStatus(ModelStatus.OK).build()
-
-                emit(modelRequest)
-            }
+            onStateChanged?.invoke(ModelUpdateState.TRAINING_STARTED)
+            onStateChangedInternal.invoke(ModelUpdateState.TRAINING_STARTED)
 
             try {
 
+                val serveModelByteArray: ByteArray = serverModel.toByteArray()
+                val trainedModelByteArray: ByteArray = trainModel(serveModelByteArray)
+                val trainedModel: ByteString? = ByteString.copyFrom(trainedModelByteArray)
+
+                onStateChanged?.invoke(ModelUpdateState.TRAINING_COMPLETED)
+                onStateChangedInternal.invoke(ModelUpdateState.TRAINING_COMPLETED)
+
+                val uuid = UUID.randomUUID()
+                val uuidStr = uuid.toString()
+
+                val flow: Flow<ModelRequest> = flow {
+
+                    if (trainedModel != null) {
+
+                        val arr: List<ByteString> =
+                            splitByteStringIntoChunks(trainedModel, CHUNK_SIZE)
+
+                        for (chunk in arr) {
+
+                            val modelRequest: ModelRequest =
+                                ModelRequest.newBuilder().setData(chunk).setId(uuidStr)
+                                    .setStatus(ModelStatus.IN_PROGRESS).build()
+
+                            emit(modelRequest)
+                        }
+
+                    } else {
+
+                        println("Training resulted in null")
+                    }
+
+                    val modelRequest: ModelRequest =
+                        ModelRequest.newBuilder().setId(uuidStr).setStatus(ModelStatus.OK).build()
+
+                    emit(modelRequest)
+                }
+
                 val result = modelServiceStub.upload(flow, headers)
                 println("Upload response: ${result.message}")
+
+                sendModelUpdate(uuidStr, value, onStateChanged, onStateChangedInternal)
             } catch (e: StatusException) {
                 println("StatusException: ${e.message}")
             } catch (e: Exception) {
                 println("Exception: ${e.message}")
             }
-
-            sendModelUpdate(uuidStr, value, onStateChanged)
         }
+
+        onStateChanged?.invoke(ModelUpdateState.TRAINING_ROUND_FINISHED)
+        onStateChangedInternal.invoke(ModelUpdateState.TRAINING_ROUND_FINISHED)
     }
 
     private suspend fun sendModelUpdate(
         updatedModelId: String,
         value: ModelUpdateRequest,
-        onStateChanged: ((state: ModelUpdateState) -> Unit)?
+        onStateChanged: ((state: ModelUpdateState) -> Unit)?,
+        onStateChangedInternal: (state: ModelUpdateState) -> Unit
     ) {
 
         try {
@@ -205,6 +221,7 @@ internal class GrpcHandler(
             val response = combinerStub.sendModelUpdate(modelUpdate, headers)
 
             onStateChanged?.invoke(ModelUpdateState.MODEL_UPLOADED)
+            onStateChangedInternal.invoke(ModelUpdateState.MODEL_UPLOADED)
 
             println("model update response: $response")
         } catch (e: StatusException) {
@@ -240,7 +257,6 @@ internal class GrpcHandler(
         } catch (e: Exception) {
             println("Exception: ${e.message}")
         }
-
 
         return result
     }

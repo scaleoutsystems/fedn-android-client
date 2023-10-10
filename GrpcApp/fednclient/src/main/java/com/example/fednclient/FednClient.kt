@@ -2,9 +2,11 @@ package com.example.fednclient
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -15,6 +17,7 @@ const val MESSAGE_HEARTBEATS_NOT_INITIALIZED =
     "Heartbeats not initialized, sendHeartbeats must run (in background) first"
 
 const val MESSAGE_MODEL_UPDATE_STREAM_RAN_TO_COMPLETION = "Model update stream ran to completion"
+const val CHECK_TRAINING_INTERVAL_MILLISECONDS: Long = 1000
 
 interface IFednClient {
     suspend fun runProcess(
@@ -46,6 +49,7 @@ class FednClient(
 
     var running: Boolean = false
     var attached: Boolean = false
+    private var training: Boolean = false
     var heartbeatsInitiated: Boolean = false
     var listeningToModelUpdate: Boolean = false
 
@@ -69,6 +73,17 @@ class FednClient(
         set(value) {
             _grpcHandler = value
         }
+
+    private val onStateChangedInternal: (state: ModelUpdateState) -> Unit = { state ->
+        if (state == ModelUpdateState.SERVER_MODEL_DOWNLOADED) {
+            training = true
+        } else if (listOf(
+                ModelUpdateState.TRAINING_COMPLETED, ModelUpdateState.TRAINING_ROUND_FINISHED
+            ).contains(state)
+        ) {
+            training = false
+        }
+    }
 
     override suspend fun runProcess(
         trainModel: (ByteArray) -> ByteArray,
@@ -167,15 +182,46 @@ class FednClient(
 
             listeningToModelUpdate = true
 
-            withTimeoutOrNull(timeoutAfterMillis) {
+            withTimeoutOrNullCustom(timeoutAfterMillis) {
 
                 grpcHandler?.listenToModelUpdateRequestStream(
-                    trainModel,
-                    onStateChanged,
+                    trainModel, onStateChanged, onStateChangedInternal
                 )
             }
 
             Pair(MESSAGE_MODEL_UPDATE_STREAM_RAN_TO_COMPLETION, true)
+        }
+    }
+
+    private suspend fun <T> withTimeoutOrNullCustom(
+        timeoutMillis: Long, block: suspend () -> T
+    ): T? {
+        return withContext(Dispatchers.IO) {
+            val result = async { block() }
+
+            val timeoutJob = async {
+                delay(timeoutMillis)
+                null
+            }
+
+            val resultOrNull = select<T?> {
+                result.onAwait { it }
+                timeoutJob.onAwait { it }
+            }
+
+            while (true) {
+
+                if (!training) {
+
+                    result.cancelAndJoin()
+                    timeoutJob.cancelAndJoin()
+                    break
+                }
+
+                delay(CHECK_TRAINING_INTERVAL_MILLISECONDS)
+            }
+
+            resultOrNull
         }
     }
 
