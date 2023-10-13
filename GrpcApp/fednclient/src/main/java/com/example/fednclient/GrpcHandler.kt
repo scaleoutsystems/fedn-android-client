@@ -18,6 +18,8 @@ import io.grpc.Metadata
 import io.grpc.StatusException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import java.io.Closeable
 import java.util.UUID
 
@@ -46,6 +48,8 @@ internal class GrpcHandler(
     private val headers = Metadata().apply {
         val key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
         put(key, "Token $token")
+        val clientNameKey = Metadata.Key.of("client", Metadata.ASCII_STRING_MARSHALLER)
+        put(clientNameKey, name)
     }
 
     private var _managedChannel: ManagedChannel? = null
@@ -135,19 +139,18 @@ internal class GrpcHandler(
         onStateChangedInternal: (state: ModelUpdateState) -> Unit
     ) {
 
-        val serverModel: ByteString? = getServerModel(value)
+        val serveModelByteArray: ByteArray? = getServerModel(value)
 
         onStateChanged?.invoke(ModelUpdateState.SERVER_MODEL_DOWNLOADED)
         onStateChangedInternal.invoke(ModelUpdateState.SERVER_MODEL_DOWNLOADED)
 
-        if (serverModel != null) {
+        if (serveModelByteArray != null) {
 
             onStateChanged?.invoke(ModelUpdateState.TRAINING_STARTED)
             onStateChangedInternal.invoke(ModelUpdateState.TRAINING_STARTED)
 
             try {
 
-                val serveModelByteArray: ByteArray = serverModel.toByteArray()
                 val trainedModelByteArray: ByteArray = trainModel(serveModelByteArray)
                 val trainedModel: ByteString? = ByteString.copyFrom(trainedModelByteArray)
 
@@ -206,6 +209,23 @@ internal class GrpcHandler(
         onStateChangedInternal: (state: ModelUpdateState) -> Unit
     ) {
 
+        println(value)
+
+        val metadataJson = buildJsonObject {
+            put("num_examples", 1)
+            put("batch_size", 1)
+            put("epochs", 1)
+            put("lr", 1)
+        }
+        val configJson = buildJsonObject {
+            put("round_id", 1)
+        }
+
+        val json = buildJsonObject {
+            put("training_metadata", metadataJson)
+            put("config", configJson.toString())
+        }
+
         try {
             val modelUpdate: ModelUpdate = ModelUpdate.newBuilder().setSender(
                 Client.newBuilder().setName(
@@ -215,7 +235,7 @@ internal class GrpcHandler(
                 Client.newBuilder().setName(value.sender.name).setRole(value.sender.role)
             ).setModelId(value.modelId).setModelUpdateId(updatedModelId)
                 .setTimestamp(getCurrentTimestamp()).setCorrelationId(value.correlationId)
-                .setMeta("")
+                .setMeta(json.toString())
                 .build()
 
             val response = combinerStub.sendModelUpdate(modelUpdate, headers)
@@ -231,9 +251,10 @@ internal class GrpcHandler(
         }
     }
 
-    private suspend fun getServerModel(value: ModelUpdateRequest): ByteString? {
+    private suspend fun getServerModel(value: ModelUpdateRequest): ByteArray? {
 
-        var result: ByteString? = null
+//        var result: ByteString = ByteString.EMPTY
+        var result: ByteArray? = null
 
         try {
             val request: ModelRequest = ModelRequest.newBuilder().setId(value.modelId).build()
@@ -243,12 +264,12 @@ internal class GrpcHandler(
 
                 if (s.status == ModelStatus.IN_PROGRESS || s.status == ModelStatus.OK) {
 
-                    if (result == null) {
+                    result = if (result == null) {
 
-                        result = s.data
+                        s.data.toByteArray()
                     } else {
 
-                        result!!.concat(s.data)
+                        result!! + s.data.toByteArray()
                     }
                 }
             }

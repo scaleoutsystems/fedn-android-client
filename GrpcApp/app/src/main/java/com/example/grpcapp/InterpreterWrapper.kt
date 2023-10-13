@@ -3,16 +3,15 @@ package com.example.grpcapp
 import android.content.Context
 import androidx.compose.ui.unit.dp
 import org.tensorflow.lite.Interpreter
+import org.tensorflow.lite.Tensor
 import org.tensorflow.lite.support.common.FileUtil
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 
-
 const val IMG_SIZE = 28
-const val MODEL_PATH = "model.tflite"
-const val MODEL_PATH2 = "fashionmodel.tflite"
-const val BATCH_SIZE = 10
-const val NUM_BATCHES = 10
-const val NUM_EPOCHS = 100
+
+const val MODEL_PATH = "fashionmodel.tflite"
 
 class InterpreterWrapper(private val context: Context) {
 
@@ -22,71 +21,45 @@ class InterpreterWrapper(private val context: Context) {
 
             try {
 
-                val trainImageBatches: MutableList<FloatBuffer> =
-                    ArrayList<FloatBuffer>(NUM_BATCHES)
-                val trainLabelBatches: MutableList<FloatBuffer> =
-                    ArrayList<FloatBuffer>(NUM_BATCHES)
 
-                // Prepare training batches.
-                for (i in 0 until NUM_BATCHES) {
-                    val trainImages: FloatBuffer =
-                        FloatBuffer.allocate(BATCH_SIZE * IMG_SIZE * IMG_SIZE)
+                for (i in 0..99) {
+                    val trainImage: FloatBuffer =
+                        FloatBuffer.allocate(IMG_SIZE * IMG_SIZE)
 
-                    val trainLabels: FloatBuffer = FloatBuffer.allocate(BATCH_SIZE * 10)
+                    val trainLabel: FloatBuffer = FloatBuffer.allocate(1)
 
-                    // Fill the data values...
-                    for (batchIndex in 0 until BATCH_SIZE) {
-                        val startIndex = batchIndex * 28
+                    val startIdx = i * 28
+                    val endIdx = startIdx + 28
 
-                        val image = images.subList(startIndex, startIndex + 28)
-                        val label = labels[batchIndex]
+                    val image = images.subList(startIdx, endIdx)
+                    val label = labels[i]
 
-                        for (row in image) {
-                            for (pixel in row) {
+                    for (row in image) {
+                        for (pixel in row) {
 
-                                trainImages.put(pixel)
-                            }
-                        }
-
-                        for (value in label) {
-
-                            trainLabels.put(value)
+                            trainImage.put(pixel)
                         }
                     }
 
-                    trainImages.rewind()
-                    trainLabels.rewind()
+                    for (value in label) {
 
-                    trainImageBatches.add(trainImages)
-                    trainLabelBatches.add(trainLabels)
-                }
-
-                val losses: MutableList<Float> = mutableListOf()
-
-                for (epoch in 0..NUM_EPOCHS) {
-
-                    for (batchIndex in 0..NUM_BATCHES) {
-
-                        val inputs: MutableMap<String, Any> = HashMap()
-                        inputs["x"] = trainImageBatches[batchIndex]
-                        inputs["y"] = trainLabelBatches[batchIndex]
-
-                        val outputs: MutableMap<String, Any> = HashMap()
-                        val loss = FloatBuffer.allocate(1)
-                        outputs["loss"] = loss
-
-                        interpreter.runSignature(inputs, outputs, "train")
-
-                        // Record the last loss.
-                        if (batchIndex == NUM_BATCHES - 1) {
-                            losses[epoch] = loss.get(0)
-                        }
+                        trainLabel.put(value)
                     }
-                }
 
-                for (loss in losses) {
+                    trainImage.rewind()
+                    trainLabel.rewind()
 
-                    println(loss.dp)
+                    val inputs: MutableMap<String, Any> = HashMap()
+                    inputs["x"] = trainImage
+                    inputs["y"] = trainLabel
+
+                    val outputs: MutableMap<String, Any> = HashMap()
+                    val loss = FloatBuffer.allocate(1)
+                    outputs["loss"] = loss
+
+                    interpreter.runSignature(inputs, outputs, "train")
+
+                    println(loss.get(0))
                 }
 
             } catch (e: Exception) {
@@ -95,53 +68,55 @@ class InterpreterWrapper(private val context: Context) {
         }
     }
 
-    fun runInference(images: List<List<Float>>) {
 
-        Interpreter(FileUtil.loadMappedFile(context, MODEL_PATH2)).use { interpreter ->
+    fun setWeights(
+        inputs:
+        MutableMap<String, Any>
+    ) {
 
-            try {
+        try {
 
-                for (i in 0..99) {
+            Interpreter(FileUtil.loadMappedFile(context, MODEL_PATH)).use { interpreter ->
 
-                    val startIndex: Int = i * 28
-                    val endIndex: Int = startIndex + 28
+                val outputs: MutableMap<String, Any> = HashMap()
 
-                    val image = images.subList(startIndex, endIndex)
-
-
-                    val trainImages: FloatBuffer = FloatBuffer.allocate(IMG_SIZE * IMG_SIZE)
-
-                    for (row in image) {
-                        for (pixel in row) {
-
-                            trainImages.put(pixel)
-                        }
-                    }
-
-                    trainImages.rewind()
-
-                    // Run encoding signature.
-                    val inputs: MutableMap<String, Any> = HashMap()
-                    inputs["x"] = trainImages
-
-                    val outputs: MutableMap<String, Any> = HashMap()
-
-                    val output = FloatBuffer.allocate(10)
-                    val logits = FloatBuffer.allocate(10)
-                    outputs["output"] = output
-                    outputs["logits"] = logits
-
-                    interpreter.runSignature(inputs, outputs, "infer")
-
-                    val output1 = outputs["output"]
-                    val confidences = outputs["logits"]
-
-                    println(output1)
-                    println(confidences)
-                }
-            } catch (e: Exception) {
-                println(e.message)
+                interpreter.runSignature(inputs, outputs, "set_weights")
             }
+        } catch (e: Exception) {
+            println(e.message)
         }
+    }
+
+    fun getWeights(): (MutableMap<String, Any>)? {
+
+        try {
+
+            Interpreter(FileUtil.loadMappedFile(context, MODEL_PATH)).use { interpreter ->
+
+                val input: FloatBuffer = FloatBuffer.allocate(1)
+                // Run encoding signature.
+                val inputs: MutableMap<String, Any> = HashMap()
+                inputs["x"] = input
+
+                val outputs: MutableMap<String, Any> = HashMap()
+
+                val output0: FloatBuffer = FloatBuffer.allocate(100352)
+                val output1: FloatBuffer = FloatBuffer.allocate(128)
+                val output2: FloatBuffer = FloatBuffer.allocate(1280)
+                val output3: FloatBuffer = FloatBuffer.allocate(10)
+                outputs["layer0"] = output0
+                outputs["layer1"] = output1
+                outputs["layer2"] = output2
+                outputs["layer3"] = output3
+
+                interpreter.runSignature(inputs, outputs, "get_weights")
+
+                return outputs
+            }
+        } catch (e: Exception) {
+            println(e.message)
+        }
+
+        return null
     }
 }

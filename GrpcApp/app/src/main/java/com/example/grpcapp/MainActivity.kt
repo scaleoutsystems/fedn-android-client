@@ -40,14 +40,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        val images: List<List<Float>> = readCsvFile("fashionmnist.csv")
-        val labels: List<List<Float>> = readCsvFile("fashionmnist_labels_new.csv")
-
-        val interpreterWrapper: InterpreterWrapper = InterpreterWrapper(applicationContext)
-//        interpreterWrapper.runTraining(images, labels)
-        interpreterWrapper.runInference(images)
-
         setContent {
             GrpcAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -55,39 +47,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    private fun readCsvFile(fileName: String): List<List<Float>> {
-
-        var fileInputStream: FileInputStream? = applicationContext.openFileInput(fileName)
-        var inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
-        val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
-        var text: String? = null
-
-        val result: MutableList<List<Float>> = mutableListOf()
-
-        while (run {
-                text = bufferedReader.readLine()
-                text
-            } != null) {
-
-            if (text != null) {
-
-                val list: MutableList<Float> = mutableListOf()
-                val arr: List<String> = text!!.split(",")
-
-                for (item in arr) {
-
-                    val n: Float = item.toFloat()
-                    list.add(n)
-                }
-
-                result.add(list)
-            }
-        }
-
-        return result
-    }
-
 
     @Preview
     @Composable
