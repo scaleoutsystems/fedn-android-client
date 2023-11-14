@@ -118,6 +118,19 @@ class MainActivity : ComponentActivity() {
                     Text(stringResource(R.string.startProcess))
                 }
             }
+            Row(Modifier.padding(vertical = 8.dp)) {
+                Button(onClick = {
+
+
+                    val internalTraining = InternalTraining(applicationContext)
+
+                    internalTraining.runTrainingProcess()
+
+
+                }) {
+                    Text(stringResource(R.string.startTraining))
+                }
+            }
         }
     }
 }

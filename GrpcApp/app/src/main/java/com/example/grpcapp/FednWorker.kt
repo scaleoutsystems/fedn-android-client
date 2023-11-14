@@ -142,9 +142,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
             inputs["layer2"] = input2
             inputs["layer3"] = input3
 
-            interpreterWrapper.setWeights(inputs)
-            interpreterWrapper.runTraining(images, labels)
-            val weightsAfterTraining = interpreterWrapper.getWeights()
+            val weightsAfterTraining = interpreterWrapper.runTraining(images, labels, inputs)
 
             if (weightsAfterTraining != null) {
 

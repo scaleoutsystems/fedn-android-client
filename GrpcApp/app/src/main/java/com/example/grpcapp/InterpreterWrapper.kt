@@ -1,12 +1,8 @@
 package com.example.grpcapp
 
 import android.content.Context
-import androidx.compose.ui.unit.dp
 import org.tensorflow.lite.Interpreter
-import org.tensorflow.lite.Tensor
 import org.tensorflow.lite.support.common.FileUtil
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 
 const val IMG_SIZE = 28
@@ -15,16 +11,22 @@ const val MODEL_PATH = "fashionmodel.tflite"
 
 class InterpreterWrapper(private val context: Context) {
 
-    fun runTraining(images: List<List<Float>>, labels: List<List<Float>>) {
+    fun runTraining(
+        images: List<List<Float>>,
+        labels: List<List<Float>>,
+        initialWeights: MutableMap<String, Any>
+    ): (MutableMap<String, Any>)? {
 
         Interpreter(FileUtil.loadMappedFile(context, MODEL_PATH)).use { interpreter ->
 
             try {
 
+                //set weights
+                val outputsSetWeights: MutableMap<String, Any> = HashMap()
+                interpreter.runSignature(initialWeights, outputsSetWeights, "set_weights")
 
                 for (i in 0..99) {
-                    val trainImage: FloatBuffer =
-                        FloatBuffer.allocate(IMG_SIZE * IMG_SIZE)
+                    val trainImage: FloatBuffer = FloatBuffer.allocate(IMG_SIZE * IMG_SIZE)
 
                     val trainLabel: FloatBuffer = FloatBuffer.allocate(1)
 
@@ -62,41 +64,10 @@ class InterpreterWrapper(private val context: Context) {
                     println(loss.get(0))
                 }
 
-            } catch (e: Exception) {
-                println(e.message)
-            }
-        }
-    }
-
-
-    fun setWeights(
-        inputs:
-        MutableMap<String, Any>
-    ) {
-
-        try {
-
-            Interpreter(FileUtil.loadMappedFile(context, MODEL_PATH)).use { interpreter ->
-
-                val outputs: MutableMap<String, Any> = HashMap()
-
-                interpreter.runSignature(inputs, outputs, "set_weights")
-            }
-        } catch (e: Exception) {
-            println(e.message)
-        }
-    }
-
-    fun getWeights(): (MutableMap<String, Any>)? {
-
-        try {
-
-            Interpreter(FileUtil.loadMappedFile(context, MODEL_PATH)).use { interpreter ->
-
-                val input: FloatBuffer = FloatBuffer.allocate(1)
+                val inputGetWeights: FloatBuffer = FloatBuffer.allocate(1)
                 // Run encoding signature.
-                val inputs: MutableMap<String, Any> = HashMap()
-                inputs["x"] = input
+                val inputsGetWeights: MutableMap<String, Any> = HashMap()
+                inputsGetWeights["x"] = inputGetWeights
 
                 val outputs: MutableMap<String, Any> = HashMap()
 
@@ -109,12 +80,13 @@ class InterpreterWrapper(private val context: Context) {
                 outputs["layer2"] = output2
                 outputs["layer3"] = output3
 
-                interpreter.runSignature(inputs, outputs, "get_weights")
+                interpreter.runSignature(inputsGetWeights, outputs, "get_weights")
 
                 return outputs
+
+            } catch (e: Exception) {
+                println(e.message)
             }
-        } catch (e: Exception) {
-            println(e.message)
         }
 
         return null

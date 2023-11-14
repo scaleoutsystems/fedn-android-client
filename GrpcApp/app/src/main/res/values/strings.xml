@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GrpcApp</string>
     <string name="startProcess">Start process</string>
+    <string name="startTraining">Start training</string>
 </resources>
