@@ -46,15 +46,16 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.fedndemo.FednWorker.Companion.Progress
 import com.example.fedndemo.ui.theme.FednDemoTheme
+import com.example.fedndemo.ui.theme.scaleoutBlack
 
 val manropeFamily = FontFamily(
     Font(R.font.manrope, FontWeight.Normal),
     Font(R.font.manrope_bold, FontWeight.Bold)
 )
 
-val scaleoutBlack = Color(red = 25, green = 25, blue = 25)
 
 const val TRAINING_ROUND_PROCESS = "TRAINING_ROUND_PROCESS"
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
