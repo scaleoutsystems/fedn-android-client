@@ -164,36 +164,6 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
         result
     }
 
-
-    suspend fun doWork(connectionString: String, token: String, name: String) =
-        withContext(Dispatchers.IO) {
-            if (connectionString != null && token != null) {
-
-                val fednClient: IFednClient = FednClient(
-                    connectionString, token, name = name
-                )
-
-                launch {
-
-                    val result =
-                        fednClient.runProcess(runTrainingProcess, onAttachStateChanged = { state ->
-
-//                            onStateChanged(state.toString())
-                            println("onAssignStateChanged: $state")
-
-                        }, onUpdateModelStateChanged = { state ->
-
-//                            onStateChanged(state.toString())
-                            println("onUpdateModelStateChanged $state")
-
-                        }, timeoutAfterMillis = 30000
-                        )
-
-                    println(result)
-                }
-            }
-        }
-
     companion object {
         const val Progress = "Progress"
     }
@@ -202,6 +172,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
         val connectionString: String? = inputData.getString("CONNECTION_STRING")
         val token: String? = inputData.getString("TOKEN")
         val name: String? = inputData.getString("NAME")
+        val timeoutAfterMillis: Long = inputData.getLong("TIMEOUT_AFTER_MILLIS", 30000)
 
         if (connectionString != null && token != null) {
 
@@ -228,7 +199,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
                         }
                         println("onUpdateModelStateChanged $state")
 
-                    }, timeoutAfterMillis = 30000)
+                    }, timeoutAfterMillis = timeoutAfterMillis)
 
                 println(result)
             }

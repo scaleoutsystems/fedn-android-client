@@ -55,6 +55,7 @@ val manropeFamily = FontFamily(
 
 
 const val TRAINING_ROUND_PROCESS = "TRAINING_ROUND_PROCESS"
+val REGEX_NUMBERS_ONLY = Regex("^\\d+\$")
 
 
 class MainActivity : ComponentActivity() {
@@ -175,6 +176,9 @@ class MainActivity : ComponentActivity() {
         var connectionString by remember { mutableStateOf("https://studio.scaleoutplatform.com/") }
         var token by remember { mutableStateOf("") }
         var name by remember { mutableStateOf("") }
+        var timeoutSeconds by remember {
+            mutableStateOf<Long>(60)
+        }
 
         val observer: LifecycleOwner = this as LifecycleOwner
 
@@ -215,6 +219,16 @@ class MainActivity : ComponentActivity() {
             TextFieldRow(text = "Token", value = token, onValueChange = {
                 token = it
             })
+            TextFieldRow(
+                text = "Timeout (seconds)",
+                value = timeoutSeconds.toString(),
+                onValueChange = {
+                    timeoutSeconds = if (it.isNotEmpty() && it.matches(REGEX_NUMBERS_ONLY)) {
+                        it.toLong()
+                    } else {
+                        30
+                    }
+                })
             TextFieldRow(text = "Name (optional)", value = name, onValueChange = {
                 name = it
             })
@@ -228,6 +242,7 @@ class MainActivity : ComponentActivity() {
                             "CONNECTION_STRING" to connectionString,
                             "TOKEN" to token,
                             "NAME" to if (name.isNullOrBlank()) null else name,
+                            "TIMEOUT_AFTER_MILLIS" to timeoutSeconds * 1000
                         )
                     ).build()
 
