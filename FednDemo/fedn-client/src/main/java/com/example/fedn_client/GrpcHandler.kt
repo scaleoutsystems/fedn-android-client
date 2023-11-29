@@ -62,7 +62,7 @@ internal class GrpcHandler(
             if (_managedChannel == null) {
 
                 _managedChannel =
-                    ManagedChannelBuilder.forAddress(url, port).useTransportSecurity().build()
+                    ManagedChannelBuilder.forAddress("<your-local-ip>", 12080).usePlaintext().build()
             }
 
             return _managedChannel ?: throw AssertionError("Set to null by another thread")

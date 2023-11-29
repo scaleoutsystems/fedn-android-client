@@ -136,11 +136,11 @@ class FednClient(
 
         val msg: String = statusMessage
 
-        if (statusCode == AttachResponseStatus.OK && response?.fqdn != null && response.port != null && response.host != null) {
+        if (true){//(statusCode == AttachResponseStatus.OK && response?.fqdn != null && response.port != null && response.host != null) {
 
-            val fqdn = response.fqdn
+            // val fqdn = response.fqdn
 
-            grpcHandler = GrpcHandler(clientName, fqdn, port, token, response.host)
+            grpcHandler = GrpcHandler(clientName, "fqdn", port, token, "response.host")
 
             attached = true
 

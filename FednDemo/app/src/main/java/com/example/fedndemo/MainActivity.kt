@@ -172,10 +172,9 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun AppContent(modifier: Modifier = Modifier) {
-
-        var connectionString by remember { mutableStateOf("https://studio.scaleoutplatform.com/") }
-        var token by remember { mutableStateOf("") }
-        var name by remember { mutableStateOf("") }
+        var connectionString by remember { mutableStateOf("http://<your-local-ip>:8092") }
+        var token by remember { mutableStateOf("abc") }
+        var name by remember { mutableStateOf("Androiduser") }
         var timeoutSeconds by remember {
             mutableStateOf<Long>(60)
         }
