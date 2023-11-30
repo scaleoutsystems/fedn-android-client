@@ -33,7 +33,7 @@ To run the app in a Docker container, follow these steps:
     alternatively, skip steg 4 and run the app in a Docker container with the following command:
 
     ```shell
-    docker run --env FEDN_URL=<your-fedn-url> FEDN_TOKEN=<your-fedn-token> FEDN_NAME=<your-fedn-name> fedn-kotlin
+    docker run -e "FEDN_URL=<your-fedn-url>" -e "FEDN_TOKEN=<your-fedn-token>" -e "FEDN_NAME=<your-fedn-name>" fedn-kotlin
     ```
 
     This command starts the client and connects it to the Fedn network. The client will then start to listen for training jobs. When a training job is received, the client will run the training function and send the trained model back to the server. The client will then wait for a new training job. If the connection is lost, the client will try to reconnect to the server. If the client is not able to reconnect to the server, the client will stop and the user will be notified.
