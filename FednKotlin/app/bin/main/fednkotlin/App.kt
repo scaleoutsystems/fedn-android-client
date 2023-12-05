@@ -5,6 +5,7 @@ package fednkotlin
 
 import com.example.fedn_client.FednClient
 import com.example.fedn_client.IFednClient
+import java.util.UUID
 import kotlinx.coroutines.runBlocking
 
 val runTrainingProcess: (ByteArray) -> ByteArray = { modelIn ->
@@ -18,18 +19,24 @@ fun main() {
     runBlocking {
         val url: String? = System.getenv("FEDN_URL")
         val token: String? = System.getenv("FEDN_TOKEN")
-        val name: String? = System.getenv("FEDN_NAME")
+        var name: String? = System.getenv("FEDN_NAME")
 
-        if (url == null || token == null || name == null) {
-            println("FEDN_URL, FEDN_TOKEN and FEDN_NAME must be set")
+        if (url == null || token == null) {
+            println("FEDN_URL and FEDN_TOKEN must be set")
             return@runBlocking
         }
 
         println("FEDN_URL: $url")
         println("FEDN_TOKEN: $token")
+
+        if (name == null) {
+            println("FEDN_NAME not set, using random name")
+            name = UUID.randomUUID().toString()
+        }
         println("FEDN_NAME: $name")
 
-        val fednClient: IFednClient = FednClient(url, token, name = name)
+        val fednClient: IFednClient =
+                FednClient(url, token, name = name, secureGrpcConnection = false)
 
         val result =
                 fednClient.runProcess(
@@ -41,7 +48,7 @@ fun main() {
                         timeoutAfterMillis = 60000
                 )
 
-        println("Result: ${result?.first}")
+        println("Result: ${result.first}")
     }
 
     println("Program ran to completion")

@@ -1,0 +1,41 @@
+name: Build on push/release
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t fedn-kotlin /FednKotlin
+          
+      - name: Log in to GitHub Docker Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to Harbor Registry
+        uses: docker/login-action@v3
+        with:
+          registry: harbor.studio.scaleoutplatform.com
+          username: robot$github-studio
+          password: ${{ secrets.HARBOR_TOKEN }}
+
+      - name: Tag Docker image
+        run: |
+          docker tag fedn-kotlin ghcr.io/scaleoutsystems/android-client:fedn-kotlin
+          docker tag fedn-kotlin harbor.studio.scaleoutplatform.com/scaleoutstudio/fedn-kotlin:fedn-kotlin
+
+      - name: Push Docker images
+        run: |
+          docker push ghcr.io/scaleoutsystems/android-client:fedn-kotlin
+          docker push harbor.studio.scaleoutplatform.com/scaleoutstudio/fedn-kotlin:fedn-kotlin
