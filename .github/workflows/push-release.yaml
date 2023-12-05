@@ -14,7 +14,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t fedn-kotlin /FednKotlin
+          docker build -t fedn-kotlin ./FednKotlin
           
       - name: Log in to GitHub Docker Registry
         uses: docker/login-action@v3
