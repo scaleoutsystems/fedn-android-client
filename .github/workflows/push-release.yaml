@@ -23,19 +23,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Log in to Harbor Registry
-        uses: docker/login-action@v3
-        with:
-          registry: harbor.studio.scaleoutplatform.com
-          username: robot$github-studio
-          password: ${{ secrets.HARBOR_TOKEN }}
+      # - name: Log in to Harbor Registry
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: harbor.studio.scaleoutplatform.com
+      #     username: robot$github-studio
+      #     password: ${{ secrets.HARBOR_TOKEN }}
 
+          # docker tag fedn-kotlin harbor.studio.scaleoutplatform.com/scaleoutstudio/fedn-kotlin:fedn-kotlin
+          # docker push harbor.studio.scaleoutplatform.com/scaleoutstudio/fedn-kotlin:fedn-kotlin
       - name: Tag Docker image
         run: |
           docker tag fedn-kotlin ghcr.io/scaleoutsystems/android-client:fedn-kotlin
-          docker tag fedn-kotlin harbor.studio.scaleoutplatform.com/scaleoutstudio/fedn-kotlin:fedn-kotlin
 
       - name: Push Docker images
         run: |
           docker push ghcr.io/scaleoutsystems/android-client:fedn-kotlin
-          docker push harbor.studio.scaleoutplatform.com/scaleoutstudio/fedn-kotlin:fedn-kotlin
