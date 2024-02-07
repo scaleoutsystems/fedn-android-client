@@ -19,6 +19,8 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 import java.io.InputStream
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 
 @Serializable
@@ -70,18 +72,29 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
         return result
     }
 
-    private fun byteArrayToJsonString(byteArray: ByteArray): String {
-        return String(byteArray, Charsets.UTF_8)
-    }
-
     private fun convertFromByteArray(modelIn: ByteArray): Pair<ModelWeights?, Boolean> {
 
         var result: ModelWeights? = null
         var success: Boolean = false
 
         try {
-            val json: String = byteArrayToJsonString(modelIn)
-            result = Json.decodeFromString(json)
+            val floatArray = FloatArray(modelIn.size / 4)
+            ByteBuffer.wrap(modelIn).order(ByteOrder.LITTLE_ENDIAN).asFloatBuffer().get(floatArray)
+
+            val floatArrayList = floatArray.toList()
+
+            val layer0 = floatArrayList.subList(0, 100352)
+            val layer1 = floatArrayList.subList(100352, 100352 + 128)
+            val layer2 = floatArrayList.subList(100352 + 128, 100352 + 128 + 1280)
+            val layer3 = floatArrayList.subList(100352 + 128 + 1280, 100352 + 128 + 1280 + 10)
+
+            result = ModelWeights(
+                layer0 = layer0,
+                layer1 = layer1,
+                layer2 = layer2,
+                layer3 = layer3
+            )
+
             success = true
         } catch (e: Exception) {
             println(e.message)
@@ -90,10 +103,16 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
         return Pair(result, success)
     }
 
-    private fun objectToJson(obj: ModelWeights): String {
-        return Json.encodeToString(obj)
-    }
+    fun floatArrayToByteArray(floatArray: FloatArray): ByteArray {
+        val byteBuffer = ByteBuffer.allocate(floatArray.size * 4) // 4 bytes per float
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN) // Choose the byte order (little-endian or big-endian)
 
+        for (value in floatArray) {
+            byteBuffer.putFloat(value)
+        }
+
+        return byteBuffer.array()
+    }
     private fun toWeightsModel(weights: MutableMap<String, Any>): ModelWeights {
 
         val layer0 = weights["layer0"] as FloatBuffer
@@ -156,8 +175,9 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
 
                 val weights: ModelWeights = toWeightsModel(weightsAfterTraining)
 
-                val json = objectToJson(weights)
-                result = json.toByteArray()
+                val oneDimensional: FloatArray = (weights.layer0 + weights.layer1 + weights.layer2 + weights.layer3).toFloatArray()
+
+                result = floatArrayToByteArray(oneDimensional)
             }
         }
 
