@@ -173,9 +173,9 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun AppContent(modifier: Modifier = Modifier) {
 
-        var connectionString by remember { mutableStateOf("https://studio.scaleoutplatform.com/r675a5151") }
-        var token by remember { mutableStateOf("db60b15cf6c36fa45fbf0a38ce12812938a04839") }
-        var name by remember { mutableStateOf("niklasclient") }
+        var connectionString by remember { mutableStateOf("https://studio.scaleoutplatform.com/") }
+        var token by remember { mutableStateOf("") }
+        var name by remember { mutableStateOf("") }
         var timeoutSeconds by remember {
             mutableStateOf<Long>(60)
         }
