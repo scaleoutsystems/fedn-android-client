@@ -1,5 +1,8 @@
 # Android-Client
-This repository contains the source code for the Android client for the Federated Learning framework Fedn. The client logic is implemented in the fednclient library, which is included in the app module. The app module contains a simple example of how to use the library. The example is done using Android [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager). 
+This repository contains the source code for the Android client for the Federated Learning framework FEDn. 
+
+The client logic is implemented in the fednclient library, which is included in the app module. The app module contains a simple example of how to use the library.
+The example is done using Android [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager). 
 
 
 ## Usage
