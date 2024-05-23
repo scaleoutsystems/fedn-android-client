@@ -4,7 +4,7 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf enum {@code grpc.StatusType}
+ * Protobuf enum {@code com.example.fedn_client.grpc.StatusType}
  */
 public enum StatusType
     implements com.google.protobuf.ProtocolMessageEnum {
@@ -144,6 +144,6 @@ public enum StatusType
     this.value = value;
   }
 
-  // @@protoc_insertion_point(enum_scope:grpc.StatusType)
+  // @@protoc_insertion_point(enum_scope:com.example.fedn_client.grpc.StatusType)
 }
 

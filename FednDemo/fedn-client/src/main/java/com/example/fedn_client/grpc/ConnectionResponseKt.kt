@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun connectionResponse(block: com.example.fedn_client.grpc.ConnectionResponseKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.ConnectionResponse =
   com.example.fedn_client.grpc.ConnectionResponseKt.Dsl._create(com.example.fedn_client.grpc.ConnectionResponse.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.ConnectionResponse`
+ * Protobuf type `com.example.fedn_client.grpc.ConnectionResponse`
  */
 public object ConnectionResponseKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -28,7 +28,7 @@ public object ConnectionResponseKt {
     internal fun _build(): com.example.fedn_client.grpc.ConnectionResponse = _builder.build()
 
     /**
-     * `.grpc.ConnectionStatus status = 1;`
+     * `.com.example.fedn_client.grpc.ConnectionStatus status = 1;`
      */
     public var status: com.example.fedn_client.grpc.ConnectionStatus
       @JvmName("getStatus")
@@ -45,7 +45,7 @@ public object ConnectionResponseKt {
         _builder.setStatusValue(value)
       }
     /**
-     * `.grpc.ConnectionStatus status = 1;`
+     * `.com.example.fedn_client.grpc.ConnectionStatus status = 1;`
      */
     public fun clearStatus() {
       _builder.clearStatus()

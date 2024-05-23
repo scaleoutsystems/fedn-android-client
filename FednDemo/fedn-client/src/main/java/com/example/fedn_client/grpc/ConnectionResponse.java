@@ -4,11 +4,11 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf type {@code grpc.ConnectionResponse}
+ * Protobuf type {@code com.example.fedn_client.grpc.ConnectionResponse}
  */
 public final class ConnectionResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:grpc.ConnectionResponse)
+    // @@protoc_insertion_point(message_implements:com.example.fedn_client.grpc.ConnectionResponse)
     ConnectionResponseOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use ConnectionResponse.newBuilder() to construct.
@@ -28,13 +28,13 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ConnectionResponse_descriptor;
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ConnectionResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ConnectionResponse_fieldAccessorTable
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ConnectionResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.example.fedn_client.grpc.ConnectionResponse.class, com.example.fedn_client.grpc.ConnectionResponse.Builder.class);
   }
@@ -42,14 +42,14 @@ private static final long serialVersionUID = 0L;
   public static final int STATUS_FIELD_NUMBER = 1;
   private int status_ = 0;
   /**
-   * <code>.grpc.ConnectionStatus status = 1;</code>
+   * <code>.com.example.fedn_client.grpc.ConnectionStatus status = 1;</code>
    * @return The enum numeric value on the wire for status.
    */
   @java.lang.Override public int getStatusValue() {
     return status_;
   }
   /**
-   * <code>.grpc.ConnectionStatus status = 1;</code>
+   * <code>.com.example.fedn_client.grpc.ConnectionStatus status = 1;</code>
    * @return The status.
    */
   @java.lang.Override public com.example.fedn_client.grpc.ConnectionStatus getStatus() {
@@ -214,21 +214,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code grpc.ConnectionResponse}
+   * Protobuf type {@code com.example.fedn_client.grpc.ConnectionResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:grpc.ConnectionResponse)
+      // @@protoc_insertion_point(builder_implements:com.example.fedn_client.grpc.ConnectionResponse)
       com.example.fedn_client.grpc.ConnectionResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ConnectionResponse_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ConnectionResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ConnectionResponse_fieldAccessorTable
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ConnectionResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.example.fedn_client.grpc.ConnectionResponse.class, com.example.fedn_client.grpc.ConnectionResponse.Builder.class);
     }
@@ -254,7 +254,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ConnectionResponse_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ConnectionResponse_descriptor;
     }
 
     @java.lang.Override
@@ -383,14 +383,14 @@ private static final long serialVersionUID = 0L;
 
     private int status_ = 0;
     /**
-     * <code>.grpc.ConnectionStatus status = 1;</code>
+     * <code>.com.example.fedn_client.grpc.ConnectionStatus status = 1;</code>
      * @return The enum numeric value on the wire for status.
      */
     @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
-     * <code>.grpc.ConnectionStatus status = 1;</code>
+     * <code>.com.example.fedn_client.grpc.ConnectionStatus status = 1;</code>
      * @param value The enum numeric value on the wire for status to set.
      * @return This builder for chaining.
      */
@@ -401,7 +401,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.ConnectionStatus status = 1;</code>
+     * <code>.com.example.fedn_client.grpc.ConnectionStatus status = 1;</code>
      * @return The status.
      */
     @java.lang.Override
@@ -410,7 +410,7 @@ private static final long serialVersionUID = 0L;
       return result == null ? com.example.fedn_client.grpc.ConnectionStatus.UNRECOGNIZED : result;
     }
     /**
-     * <code>.grpc.ConnectionStatus status = 1;</code>
+     * <code>.com.example.fedn_client.grpc.ConnectionStatus status = 1;</code>
      * @param value The status to set.
      * @return This builder for chaining.
      */
@@ -424,7 +424,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.ConnectionStatus status = 1;</code>
+     * <code>.com.example.fedn_client.grpc.ConnectionStatus status = 1;</code>
      * @return This builder for chaining.
      */
     public Builder clearStatus() {
@@ -446,10 +446,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:grpc.ConnectionResponse)
+    // @@protoc_insertion_point(builder_scope:com.example.fedn_client.grpc.ConnectionResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:grpc.ConnectionResponse)
+  // @@protoc_insertion_point(class_scope:com.example.fedn_client.grpc.ConnectionResponse)
   private static final com.example.fedn_client.grpc.ConnectionResponse DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new com.example.fedn_client.grpc.ConnectionResponse();

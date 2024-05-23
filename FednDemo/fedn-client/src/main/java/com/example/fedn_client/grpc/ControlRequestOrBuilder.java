@@ -4,40 +4,40 @@
 package com.example.fedn_client.grpc;
 
 public interface ControlRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.ControlRequest)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.ControlRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.grpc.Command command = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Command command = 1;</code>
    * @return The enum numeric value on the wire for command.
    */
   int getCommandValue();
   /**
-   * <code>.grpc.Command command = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Command command = 1;</code>
    * @return The command.
    */
   com.example.fedn_client.grpc.Command getCommand();
 
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   java.util.List<com.example.fedn_client.grpc.Parameter> 
       getParameterList();
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   com.example.fedn_client.grpc.Parameter getParameter(int index);
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   int getParameterCount();
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   java.util.List<? extends com.example.fedn_client.grpc.ParameterOrBuilder> 
       getParameterOrBuilderList();
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   com.example.fedn_client.grpc.ParameterOrBuilder getParameterOrBuilder(
       int index);

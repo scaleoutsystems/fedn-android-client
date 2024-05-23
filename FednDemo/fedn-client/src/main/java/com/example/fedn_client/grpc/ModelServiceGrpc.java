@@ -12,7 +12,7 @@ public final class ModelServiceGrpc {
 
   private ModelServiceGrpc() {}
 
-  public static final java.lang.String SERVICE_NAME = "grpc.ModelService";
+  public static final java.lang.String SERVICE_NAME = "com.example.fedn_client.grpc.ModelService";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ModelRequest,

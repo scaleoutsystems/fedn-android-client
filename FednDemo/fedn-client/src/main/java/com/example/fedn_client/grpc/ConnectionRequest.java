@@ -4,11 +4,11 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf type {@code grpc.ConnectionRequest}
+ * Protobuf type {@code com.example.fedn_client.grpc.ConnectionRequest}
  */
 public final class ConnectionRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:grpc.ConnectionRequest)
+    // @@protoc_insertion_point(message_implements:com.example.fedn_client.grpc.ConnectionRequest)
     ConnectionRequestOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use ConnectionRequest.newBuilder() to construct.
@@ -27,13 +27,13 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ConnectionRequest_descriptor;
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ConnectionRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ConnectionRequest_fieldAccessorTable
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ConnectionRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.example.fedn_client.grpc.ConnectionRequest.class, com.example.fedn_client.grpc.ConnectionRequest.Builder.class);
   }
@@ -185,21 +185,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code grpc.ConnectionRequest}
+   * Protobuf type {@code com.example.fedn_client.grpc.ConnectionRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:grpc.ConnectionRequest)
+      // @@protoc_insertion_point(builder_implements:com.example.fedn_client.grpc.ConnectionRequest)
       com.example.fedn_client.grpc.ConnectionRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ConnectionRequest_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ConnectionRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ConnectionRequest_fieldAccessorTable
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ConnectionRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.example.fedn_client.grpc.ConnectionRequest.class, com.example.fedn_client.grpc.ConnectionRequest.Builder.class);
     }
@@ -223,7 +223,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ConnectionRequest_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ConnectionRequest_descriptor;
     }
 
     @java.lang.Override
@@ -345,10 +345,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:grpc.ConnectionRequest)
+    // @@protoc_insertion_point(builder_scope:com.example.fedn_client.grpc.ConnectionRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:grpc.ConnectionRequest)
+  // @@protoc_insertion_point(class_scope:com.example.fedn_client.grpc.ConnectionRequest)
   private static final com.example.fedn_client.grpc.ConnectionRequest DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new com.example.fedn_client.grpc.ConnectionRequest();

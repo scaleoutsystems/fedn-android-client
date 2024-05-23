@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun modelValidation(block: com.example.fedn_client.grpc.ModelValidationKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.ModelValidation =
   com.example.fedn_client.grpc.ModelValidationKt.Dsl._create(com.example.fedn_client.grpc.ModelValidation.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.ModelValidation`
+ * Protobuf type `com.example.fedn_client.grpc.ModelValidation`
  */
 public object ModelValidationKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -28,7 +28,7 @@ public object ModelValidationKt {
     internal fun _build(): com.example.fedn_client.grpc.ModelValidation = _builder.build()
 
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public var sender: com.example.fedn_client.grpc.Client
       @JvmName("getSender")
@@ -38,13 +38,13 @@ public object ModelValidationKt {
         _builder.setSender(value)
       }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public fun clearSender() {
       _builder.clearSender()
     }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      * @return Whether the sender field is set.
      */
     public fun hasSender(): kotlin.Boolean {
@@ -52,7 +52,7 @@ public object ModelValidationKt {
     }
 
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      */
     public var receiver: com.example.fedn_client.grpc.Client
       @JvmName("getReceiver")
@@ -62,13 +62,13 @@ public object ModelValidationKt {
         _builder.setReceiver(value)
       }
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      */
     public fun clearReceiver() {
       _builder.clearReceiver()
     }
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      * @return Whether the receiver field is set.
      */
     public fun hasReceiver(): kotlin.Boolean {
@@ -127,9 +127,9 @@ public object ModelValidationKt {
     }
 
     /**
-     * `string timestamp = 6;`
+     * `.google.protobuf.Timestamp timestamp = 6;`
      */
-    public var timestamp: kotlin.String
+    public var timestamp: com.google.protobuf.Timestamp
       @JvmName("getTimestamp")
       get() = _builder.getTimestamp()
       @JvmName("setTimestamp")
@@ -137,10 +137,17 @@ public object ModelValidationKt {
         _builder.setTimestamp(value)
       }
     /**
-     * `string timestamp = 6;`
+     * `.google.protobuf.Timestamp timestamp = 6;`
      */
     public fun clearTimestamp() {
       _builder.clearTimestamp()
+    }
+    /**
+     * `.google.protobuf.Timestamp timestamp = 6;`
+     * @return Whether the timestamp field is set.
+     */
+    public fun hasTimestamp(): kotlin.Boolean {
+      return _builder.hasTimestamp()
     }
 
     /**
@@ -159,6 +166,23 @@ public object ModelValidationKt {
     public fun clearMeta() {
       _builder.clearMeta()
     }
+
+    /**
+     * `string session_id = 8;`
+     */
+    public var sessionId: kotlin.String
+      @JvmName("getSessionId")
+      get() = _builder.getSessionId()
+      @JvmName("setSessionId")
+      set(value) {
+        _builder.setSessionId(value)
+      }
+    /**
+     * `string session_id = 8;`
+     */
+    public fun clearSessionId() {
+      _builder.clearSessionId()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic
@@ -170,4 +194,7 @@ public val com.example.fedn_client.grpc.ModelValidationOrBuilder.senderOrNull: c
 
 public val com.example.fedn_client.grpc.ModelValidationOrBuilder.receiverOrNull: com.example.fedn_client.grpc.Client?
   get() = if (hasReceiver()) getReceiver() else null
+
+public val com.example.fedn_client.grpc.ModelValidationOrBuilder.timestampOrNull: com.google.protobuf.Timestamp?
+  get() = if (hasTimestamp()) getTimestamp() else null
 

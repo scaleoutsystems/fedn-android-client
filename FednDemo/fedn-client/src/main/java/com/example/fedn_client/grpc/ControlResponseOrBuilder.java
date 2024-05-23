@@ -4,7 +4,7 @@
 package com.example.fedn_client.grpc;
 
 public interface ControlResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.ControlResponse)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.ControlResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -20,25 +20,25 @@ public interface ControlResponseOrBuilder extends
       getMessageBytes();
 
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   java.util.List<com.example.fedn_client.grpc.Parameter> 
       getParameterList();
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   com.example.fedn_client.grpc.Parameter getParameter(int index);
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   int getParameterCount();
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   java.util.List<? extends com.example.fedn_client.grpc.ParameterOrBuilder> 
       getParameterOrBuilderList();
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   com.example.fedn_client.grpc.ParameterOrBuilder getParameterOrBuilder(
       int index);

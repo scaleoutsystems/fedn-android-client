@@ -67,7 +67,7 @@ fun getVerifiedToken(token: String): String? {
     var result: String? = null
 
     if (token.isNotEmpty()) {
-        result = if (token.startsWith("Token ")) token else "Token $token"
+        result = if (token.startsWith("Bearer ")) token else "Bearer $token"
     }
 
     return result

@@ -9,7 +9,6 @@ import io.grpc.MethodDescriptor
 import io.grpc.ServerServiceDefinition
 import io.grpc.ServerServiceDefinition.builder
 import io.grpc.ServiceDescriptor
-import io.grpc.Status
 import io.grpc.Status.UNIMPLEMENTED
 import io.grpc.StatusException
 import io.grpc.kotlin.AbstractCoroutineServerImpl
@@ -31,7 +30,8 @@ import kotlin.jvm.JvmStatic
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Holder for Kotlin coroutine-based client and server APIs for grpc.ModelService.
+ * Holder for Kotlin coroutine-based client and server APIs for
+ * com.example.fedn_client.grpc.ModelService.
  */
 public object ModelServiceGrpcKt {
   public const val SERVICE_NAME: String = ModelServiceGrpc.SERVICE_NAME
@@ -49,7 +49,8 @@ public object ModelServiceGrpcKt {
     get() = ModelServiceGrpc.getDownloadMethod()
 
   /**
-   * A stub for issuing RPCs to a(n) grpc.ModelService service as suspending coroutines.
+   * A stub for issuing RPCs to a(n) com.example.fedn_client.grpc.ModelService service as suspending
+   * coroutines.
    */
   @StubFor(ModelServiceGrpc::class)
   public class ModelServiceCoroutineStub @JvmOverloads constructor(
@@ -61,7 +62,8 @@ public object ModelServiceGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -89,7 +91,7 @@ public object ModelServiceGrpcKt {
     /**
      * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
      * server as they arrive.  That flow finishes normally if the server closes its response with
-     * [`Status.OK`][Status], and fails by throwing a [StatusException] otherwise.  If
+     * [`Status.OK`][io.grpc.Status], and fails by throwing a [StatusException] otherwise.  If
      * collecting the flow downstream fails exceptionally (including via cancellation), the RPC
      * is cancelled with that exception as a cause.
      *
@@ -99,8 +101,8 @@ public object ModelServiceGrpcKt {
      *
      * @return A flow that, when collected, emits the responses from the server.
      */
-    public fun download(request: ModelRequest, headers: Metadata = Metadata()):
-        Flow<ModelResponse> = serverStreamingRpc(
+    public fun download(request: ModelRequest, headers: Metadata = Metadata()): Flow<ModelResponse>
+        = serverStreamingRpc(
       channel,
       ModelServiceGrpc.getDownloadMethod(),
       request,
@@ -110,17 +112,18 @@ public object ModelServiceGrpcKt {
   }
 
   /**
-   * Skeletal implementation of the grpc.ModelService service based on Kotlin coroutines.
+   * Skeletal implementation of the com.example.fedn_client.grpc.ModelService service based on
+   * Kotlin coroutines.
    */
   public abstract class ModelServiceCoroutineImplBase(
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
   ) : AbstractCoroutineServerImpl(coroutineContext) {
     /**
-     * Returns the response to an RPC for grpc.ModelService.Upload.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.ModelService.Upload.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
@@ -130,13 +133,14 @@ public object ModelServiceGrpcKt {
      *        it more than once.
      */
     public open suspend fun upload(requests: Flow<ModelRequest>): ModelResponse = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.ModelService.Upload is unimplemented"))
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.ModelService.Upload is unimplemented"))
 
     /**
-     * Returns a [Flow] of responses to an RPC for grpc.ModelService.Download.
+     * Returns a [Flow] of responses to an RPC for
+     * com.example.fedn_client.grpc.ModelService.Download.
      *
      * If creating or collecting the returned flow fails with a [StatusException], the RPC
-     * will fail with the corresponding [Status].  If it fails with a
+     * will fail with the corresponding [io.grpc.Status].  If it fails with a
      * [java.util.concurrent.CancellationException], the RPC will fail with status
      * `Status.CANCELLED`.  If creating
      * or collecting the returned flow fails for any other reason, the RPC will fail with
@@ -145,7 +149,7 @@ public object ModelServiceGrpcKt {
      * @param request The request from the client.
      */
     public open fun download(request: ModelRequest): Flow<ModelResponse> = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.ModelService.Download is unimplemented"))
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.ModelService.Download is unimplemented"))
 
     public final override fun bindService(): ServerServiceDefinition =
         builder(getServiceDescriptor())
@@ -163,7 +167,8 @@ public object ModelServiceGrpcKt {
 }
 
 /**
- * Holder for Kotlin coroutine-based client and server APIs for grpc.Control.
+ * Holder for Kotlin coroutine-based client and server APIs for
+ * com.example.fedn_client.grpc.Control.
  */
 public object ControlGrpcKt {
   public const val SERVICE_NAME: String = ControlGrpc.SERVICE_NAME
@@ -180,16 +185,17 @@ public object ControlGrpcKt {
     @JvmStatic
     get() = ControlGrpc.getStopMethod()
 
-  public val configureMethod: MethodDescriptor<ControlRequest, ReportResponse>
+  public val flushAggregationQueueMethod: MethodDescriptor<ControlRequest, ControlResponse>
     @JvmStatic
-    get() = ControlGrpc.getConfigureMethod()
+    get() = ControlGrpc.getFlushAggregationQueueMethod()
 
-  public val reportMethod: MethodDescriptor<ControlRequest, ReportResponse>
+  public val setAggregatorMethod: MethodDescriptor<ControlRequest, ControlResponse>
     @JvmStatic
-    get() = ControlGrpc.getReportMethod()
+    get() = ControlGrpc.getSetAggregatorMethod()
 
   /**
-   * A stub for issuing RPCs to a(n) grpc.Control service as suspending coroutines.
+   * A stub for issuing RPCs to a(n) com.example.fedn_client.grpc.Control service as suspending
+   * coroutines.
    */
   @StubFor(ControlGrpc::class)
   public class ControlCoroutineStub @JvmOverloads constructor(
@@ -201,7 +207,8 @@ public object ControlGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -222,7 +229,8 @@ public object ControlGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -243,7 +251,8 @@ public object ControlGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -253,10 +262,10 @@ public object ControlGrpcKt {
      *
      * @return The single response from the server.
      */
-    public suspend fun configure(request: ControlRequest, headers: Metadata = Metadata()):
-        ReportResponse = unaryRpc(
+    public suspend fun flushAggregationQueue(request: ControlRequest, headers: Metadata =
+        Metadata()): ControlResponse = unaryRpc(
       channel,
-      ControlGrpc.getConfigureMethod(),
+      ControlGrpc.getFlushAggregationQueueMethod(),
       request,
       callOptions,
       headers
@@ -264,7 +273,8 @@ public object ControlGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -274,10 +284,10 @@ public object ControlGrpcKt {
      *
      * @return The single response from the server.
      */
-    public suspend fun report(request: ControlRequest, headers: Metadata = Metadata()):
-        ReportResponse = unaryRpc(
+    public suspend fun setAggregator(request: ControlRequest, headers: Metadata = Metadata()):
+        ControlResponse = unaryRpc(
       channel,
-      ControlGrpc.getReportMethod(),
+      ControlGrpc.getSetAggregatorMethod(),
       request,
       callOptions,
       headers
@@ -285,66 +295,68 @@ public object ControlGrpcKt {
   }
 
   /**
-   * Skeletal implementation of the grpc.Control service based on Kotlin coroutines.
+   * Skeletal implementation of the com.example.fedn_client.grpc.Control service based on Kotlin
+   * coroutines.
    */
   public abstract class ControlCoroutineImplBase(
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
   ) : AbstractCoroutineServerImpl(coroutineContext) {
     /**
-     * Returns the response to an RPC for grpc.Control.Start.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Control.Start.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
     public open suspend fun start(request: ControlRequest): ControlResponse = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Control.Start is unimplemented"))
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Control.Start is unimplemented"))
 
     /**
-     * Returns the response to an RPC for grpc.Control.Stop.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Control.Stop.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
     public open suspend fun stop(request: ControlRequest): ControlResponse = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Control.Stop is unimplemented"))
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Control.Stop is unimplemented"))
 
     /**
-     * Returns the response to an RPC for grpc.Control.Configure.
+     * Returns the response to an RPC for
+     * com.example.fedn_client.grpc.Control.FlushAggregationQueue.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
-    public open suspend fun configure(request: ControlRequest): ReportResponse = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Control.Configure is unimplemented"))
+    public open suspend fun flushAggregationQueue(request: ControlRequest): ControlResponse = throw
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Control.FlushAggregationQueue is unimplemented"))
 
     /**
-     * Returns the response to an RPC for grpc.Control.Report.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Control.SetAggregator.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
-    public open suspend fun report(request: ControlRequest): ReportResponse = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Control.Report is unimplemented"))
+    public open suspend fun setAggregator(request: ControlRequest): ControlResponse = throw
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Control.SetAggregator is unimplemented"))
 
     public final override fun bindService(): ServerServiceDefinition =
         builder(ControlGrpc.getServiceDescriptor())
@@ -360,19 +372,20 @@ public object ControlGrpcKt {
     ))
       .addMethod(unaryServerMethodDefinition(
       context = this.context,
-      descriptor = ControlGrpc.getConfigureMethod(),
-      implementation = ::configure
+      descriptor = ControlGrpc.getFlushAggregationQueueMethod(),
+      implementation = ::flushAggregationQueue
     ))
       .addMethod(unaryServerMethodDefinition(
       context = this.context,
-      descriptor = ControlGrpc.getReportMethod(),
-      implementation = ::report
+      descriptor = ControlGrpc.getSetAggregatorMethod(),
+      implementation = ::setAggregator
     )).build()
   }
 }
 
 /**
- * Holder for Kotlin coroutine-based client and server APIs for grpc.Reducer.
+ * Holder for Kotlin coroutine-based client and server APIs for
+ * com.example.fedn_client.grpc.Reducer.
  */
 public object ReducerGrpcKt {
   public const val SERVICE_NAME: String = ReducerGrpc.SERVICE_NAME
@@ -381,13 +394,13 @@ public object ReducerGrpcKt {
   public val serviceDescriptor: ServiceDescriptor
     get() = ReducerGrpc.getServiceDescriptor()
 
-  public val getGlobalModelMethod:
-      MethodDescriptor<GetGlobalModelRequest, GetGlobalModelResponse>
+  public val getGlobalModelMethod: MethodDescriptor<GetGlobalModelRequest, GetGlobalModelResponse>
     @JvmStatic
     get() = ReducerGrpc.getGetGlobalModelMethod()
 
   /**
-   * A stub for issuing RPCs to a(n) grpc.Reducer service as suspending coroutines.
+   * A stub for issuing RPCs to a(n) com.example.fedn_client.grpc.Reducer service as suspending
+   * coroutines.
    */
   @StubFor(ReducerGrpc::class)
   public class ReducerCoroutineStub @JvmOverloads constructor(
@@ -399,7 +412,8 @@ public object ReducerGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -420,25 +434,26 @@ public object ReducerGrpcKt {
   }
 
   /**
-   * Skeletal implementation of the grpc.Reducer service based on Kotlin coroutines.
+   * Skeletal implementation of the com.example.fedn_client.grpc.Reducer service based on Kotlin
+   * coroutines.
    */
   public abstract class ReducerCoroutineImplBase(
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
   ) : AbstractCoroutineServerImpl(coroutineContext) {
     /**
-     * Returns the response to an RPC for grpc.Reducer.GetGlobalModel.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Reducer.GetGlobalModel.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
-    public open suspend fun getGlobalModel(request: GetGlobalModelRequest):
-        GetGlobalModelResponse = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Reducer.GetGlobalModel is unimplemented"))
+    public open suspend fun getGlobalModel(request: GetGlobalModelRequest): GetGlobalModelResponse =
+        throw
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Reducer.GetGlobalModel is unimplemented"))
 
     public final override fun bindService(): ServerServiceDefinition =
         builder(ReducerGrpc.getServiceDescriptor())
@@ -451,7 +466,8 @@ public object ReducerGrpcKt {
 }
 
 /**
- * Holder for Kotlin coroutine-based client and server APIs for grpc.Connector.
+ * Holder for Kotlin coroutine-based client and server APIs for
+ * com.example.fedn_client.grpc.Connector.
  */
 public object ConnectorGrpcKt {
   public const val SERVICE_NAME: String = ConnectorGrpc.SERVICE_NAME
@@ -460,11 +476,11 @@ public object ConnectorGrpcKt {
   public val serviceDescriptor: ServiceDescriptor
     get() = ConnectorGrpc.getServiceDescriptor()
 
-  public val allianceStatusStreamMethod: MethodDescriptor<ClientAvailableMessage, com.example.fedn_client.grpc.Status>
+  public val allianceStatusStreamMethod: MethodDescriptor<ClientAvailableMessage, Status>
     @JvmStatic
     get() = ConnectorGrpc.getAllianceStatusStreamMethod()
 
-  public val sendStatusMethod: MethodDescriptor<com.example.fedn_client.grpc.Status, Response>
+  public val sendStatusMethod: MethodDescriptor<Status, Response>
     @JvmStatic
     get() = ConnectorGrpc.getSendStatusMethod()
 
@@ -472,8 +488,7 @@ public object ConnectorGrpcKt {
     @JvmStatic
     get() = ConnectorGrpc.getListActiveClientsMethod()
 
-  public val acceptingClientsMethod:
-      MethodDescriptor<ConnectionRequest, ConnectionResponse>
+  public val acceptingClientsMethod: MethodDescriptor<ConnectionRequest, ConnectionResponse>
     @JvmStatic
     get() = ConnectorGrpc.getAcceptingClientsMethod()
 
@@ -490,7 +505,8 @@ public object ConnectorGrpcKt {
     get() = ConnectorGrpc.getReconnectClientMethod()
 
   /**
-   * A stub for issuing RPCs to a(n) grpc.Connector service as suspending coroutines.
+   * A stub for issuing RPCs to a(n) com.example.fedn_client.grpc.Connector service as suspending
+   * coroutines.
    */
   @StubFor(ConnectorGrpc::class)
   public class ConnectorCoroutineStub @JvmOverloads constructor(
@@ -503,7 +519,7 @@ public object ConnectorGrpcKt {
     /**
      * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
      * server as they arrive.  That flow finishes normally if the server closes its response with
-     * [`Status.OK`][Status], and fails by throwing a [StatusException] otherwise.  If
+     * [`Status.OK`][io.grpc.Status], and fails by throwing a [StatusException] otherwise.  If
      * collecting the flow downstream fails exceptionally (including via cancellation), the RPC
      * is cancelled with that exception as a cause.
      *
@@ -514,7 +530,7 @@ public object ConnectorGrpcKt {
      * @return A flow that, when collected, emits the responses from the server.
      */
     public fun allianceStatusStream(request: ClientAvailableMessage, headers: Metadata =
-        Metadata()): Flow<com.example.fedn_client.grpc.Status> = serverStreamingRpc(
+        Metadata()): Flow<Status> = serverStreamingRpc(
       channel,
       ConnectorGrpc.getAllianceStatusStreamMethod(),
       request,
@@ -524,7 +540,8 @@ public object ConnectorGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -534,8 +551,8 @@ public object ConnectorGrpcKt {
      *
      * @return The single response from the server.
      */
-    public suspend fun sendStatus(request: com.example.fedn_client.grpc.Status, headers: Metadata = Metadata()):
-        Response = unaryRpc(
+    public suspend fun sendStatus(request: Status, headers: Metadata = Metadata()): Response =
+        unaryRpc(
       channel,
       ConnectorGrpc.getSendStatusMethod(),
       request,
@@ -545,7 +562,8 @@ public object ConnectorGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -566,7 +584,8 @@ public object ConnectorGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -576,8 +595,8 @@ public object ConnectorGrpcKt {
      *
      * @return The single response from the server.
      */
-    public suspend fun acceptingClients(request: ConnectionRequest, headers: Metadata =
-        Metadata()): ConnectionResponse = unaryRpc(
+    public suspend fun acceptingClients(request: ConnectionRequest, headers: Metadata = Metadata()):
+        ConnectionResponse = unaryRpc(
       channel,
       ConnectorGrpc.getAcceptingClientsMethod(),
       request,
@@ -587,7 +606,8 @@ public object ConnectorGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -597,8 +617,8 @@ public object ConnectorGrpcKt {
      *
      * @return The single response from the server.
      */
-    public suspend fun sendHeartbeat(request: Heartbeat, headers: Metadata = Metadata()):
-        Response = unaryRpc(
+    public suspend fun sendHeartbeat(request: Heartbeat, headers: Metadata = Metadata()): Response =
+        unaryRpc(
       channel,
       ConnectorGrpc.getSendHeartbeatMethod(),
       request,
@@ -608,7 +628,8 @@ public object ConnectorGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -618,8 +639,8 @@ public object ConnectorGrpcKt {
      *
      * @return The single response from the server.
      */
-    public suspend fun reassignClient(request: ReassignRequest, headers: Metadata =
-        Metadata()): Response = unaryRpc(
+    public suspend fun reassignClient(request: ReassignRequest, headers: Metadata = Metadata()):
+        Response = unaryRpc(
       channel,
       ConnectorGrpc.getReassignClientMethod(),
       request,
@@ -629,7 +650,8 @@ public object ConnectorGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -639,8 +661,8 @@ public object ConnectorGrpcKt {
      *
      * @return The single response from the server.
      */
-    public suspend fun reconnectClient(request: ReconnectRequest, headers: Metadata =
-        Metadata()): Response = unaryRpc(
+    public suspend fun reconnectClient(request: ReconnectRequest, headers: Metadata = Metadata()):
+        Response = unaryRpc(
       channel,
       ConnectorGrpc.getReconnectClientMethod(),
       request,
@@ -650,16 +672,18 @@ public object ConnectorGrpcKt {
   }
 
   /**
-   * Skeletal implementation of the grpc.Connector service based on Kotlin coroutines.
+   * Skeletal implementation of the com.example.fedn_client.grpc.Connector service based on Kotlin
+   * coroutines.
    */
   public abstract class ConnectorCoroutineImplBase(
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
   ) : AbstractCoroutineServerImpl(coroutineContext) {
     /**
-     * Returns a [Flow] of responses to an RPC for grpc.Connector.AllianceStatusStream.
+     * Returns a [Flow] of responses to an RPC for
+     * com.example.fedn_client.grpc.Connector.AllianceStatusStream.
      *
      * If creating or collecting the returned flow fails with a [StatusException], the RPC
-     * will fail with the corresponding [Status].  If it fails with a
+     * will fail with the corresponding [io.grpc.Status].  If it fails with a
      * [java.util.concurrent.CancellationException], the RPC will fail with status
      * `Status.CANCELLED`.  If creating
      * or collecting the returned flow fails for any other reason, the RPC will fail with
@@ -667,95 +691,92 @@ public object ConnectorGrpcKt {
      *
      * @param request The request from the client.
      */
-    public open fun allianceStatusStream(request: ClientAvailableMessage): Flow<com.example.fedn_client.grpc.Status> =
-        throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Connector.AllianceStatusStream is unimplemented"))
+    public open fun allianceStatusStream(request: ClientAvailableMessage): Flow<Status> = throw
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Connector.AllianceStatusStream is unimplemented"))
 
     /**
-     * Returns the response to an RPC for grpc.Connector.SendStatus.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Connector.SendStatus.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
-    public open suspend fun sendStatus(request: com.example.fedn_client.grpc.Status): Response = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Connector.SendStatus is unimplemented"))
+    public open suspend fun sendStatus(request: Status): Response = throw
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Connector.SendStatus is unimplemented"))
 
     /**
-     * Returns the response to an RPC for grpc.Connector.ListActiveClients.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Connector.ListActiveClients.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
-    public open suspend fun listActiveClients(request: ListClientsRequest): ClientList =
-        throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Connector.ListActiveClients is unimplemented"))
+    public open suspend fun listActiveClients(request: ListClientsRequest): ClientList = throw
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Connector.ListActiveClients is unimplemented"))
 
     /**
-     * Returns the response to an RPC for grpc.Connector.AcceptingClients.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Connector.AcceptingClients.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
-    public open suspend fun acceptingClients(request: ConnectionRequest):
-        ConnectionResponse = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Connector.AcceptingClients is unimplemented"))
+    public open suspend fun acceptingClients(request: ConnectionRequest): ConnectionResponse = throw
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Connector.AcceptingClients is unimplemented"))
 
     /**
-     * Returns the response to an RPC for grpc.Connector.SendHeartbeat.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Connector.SendHeartbeat.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
     public open suspend fun sendHeartbeat(request: Heartbeat): Response = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Connector.SendHeartbeat is unimplemented"))
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Connector.SendHeartbeat is unimplemented"))
 
     /**
-     * Returns the response to an RPC for grpc.Connector.ReassignClient.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Connector.ReassignClient.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
     public open suspend fun reassignClient(request: ReassignRequest): Response = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Connector.ReassignClient is unimplemented"))
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Connector.ReassignClient is unimplemented"))
 
     /**
-     * Returns the response to an RPC for grpc.Connector.ReconnectClient.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Connector.ReconnectClient.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
     public open suspend fun reconnectClient(request: ReconnectRequest): Response = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Connector.ReconnectClient is unimplemented"))
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Connector.ReconnectClient is unimplemented"))
 
     public final override fun bindService(): ServerServiceDefinition =
         builder(ConnectorGrpc.getServiceDescriptor())
@@ -798,7 +819,8 @@ public object ConnectorGrpcKt {
 }
 
 /**
- * Holder for Kotlin coroutine-based client and server APIs for grpc.Combiner.
+ * Holder for Kotlin coroutine-based client and server APIs for
+ * com.example.fedn_client.grpc.Combiner.
  */
 public object CombinerGrpcKt {
   public const val SERVICE_NAME: String = CombinerGrpc.SERVICE_NAME
@@ -807,45 +829,21 @@ public object CombinerGrpcKt {
   public val serviceDescriptor: ServiceDescriptor
     get() = CombinerGrpc.getServiceDescriptor()
 
-  public val modelUpdateRequestStreamMethod:
-      MethodDescriptor<ClientAvailableMessage, ModelUpdateRequest>
+  public val taskStreamMethod: MethodDescriptor<ClientAvailableMessage, TaskRequest>
     @JvmStatic
-    get() = CombinerGrpc.getModelUpdateRequestStreamMethod()
-
-  public val modelUpdateStreamMethod:
-      MethodDescriptor<ClientAvailableMessage, ModelUpdate>
-    @JvmStatic
-    get() = CombinerGrpc.getModelUpdateStreamMethod()
-
-  public val modelValidationRequestStreamMethod:
-      MethodDescriptor<ClientAvailableMessage, ModelValidationRequest>
-    @JvmStatic
-    get() = CombinerGrpc.getModelValidationRequestStreamMethod()
-
-  public val modelValidationStreamMethod:
-      MethodDescriptor<ClientAvailableMessage, ModelValidation>
-    @JvmStatic
-    get() = CombinerGrpc.getModelValidationStreamMethod()
-
-  public val sendModelUpdateRequestMethod: MethodDescriptor<ModelUpdateRequest, Response>
-    @JvmStatic
-    get() = CombinerGrpc.getSendModelUpdateRequestMethod()
+    get() = CombinerGrpc.getTaskStreamMethod()
 
   public val sendModelUpdateMethod: MethodDescriptor<ModelUpdate, Response>
     @JvmStatic
     get() = CombinerGrpc.getSendModelUpdateMethod()
-
-  public val sendModelValidationRequestMethod:
-      MethodDescriptor<ModelValidationRequest, Response>
-    @JvmStatic
-    get() = CombinerGrpc.getSendModelValidationRequestMethod()
 
   public val sendModelValidationMethod: MethodDescriptor<ModelValidation, Response>
     @JvmStatic
     get() = CombinerGrpc.getSendModelValidationMethod()
 
   /**
-   * A stub for issuing RPCs to a(n) grpc.Combiner service as suspending coroutines.
+   * A stub for issuing RPCs to a(n) com.example.fedn_client.grpc.Combiner service as suspending
+   * coroutines.
    */
   @StubFor(CombinerGrpc::class)
   public class CombinerCoroutineStub @JvmOverloads constructor(
@@ -858,7 +856,7 @@ public object CombinerGrpcKt {
     /**
      * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
      * server as they arrive.  That flow finishes normally if the server closes its response with
-     * [`Status.OK`][Status], and fails by throwing a [StatusException] otherwise.  If
+     * [`Status.OK`][io.grpc.Status], and fails by throwing a [StatusException] otherwise.  If
      * collecting the flow downstream fails exceptionally (including via cancellation), the RPC
      * is cancelled with that exception as a cause.
      *
@@ -868,76 +866,10 @@ public object CombinerGrpcKt {
      *
      * @return A flow that, when collected, emits the responses from the server.
      */
-    public fun modelUpdateRequestStream(request: ClientAvailableMessage, headers: Metadata =
-        Metadata()): Flow<ModelUpdateRequest> = serverStreamingRpc(
+    public fun taskStream(request: ClientAvailableMessage, headers: Metadata = Metadata()):
+        Flow<TaskRequest> = serverStreamingRpc(
       channel,
-      CombinerGrpc.getModelUpdateRequestStreamMethod(),
-      request,
-      callOptions,
-      headers
-    )
-
-    /**
-     * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
-     * server as they arrive.  That flow finishes normally if the server closes its response with
-     * [`Status.OK`][Status], and fails by throwing a [StatusException] otherwise.  If
-     * collecting the flow downstream fails exceptionally (including via cancellation), the RPC
-     * is cancelled with that exception as a cause.
-     *
-     * @param request The request message to send to the server.
-     *
-     * @param headers Metadata to attach to the request.  Most users will not need this.
-     *
-     * @return A flow that, when collected, emits the responses from the server.
-     */
-    public fun modelUpdateStream(request: ClientAvailableMessage, headers: Metadata =
-        Metadata()): Flow<ModelUpdate> = serverStreamingRpc(
-      channel,
-      CombinerGrpc.getModelUpdateStreamMethod(),
-      request,
-      callOptions,
-      headers
-    )
-
-    /**
-     * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
-     * server as they arrive.  That flow finishes normally if the server closes its response with
-     * [`Status.OK`][Status], and fails by throwing a [StatusException] otherwise.  If
-     * collecting the flow downstream fails exceptionally (including via cancellation), the RPC
-     * is cancelled with that exception as a cause.
-     *
-     * @param request The request message to send to the server.
-     *
-     * @param headers Metadata to attach to the request.  Most users will not need this.
-     *
-     * @return A flow that, when collected, emits the responses from the server.
-     */
-    public fun modelValidationRequestStream(request: ClientAvailableMessage, headers: Metadata
-        = Metadata()): Flow<ModelValidationRequest> = serverStreamingRpc(
-      channel,
-      CombinerGrpc.getModelValidationRequestStreamMethod(),
-      request,
-      callOptions,
-      headers
-    )
-
-    /**
-     * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
-     * server as they arrive.  That flow finishes normally if the server closes its response with
-     * [`Status.OK`][Status], and fails by throwing a [StatusException] otherwise.  If
-     * collecting the flow downstream fails exceptionally (including via cancellation), the RPC
-     * is cancelled with that exception as a cause.
-     *
-     * @param request The request message to send to the server.
-     *
-     * @param headers Metadata to attach to the request.  Most users will not need this.
-     *
-     * @return A flow that, when collected, emits the responses from the server.
-     */
-    public fun modelValidationStream(request: ClientAvailableMessage, headers: Metadata =
-        Metadata()): Flow<ModelValidation> = serverStreamingRpc(
-      channel,
-      CombinerGrpc.getModelValidationStreamMethod(),
+      CombinerGrpc.getTaskStreamMethod(),
       request,
       callOptions,
       headers
@@ -945,28 +877,8 @@ public object CombinerGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
-     * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
-     * with the corresponding exception as a cause.
-     *
-     * @param request The request message to send to the server.
-     *
-     * @param headers Metadata to attach to the request.  Most users will not need this.
-     *
-     * @return The single response from the server.
-     */
-    public suspend fun sendModelUpdateRequest(request: ModelUpdateRequest, headers: Metadata =
-        Metadata()): Response = unaryRpc(
-      channel,
-      CombinerGrpc.getSendModelUpdateRequestMethod(),
-      request,
-      callOptions,
-      headers
-    )
-
-    /**
-     * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -987,28 +899,8 @@ public object CombinerGrpcKt {
 
     /**
      * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
-     * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
-     * with the corresponding exception as a cause.
-     *
-     * @param request The request message to send to the server.
-     *
-     * @param headers Metadata to attach to the request.  Most users will not need this.
-     *
-     * @return The single response from the server.
-     */
-    public suspend fun sendModelValidationRequest(request: ModelValidationRequest,
-        headers: Metadata = Metadata()): Response = unaryRpc(
-      channel,
-      CombinerGrpc.getSendModelValidationRequestMethod(),
-      request,
-      callOptions,
-      headers
-    )
-
-    /**
-     * Executes this RPC and returns the response message, suspending until the RPC completes
-     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+     * with [`Status.OK`][io.grpc.Status].  If the RPC completes with another status, a
+     * corresponding
      * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
      * with the corresponding exception as a cause.
      *
@@ -1029,16 +921,17 @@ public object CombinerGrpcKt {
   }
 
   /**
-   * Skeletal implementation of the grpc.Combiner service based on Kotlin coroutines.
+   * Skeletal implementation of the com.example.fedn_client.grpc.Combiner service based on Kotlin
+   * coroutines.
    */
   public abstract class CombinerCoroutineImplBase(
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
   ) : AbstractCoroutineServerImpl(coroutineContext) {
     /**
-     * Returns a [Flow] of responses to an RPC for grpc.Combiner.ModelUpdateRequestStream.
+     * Returns a [Flow] of responses to an RPC for com.example.fedn_client.grpc.Combiner.TaskStream.
      *
      * If creating or collecting the returned flow fails with a [StatusException], the RPC
-     * will fail with the corresponding [Status].  If it fails with a
+     * will fail with the corresponding [io.grpc.Status].  If it fails with a
      * [java.util.concurrent.CancellationException], the RPC will fail with status
      * `Status.CANCELLED`.  If creating
      * or collecting the returned flow fails for any other reason, the RPC will fail with
@@ -1046,153 +939,48 @@ public object CombinerGrpcKt {
      *
      * @param request The request from the client.
      */
-    public open fun modelUpdateRequestStream(request: ClientAvailableMessage):
-        Flow<ModelUpdateRequest> = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Combiner.ModelUpdateRequestStream is unimplemented"))
+    public open fun taskStream(request: ClientAvailableMessage): Flow<TaskRequest> = throw
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Combiner.TaskStream is unimplemented"))
 
     /**
-     * Returns a [Flow] of responses to an RPC for grpc.Combiner.ModelUpdateStream.
-     *
-     * If creating or collecting the returned flow fails with a [StatusException], the RPC
-     * will fail with the corresponding [Status].  If it fails with a
-     * [java.util.concurrent.CancellationException], the RPC will fail with status
-     * `Status.CANCELLED`.  If creating
-     * or collecting the returned flow fails for any other reason, the RPC will fail with
-     * `Status.UNKNOWN` with the exception as a cause.
-     *
-     * @param request The request from the client.
-     */
-    public open fun modelUpdateStream(request: ClientAvailableMessage): Flow<ModelUpdate>
-        = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Combiner.ModelUpdateStream is unimplemented"))
-
-    /**
-     * Returns a [Flow] of responses to an RPC for grpc.Combiner.ModelValidationRequestStream.
-     *
-     * If creating or collecting the returned flow fails with a [StatusException], the RPC
-     * will fail with the corresponding [Status].  If it fails with a
-     * [java.util.concurrent.CancellationException], the RPC will fail with status
-     * `Status.CANCELLED`.  If creating
-     * or collecting the returned flow fails for any other reason, the RPC will fail with
-     * `Status.UNKNOWN` with the exception as a cause.
-     *
-     * @param request The request from the client.
-     */
-    public open fun modelValidationRequestStream(request: ClientAvailableMessage):
-        Flow<ModelValidationRequest> = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Combiner.ModelValidationRequestStream is unimplemented"))
-
-    /**
-     * Returns a [Flow] of responses to an RPC for grpc.Combiner.ModelValidationStream.
-     *
-     * If creating or collecting the returned flow fails with a [StatusException], the RPC
-     * will fail with the corresponding [Status].  If it fails with a
-     * [java.util.concurrent.CancellationException], the RPC will fail with status
-     * `Status.CANCELLED`.  If creating
-     * or collecting the returned flow fails for any other reason, the RPC will fail with
-     * `Status.UNKNOWN` with the exception as a cause.
-     *
-     * @param request The request from the client.
-     */
-    public open fun modelValidationStream(request: ClientAvailableMessage):
-        Flow<ModelValidation> = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Combiner.ModelValidationStream is unimplemented"))
-
-    /**
-     * Returns the response to an RPC for grpc.Combiner.SendModelUpdateRequest.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Combiner.SendModelUpdate.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
-     * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
-     * fail with `Status.UNKNOWN` with the exception as a cause.
-     *
-     * @param request The request from the client.
-     */
-    public open suspend fun sendModelUpdateRequest(request: ModelUpdateRequest): Response
-        = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Combiner.SendModelUpdateRequest is unimplemented"))
-
-    /**
-     * Returns the response to an RPC for grpc.Combiner.SendModelUpdate.
-     *
-     * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
     public open suspend fun sendModelUpdate(request: ModelUpdate): Response = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Combiner.SendModelUpdate is unimplemented"))
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Combiner.SendModelUpdate is unimplemented"))
 
     /**
-     * Returns the response to an RPC for grpc.Combiner.SendModelValidationRequest.
+     * Returns the response to an RPC for com.example.fedn_client.grpc.Combiner.SendModelValidation.
      *
      * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
+     * [io.grpc.Status].  If this method fails with a [java.util.concurrent.CancellationException],
+     * the RPC will fail
      * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
      * fail with `Status.UNKNOWN` with the exception as a cause.
      *
      * @param request The request from the client.
      */
-    public open suspend fun sendModelValidationRequest(request: ModelValidationRequest):
-        Response = throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Combiner.SendModelValidationRequest is unimplemented"))
-
-    /**
-     * Returns the response to an RPC for grpc.Combiner.SendModelValidation.
-     *
-     * If this method fails with a [StatusException], the RPC will fail with the corresponding
-     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
-     * will fail
-     * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
-     * fail with `Status.UNKNOWN` with the exception as a cause.
-     *
-     * @param request The request from the client.
-     */
-    public open suspend fun sendModelValidation(request: ModelValidation): Response =
-        throw
-        StatusException(UNIMPLEMENTED.withDescription("Method grpc.Combiner.SendModelValidation is unimplemented"))
+    public open suspend fun sendModelValidation(request: ModelValidation): Response = throw
+        StatusException(UNIMPLEMENTED.withDescription("Method com.example.fedn_client.grpc.Combiner.SendModelValidation is unimplemented"))
 
     public final override fun bindService(): ServerServiceDefinition =
         builder(CombinerGrpc.getServiceDescriptor())
       .addMethod(serverStreamingServerMethodDefinition(
       context = this.context,
-      descriptor = CombinerGrpc.getModelUpdateRequestStreamMethod(),
-      implementation = ::modelUpdateRequestStream
-    ))
-      .addMethod(serverStreamingServerMethodDefinition(
-      context = this.context,
-      descriptor = CombinerGrpc.getModelUpdateStreamMethod(),
-      implementation = ::modelUpdateStream
-    ))
-      .addMethod(serverStreamingServerMethodDefinition(
-      context = this.context,
-      descriptor = CombinerGrpc.getModelValidationRequestStreamMethod(),
-      implementation = ::modelValidationRequestStream
-    ))
-      .addMethod(serverStreamingServerMethodDefinition(
-      context = this.context,
-      descriptor = CombinerGrpc.getModelValidationStreamMethod(),
-      implementation = ::modelValidationStream
-    ))
-      .addMethod(unaryServerMethodDefinition(
-      context = this.context,
-      descriptor = CombinerGrpc.getSendModelUpdateRequestMethod(),
-      implementation = ::sendModelUpdateRequest
+      descriptor = CombinerGrpc.getTaskStreamMethod(),
+      implementation = ::taskStream
     ))
       .addMethod(unaryServerMethodDefinition(
       context = this.context,
       descriptor = CombinerGrpc.getSendModelUpdateMethod(),
       implementation = ::sendModelUpdate
-    ))
-      .addMethod(unaryServerMethodDefinition(
-      context = this.context,
-      descriptor = CombinerGrpc.getSendModelValidationRequestMethod(),
-      implementation = ::sendModelValidationRequest
     ))
       .addMethod(unaryServerMethodDefinition(
       context = this.context,

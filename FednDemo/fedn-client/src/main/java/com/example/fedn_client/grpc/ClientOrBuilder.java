@@ -4,16 +4,16 @@
 package com.example.fedn_client.grpc;
 
 public interface ClientOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.Client)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.Client)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.grpc.Role role = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Role role = 1;</code>
    * @return The enum numeric value on the wire for role.
    */
   int getRoleValue();
   /**
-   * <code>.grpc.Role role = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Role role = 1;</code>
    * @return The role.
    */
   com.example.fedn_client.grpc.Role getRole();

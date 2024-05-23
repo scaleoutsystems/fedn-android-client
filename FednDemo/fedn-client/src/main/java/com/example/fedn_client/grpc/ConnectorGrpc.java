@@ -12,7 +12,7 @@ public final class ConnectorGrpc {
 
   private ConnectorGrpc() {}
 
-  public static final java.lang.String SERVICE_NAME = "grpc.Connector";
+  public static final java.lang.String SERVICE_NAME = "com.example.fedn_client.grpc.Connector";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ClientAvailableMessage,

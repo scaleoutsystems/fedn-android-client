@@ -15,120 +15,110 @@ public final class Fedn {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_Response_descriptor;
+    internal_static_com_example_fedn_client_grpc_Response_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_Response_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_Response_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_Status_descriptor;
+    internal_static_com_example_fedn_client_grpc_Status_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_Status_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_Status_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ModelUpdateRequest_descriptor;
+    internal_static_com_example_fedn_client_grpc_TaskRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ModelUpdateRequest_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_TaskRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ModelUpdate_descriptor;
+    internal_static_com_example_fedn_client_grpc_ModelUpdate_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ModelUpdate_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ModelUpdate_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ModelValidationRequest_descriptor;
+    internal_static_com_example_fedn_client_grpc_ModelValidation_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ModelValidationRequest_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ModelValidation_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ModelValidation_descriptor;
+    internal_static_com_example_fedn_client_grpc_ModelRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ModelValidation_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ModelRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ModelRequest_descriptor;
+    internal_static_com_example_fedn_client_grpc_ModelResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ModelRequest_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ModelResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ModelResponse_descriptor;
+    internal_static_com_example_fedn_client_grpc_GetGlobalModelRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ModelResponse_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_GetGlobalModelRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_GetGlobalModelRequest_descriptor;
+    internal_static_com_example_fedn_client_grpc_GetGlobalModelResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_GetGlobalModelRequest_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_GetGlobalModelResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_GetGlobalModelResponse_descriptor;
+    internal_static_com_example_fedn_client_grpc_Heartbeat_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_GetGlobalModelResponse_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_Heartbeat_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_Heartbeat_descriptor;
+    internal_static_com_example_fedn_client_grpc_ClientAvailableMessage_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_Heartbeat_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ClientAvailableMessage_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ClientAvailableMessage_descriptor;
+    internal_static_com_example_fedn_client_grpc_ListClientsRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ClientAvailableMessage_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ListClientsRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ListClientsRequest_descriptor;
+    internal_static_com_example_fedn_client_grpc_ClientList_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ListClientsRequest_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ClientList_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ClientList_descriptor;
+    internal_static_com_example_fedn_client_grpc_Client_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ClientList_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_Client_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_Client_descriptor;
+    internal_static_com_example_fedn_client_grpc_ReassignRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_Client_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ReassignRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ReassignRequest_descriptor;
+    internal_static_com_example_fedn_client_grpc_ReconnectRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ReassignRequest_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ReconnectRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ReconnectRequest_descriptor;
+    internal_static_com_example_fedn_client_grpc_Parameter_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ReconnectRequest_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_Parameter_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_Parameter_descriptor;
+    internal_static_com_example_fedn_client_grpc_ControlRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_Parameter_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ControlRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ControlRequest_descriptor;
+    internal_static_com_example_fedn_client_grpc_ControlResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ControlRequest_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ControlResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ControlResponse_descriptor;
+    internal_static_com_example_fedn_client_grpc_ConnectionRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ControlResponse_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ConnectionRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ReportResponse_descriptor;
+    internal_static_com_example_fedn_client_grpc_ConnectionResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ReportResponse_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ConnectionRequest_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ConnectionRequest_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_grpc_ConnectionResponse_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_grpc_ConnectionResponse_fieldAccessorTable;
+      internal_static_com_example_fedn_client_grpc_ConnectionResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -138,261 +128,277 @@ public final class Fedn {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nfedn.proto\022\004grpc\":\n\010Response\022\034\n\006sender" +
-      "\030\001 \001(\0132\014.grpc.Client\022\020\n\010response\030\002 \001(\t\"\214" +
-      "\002\n\006Status\022\034\n\006sender\030\001 \001(\0132\014.grpc.Client\022" +
-      "\016\n\006status\030\002 \001(\t\022(\n\tlog_level\030\003 \001(\0162\025.grp" +
-      "c.Status.LogLevel\022\014\n\004data\030\004 \001(\t\022\026\n\016corre" +
-      "lation_id\030\005 \001(\t\022\021\n\ttimestamp\030\006 \001(\t\022\036\n\004ty" +
-      "pe\030\007 \001(\0162\020.grpc.StatusType\022\r\n\005extra\030\010 \001(" +
-      "\t\"B\n\010LogLevel\022\010\n\004INFO\020\000\022\t\n\005DEBUG\020\001\022\013\n\007WA" +
-      "RNING\020\002\022\t\n\005ERROR\020\003\022\t\n\005AUDIT\020\004\"\253\001\n\022ModelU" +
-      "pdateRequest\022\034\n\006sender\030\001 \001(\0132\014.grpc.Clie" +
-      "nt\022\036\n\010receiver\030\002 \001(\0132\014.grpc.Client\022\020\n\010mo" +
-      "del_id\030\003 \001(\t\022\014\n\004data\030\004 \001(\t\022\026\n\016correlatio" +
-      "n_id\030\005 \001(\t\022\021\n\ttimestamp\030\006 \001(\t\022\014\n\004meta\030\007 " +
-      "\001(\t\"\257\001\n\013ModelUpdate\022\034\n\006sender\030\001 \001(\0132\014.gr" +
-      "pc.Client\022\036\n\010receiver\030\002 \001(\0132\014.grpc.Clien" +
-      "t\022\020\n\010model_id\030\003 \001(\t\022\027\n\017model_update_id\030\004" +
-      " \001(\t\022\026\n\016correlation_id\030\005 \001(\t\022\021\n\ttimestam" +
-      "p\030\006 \001(\t\022\014\n\004meta\030\007 \001(\t\"\305\001\n\026ModelValidatio" +
-      "nRequest\022\034\n\006sender\030\001 \001(\0132\014.grpc.Client\022\036" +
-      "\n\010receiver\030\002 \001(\0132\014.grpc.Client\022\020\n\010model_" +
-      "id\030\003 \001(\t\022\014\n\004data\030\004 \001(\t\022\026\n\016correlation_id" +
-      "\030\005 \001(\t\022\021\n\ttimestamp\030\006 \001(\t\022\014\n\004meta\030\007 \001(\t\022" +
-      "\024\n\014is_inference\030\010 \001(\010\"\250\001\n\017ModelValidatio" +
-      "n\022\034\n\006sender\030\001 \001(\0132\014.grpc.Client\022\036\n\010recei" +
-      "ver\030\002 \001(\0132\014.grpc.Client\022\020\n\010model_id\030\003 \001(" +
-      "\t\022\014\n\004data\030\004 \001(\t\022\026\n\016correlation_id\030\005 \001(\t\022" +
-      "\021\n\ttimestamp\030\006 \001(\t\022\014\n\004meta\030\007 \001(\t\"\211\001\n\014Mod" +
-      "elRequest\022\034\n\006sender\030\001 \001(\0132\014.grpc.Client\022" +
-      "\036\n\010receiver\030\002 \001(\0132\014.grpc.Client\022\014\n\004data\030" +
-      "\003 \001(\014\022\n\n\002id\030\004 \001(\t\022!\n\006status\030\005 \001(\0162\021.grpc" +
-      ".ModelStatus\"]\n\rModelResponse\022\014\n\004data\030\001 " +
-      "\001(\014\022\n\n\002id\030\002 \001(\t\022!\n\006status\030\003 \001(\0162\021.grpc.M" +
-      "odelStatus\022\017\n\007message\030\004 \001(\t\"U\n\025GetGlobal" +
-      "ModelRequest\022\034\n\006sender\030\001 \001(\0132\014.grpc.Clie" +
-      "nt\022\036\n\010receiver\030\002 \001(\0132\014.grpc.Client\"h\n\026Ge" +
-      "tGlobalModelResponse\022\034\n\006sender\030\001 \001(\0132\014.g" +
-      "rpc.Client\022\036\n\010receiver\030\002 \001(\0132\014.grpc.Clie" +
-      "nt\022\020\n\010model_id\030\003 \001(\t\")\n\tHeartbeat\022\034\n\006sen" +
-      "der\030\001 \001(\0132\014.grpc.Client\"W\n\026ClientAvailab" +
-      "leMessage\022\034\n\006sender\030\001 \001(\0132\014.grpc.Client\022" +
-      "\014\n\004data\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\t\"R\n\022List" +
-      "ClientsRequest\022\034\n\006sender\030\001 \001(\0132\014.grpc.Cl" +
-      "ient\022\036\n\007channel\030\002 \001(\0162\r.grpc.Channel\"*\n\n" +
-      "ClientList\022\034\n\006client\030\001 \003(\0132\014.grpc.Client" +
-      "\"0\n\006Client\022\030\n\004role\030\001 \001(\0162\n.grpc.Role\022\014\n\004" +
-      "name\030\002 \001(\t\"m\n\017ReassignRequest\022\034\n\006sender\030" +
-      "\001 \001(\0132\014.grpc.Client\022\036\n\010receiver\030\002 \001(\0132\014." +
-      "grpc.Client\022\016\n\006server\030\003 \001(\t\022\014\n\004port\030\004 \001(" +
-      "\r\"c\n\020ReconnectRequest\022\034\n\006sender\030\001 \001(\0132\014." +
-      "grpc.Client\022\036\n\010receiver\030\002 \001(\0132\014.grpc.Cli" +
-      "ent\022\021\n\treconnect\030\003 \001(\r\"\'\n\tParameter\022\013\n\003k" +
-      "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\"T\n\016ControlReques" +
-      "t\022\036\n\007command\030\001 \001(\0162\r.grpc.Command\022\"\n\tpar" +
-      "ameter\030\002 \003(\0132\017.grpc.Parameter\"F\n\017Control" +
-      "Response\022\017\n\007message\030\001 \001(\t\022\"\n\tparameter\030\002" +
-      " \003(\0132\017.grpc.Parameter\"R\n\016ReportResponse\022" +
-      "\034\n\006sender\030\001 \001(\0132\014.grpc.Client\022\"\n\tparamet" +
-      "er\030\002 \003(\0132\017.grpc.Parameter\"\023\n\021ConnectionR" +
-      "equest\"<\n\022ConnectionResponse\022&\n\006status\030\001" +
-      " \001(\0162\026.grpc.ConnectionStatus*\204\001\n\nStatusT" +
-      "ype\022\007\n\003LOG\020\000\022\030\n\024MODEL_UPDATE_REQUEST\020\001\022\020" +
-      "\n\014MODEL_UPDATE\020\002\022\034\n\030MODEL_VALIDATION_REQ" +
-      "UEST\020\003\022\024\n\020MODEL_VALIDATION\020\004\022\r\n\tINFERENC" +
-      "E\020\005*\206\001\n\007Channel\022\013\n\007DEFAULT\020\000\022\031\n\025MODEL_UP" +
-      "DATE_REQUESTS\020\001\022\021\n\rMODEL_UPDATES\020\002\022\035\n\031MO" +
-      "DEL_VALIDATION_REQUESTS\020\003\022\025\n\021MODEL_VALID" +
-      "ATIONS\020\004\022\n\n\006STATUS\020\005*F\n\013ModelStatus\022\006\n\002O" +
-      "K\020\000\022\017\n\013IN_PROGRESS\020\001\022\022\n\016IN_PROGRESS_OK\020\002" +
-      "\022\n\n\006FAILED\020\003*8\n\004Role\022\n\n\006WORKER\020\000\022\014\n\010COMB" +
+      "\n\nfedn.proto\022\034com.example.fedn_client.gr" +
+      "pc\032\037google/protobuf/timestamp.proto\"R\n\010R" +
+      "esponse\0224\n\006sender\030\001 \001(\0132$.com.example.fe" +
+      "dn_client.grpc.Client\022\020\n\010response\030\002 \001(\t\"" +
+      "\204\003\n\006Status\0224\n\006sender\030\001 \001(\0132$.com.example" +
+      ".fedn_client.grpc.Client\022\016\n\006status\030\002 \001(\t" +
+      "\022@\n\tlog_level\030\003 \001(\0162-.com.example.fedn_c" +
+      "lient.grpc.Status.LogLevel\022\014\n\004data\030\004 \001(\t" +
+      "\022\026\n\016correlation_id\030\005 \001(\t\022-\n\ttimestamp\030\006 " +
+      "\001(\0132\032.google.protobuf.Timestamp\0226\n\004type\030" +
+      "\007 \001(\0162(.com.example.fedn_client.grpc.Sta" +
+      "tusType\022\r\n\005extra\030\010 \001(\t\022\022\n\nsession_id\030\t \001" +
+      "(\t\"B\n\010LogLevel\022\010\n\004INFO\020\000\022\t\n\005DEBUG\020\001\022\013\n\007W" +
+      "ARNING\020\002\022\t\n\005ERROR\020\003\022\t\n\005AUDIT\020\004\"\240\002\n\013TaskR" +
+      "equest\0224\n\006sender\030\001 \001(\0132$.com.example.fed" +
+      "n_client.grpc.Client\0226\n\010receiver\030\002 \001(\0132$" +
+      ".com.example.fedn_client.grpc.Client\022\020\n\010" +
+      "model_id\030\003 \001(\t\022\014\n\004data\030\004 \001(\t\022\026\n\016correlat" +
+      "ion_id\030\005 \001(\t\022\021\n\ttimestamp\030\006 \001(\t\022\014\n\004meta\030" +
+      "\007 \001(\t\022\022\n\nsession_id\030\010 \001(\t\0226\n\004type\030\t \001(\0162" +
+      "(.com.example.fedn_client.grpc.StatusTyp" +
+      "e\"\357\001\n\013ModelUpdate\0224\n\006sender\030\001 \001(\0132$.com." +
+      "example.fedn_client.grpc.Client\0226\n\010recei" +
+      "ver\030\002 \001(\0132$.com.example.fedn_client.grpc" +
+      ".Client\022\020\n\010model_id\030\003 \001(\t\022\027\n\017model_updat" +
+      "e_id\030\004 \001(\t\022\026\n\016correlation_id\030\005 \001(\t\022\021\n\tti" +
+      "mestamp\030\006 \001(\t\022\014\n\004meta\030\007 \001(\t\022\016\n\006config\030\010 " +
+      "\001(\t\"\210\002\n\017ModelValidation\0224\n\006sender\030\001 \001(\0132" +
+      "$.com.example.fedn_client.grpc.Client\0226\n" +
+      "\010receiver\030\002 \001(\0132$.com.example.fedn_clien" +
+      "t.grpc.Client\022\020\n\010model_id\030\003 \001(\t\022\014\n\004data\030" +
+      "\004 \001(\t\022\026\n\016correlation_id\030\005 \001(\t\022-\n\ttimesta" +
+      "mp\030\006 \001(\0132\032.google.protobuf.Timestamp\022\014\n\004" +
+      "meta\030\007 \001(\t\022\022\n\nsession_id\030\010 \001(\t\"\321\001\n\014Model" +
+      "Request\0224\n\006sender\030\001 \001(\0132$.com.example.fe" +
+      "dn_client.grpc.Client\0226\n\010receiver\030\002 \001(\0132" +
+      "$.com.example.fedn_client.grpc.Client\022\014\n" +
+      "\004data\030\003 \001(\014\022\n\n\002id\030\004 \001(\t\0229\n\006status\030\005 \001(\0162" +
+      ").com.example.fedn_client.grpc.ModelStat" +
+      "us\"u\n\rModelResponse\022\014\n\004data\030\001 \001(\014\022\n\n\002id\030" +
+      "\002 \001(\t\0229\n\006status\030\003 \001(\0162).com.example.fedn" +
+      "_client.grpc.ModelStatus\022\017\n\007message\030\004 \001(" +
+      "\t\"\205\001\n\025GetGlobalModelRequest\0224\n\006sender\030\001 " +
+      "\001(\0132$.com.example.fedn_client.grpc.Clien" +
+      "t\0226\n\010receiver\030\002 \001(\0132$.com.example.fedn_c" +
+      "lient.grpc.Client\"\230\001\n\026GetGlobalModelResp" +
+      "onse\0224\n\006sender\030\001 \001(\0132$.com.example.fedn_" +
+      "client.grpc.Client\0226\n\010receiver\030\002 \001(\0132$.c" +
+      "om.example.fedn_client.grpc.Client\022\020\n\010mo" +
+      "del_id\030\003 \001(\t\"A\n\tHeartbeat\0224\n\006sender\030\001 \001(" +
+      "\0132$.com.example.fedn_client.grpc.Client\"" +
+      "o\n\026ClientAvailableMessage\0224\n\006sender\030\001 \001(" +
+      "\0132$.com.example.fedn_client.grpc.Client\022" +
+      "\014\n\004data\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\t\"\200\001\n\022Lis" +
+      "tClientsRequest\0224\n\006sender\030\001 \001(\0132$.com.ex" +
+      "ample.fedn_client.grpc.Client\0224\n\007channel" +
+      "\030\002 \001(\0162#.com.example.fedn_client.grpc.Qu" +
+      "eue\"B\n\nClientList\0224\n\006client\030\001 \003(\0132$.com." +
+      "example.fedn_client.grpc.Client\"H\n\006Clien" +
+      "t\0220\n\004role\030\001 \001(\0162\".com.example.fedn_clien" +
+      "t.grpc.Role\022\014\n\004name\030\002 \001(\t\"\235\001\n\017ReassignRe" +
+      "quest\0224\n\006sender\030\001 \001(\0132$.com.example.fedn" +
+      "_client.grpc.Client\0226\n\010receiver\030\002 \001(\0132$." +
+      "com.example.fedn_client.grpc.Client\022\016\n\006s" +
+      "erver\030\003 \001(\t\022\014\n\004port\030\004 \001(\r\"\223\001\n\020ReconnectR" +
+      "equest\0224\n\006sender\030\001 \001(\0132$.com.example.fed" +
+      "n_client.grpc.Client\0226\n\010receiver\030\002 \001(\0132$" +
+      ".com.example.fedn_client.grpc.Client\022\021\n\t" +
+      "reconnect\030\003 \001(\r\"\'\n\tParameter\022\013\n\003key\030\001 \001(" +
+      "\t\022\r\n\005value\030\002 \001(\t\"\204\001\n\016ControlRequest\0226\n\007c" +
+      "ommand\030\001 \001(\0162%.com.example.fedn_client.g" +
+      "rpc.Command\022:\n\tparameter\030\002 \003(\0132\'.com.exa" +
+      "mple.fedn_client.grpc.Parameter\"^\n\017Contr" +
+      "olResponse\022\017\n\007message\030\001 \001(\t\022:\n\tparameter" +
+      "\030\002 \003(\0132\'.com.example.fedn_client.grpc.Pa" +
+      "rameter\"\023\n\021ConnectionRequest\"T\n\022Connecti" +
+      "onResponse\022>\n\006status\030\001 \001(\0162..com.example" +
+      ".fedn_client.grpc.ConnectionStatus*\204\001\n\nS" +
+      "tatusType\022\007\n\003LOG\020\000\022\030\n\024MODEL_UPDATE_REQUE" +
+      "ST\020\001\022\020\n\014MODEL_UPDATE\020\002\022\034\n\030MODEL_VALIDATI" +
+      "ON_REQUEST\020\003\022\024\n\020MODEL_VALIDATION\020\004\022\r\n\tIN" +
+      "FERENCE\020\005*$\n\005Queue\022\013\n\007DEFAULT\020\000\022\016\n\nTASK_" +
+      "QUEUE\020\001*S\n\013ModelStatus\022\006\n\002OK\020\000\022\017\n\013IN_PRO" +
+      "GRESS\020\001\022\022\n\016IN_PROGRESS_OK\020\002\022\n\n\006FAILED\020\003\022" +
+      "\013\n\007UNKNOWN\020\004*8\n\004Role\022\n\n\006WORKER\020\000\022\014\n\010COMB" +
       "INER\020\001\022\013\n\007REDUCER\020\002\022\t\n\005OTHER\020\003*J\n\007Comman" +
       "d\022\010\n\004IDLE\020\000\022\t\n\005START\020\001\022\t\n\005PAUSE\020\002\022\010\n\004STO" +
       "P\020\003\022\t\n\005RESET\020\004\022\n\n\006REPORT\020\005*I\n\020Connection" +
       "Status\022\021\n\rNOT_ACCEPTING\020\000\022\r\n\tACCEPTING\020\001" +
-      "\022\023\n\017TRY_AGAIN_LATER\020\0022z\n\014ModelService\0223\n" +
-      "\006Upload\022\022.grpc.ModelRequest\032\023.grpc.Model" +
-      "Response(\001\0225\n\010Download\022\022.grpc.ModelReque" +
-      "st\032\023.grpc.ModelResponse0\0012\343\001\n\007Control\0224\n" +
-      "\005Start\022\024.grpc.ControlRequest\032\025.grpc.Cont" +
-      "rolResponse\0223\n\004Stop\022\024.grpc.ControlReques" +
-      "t\032\025.grpc.ControlResponse\0227\n\tConfigure\022\024." +
-      "grpc.ControlRequest\032\024.grpc.ReportRespons" +
-      "e\0224\n\006Report\022\024.grpc.ControlRequest\032\024.grpc" +
-      ".ReportResponse2V\n\007Reducer\022K\n\016GetGlobalM" +
-      "odel\022\033.grpc.GetGlobalModelRequest\032\034.grpc" +
-      ".GetGlobalModelResponse2\253\003\n\tConnector\022D\n" +
-      "\024AllianceStatusStream\022\034.grpc.ClientAvail" +
-      "ableMessage\032\014.grpc.Status0\001\022*\n\nSendStatu" +
-      "s\022\014.grpc.Status\032\016.grpc.Response\022?\n\021ListA" +
-      "ctiveClients\022\030.grpc.ListClientsRequest\032\020" +
-      ".grpc.ClientList\022E\n\020AcceptingClients\022\027.g" +
-      "rpc.ConnectionRequest\032\030.grpc.ConnectionR" +
-      "esponse\0220\n\rSendHeartbeat\022\017.grpc.Heartbea" +
-      "t\032\016.grpc.Response\0227\n\016ReassignClient\022\025.gr" +
-      "pc.ReassignRequest\032\016.grpc.Response\0229\n\017Re" +
-      "connectClient\022\026.grpc.ReconnectRequest\032\016." +
-      "grpc.Response2\332\004\n\010Combiner\022T\n\030ModelUpdat" +
-      "eRequestStream\022\034.grpc.ClientAvailableMes" +
-      "sage\032\030.grpc.ModelUpdateRequest0\001\022F\n\021Mode" +
-      "lUpdateStream\022\034.grpc.ClientAvailableMess" +
-      "age\032\021.grpc.ModelUpdate0\001\022\\\n\034ModelValidat" +
-      "ionRequestStream\022\034.grpc.ClientAvailableM" +
-      "essage\032\034.grpc.ModelValidationRequest0\001\022N" +
-      "\n\025ModelValidationStream\022\034.grpc.ClientAva" +
-      "ilableMessage\032\025.grpc.ModelValidation0\001\022B" +
-      "\n\026SendModelUpdateRequest\022\030.grpc.ModelUpd" +
-      "ateRequest\032\016.grpc.Response\0224\n\017SendModelU" +
-      "pdate\022\021.grpc.ModelUpdate\032\016.grpc.Response" +
-      "\022J\n\032SendModelValidationRequest\022\034.grpc.Mo" +
-      "delValidationRequest\032\016.grpc.Response\022<\n\023" +
-      "SendModelValidation\022\025.grpc.ModelValidati" +
-      "on\032\016.grpc.ResponseB\"\n\033com.example.fedncl" +
-      "ient.grpcP\001\210\001\001b\006proto3"
+      "\022\023\n\017TRY_AGAIN_LATER\020\0022\332\001\n\014ModelService\022c" +
+      "\n\006Upload\022*.com.example.fedn_client.grpc." +
+      "ModelRequest\032+.com.example.fedn_client.g" +
+      "rpc.ModelResponse(\001\022e\n\010Download\022*.com.ex" +
+      "ample.fedn_client.grpc.ModelRequest\032+.co" +
+      "m.example.fedn_client.grpc.ModelResponse" +
+      "0\0012\270\003\n\007Control\022d\n\005Start\022,.com.example.fe" +
+      "dn_client.grpc.ControlRequest\032-.com.exam" +
+      "ple.fedn_client.grpc.ControlResponse\022c\n\004" +
+      "Stop\022,.com.example.fedn_client.grpc.Cont" +
+      "rolRequest\032-.com.example.fedn_client.grp" +
+      "c.ControlResponse\022t\n\025FlushAggregationQue" +
+      "ue\022,.com.example.fedn_client.grpc.Contro" +
+      "lRequest\032-.com.example.fedn_client.grpc." +
+      "ControlResponse\022l\n\rSetAggregator\022,.com.e" +
+      "xample.fedn_client.grpc.ControlRequest\032-" +
+      ".com.example.fedn_client.grpc.ControlRes" +
+      "ponse2\206\001\n\007Reducer\022{\n\016GetGlobalModel\0223.co" +
+      "m.example.fedn_client.grpc.GetGlobalMode" +
+      "lRequest\0324.com.example.fedn_client.grpc." +
+      "GetGlobalModelResponse2\373\005\n\tConnector\022t\n\024" +
+      "AllianceStatusStream\0224.com.example.fedn_" +
+      "client.grpc.ClientAvailableMessage\032$.com" +
+      ".example.fedn_client.grpc.Status0\001\022Z\n\nSe" +
+      "ndStatus\022$.com.example.fedn_client.grpc." +
+      "Status\032&.com.example.fedn_client.grpc.Re" +
+      "sponse\022o\n\021ListActiveClients\0220.com.exampl" +
+      "e.fedn_client.grpc.ListClientsRequest\032(." +
+      "com.example.fedn_client.grpc.ClientList\022" +
+      "u\n\020AcceptingClients\022/.com.example.fedn_c" +
+      "lient.grpc.ConnectionRequest\0320.com.examp" +
+      "le.fedn_client.grpc.ConnectionResponse\022`" +
+      "\n\rSendHeartbeat\022\'.com.example.fedn_clien" +
+      "t.grpc.Heartbeat\032&.com.example.fedn_clie" +
+      "nt.grpc.Response\022g\n\016ReassignClient\022-.com" +
+      ".example.fedn_client.grpc.ReassignReques" +
+      "t\032&.com.example.fedn_client.grpc.Respons" +
+      "e\022i\n\017ReconnectClient\022..com.example.fedn_" +
+      "client.grpc.ReconnectRequest\032&.com.examp" +
+      "le.fedn_client.grpc.Response2\317\002\n\010Combine" +
+      "r\022o\n\nTaskStream\0224.com.example.fedn_clien" +
+      "t.grpc.ClientAvailableMessage\032).com.exam" +
+      "ple.fedn_client.grpc.TaskRequest0\001\022d\n\017Se" +
+      "ndModelUpdate\022).com.example.fedn_client." +
+      "grpc.ModelUpdate\032&.com.example.fedn_clie" +
+      "nt.grpc.Response\022l\n\023SendModelValidation\022" +
+      "-.com.example.fedn_client.grpc.ModelVali" +
+      "dation\032&.com.example.fedn_client.grpc.Re" +
+      "sponseB\002P\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.google.protobuf.TimestampProto.getDescriptor(),
         });
-    internal_static_grpc_Response_descriptor =
+    internal_static_com_example_fedn_client_grpc_Response_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_grpc_Response_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_Response_descriptor,
+        internal_static_com_example_fedn_client_grpc_Response_descriptor,
         new java.lang.String[] { "Sender", "Response", });
-    internal_static_grpc_Status_descriptor =
+    internal_static_com_example_fedn_client_grpc_Status_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_grpc_Status_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_Status_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_Status_descriptor,
-        new java.lang.String[] { "Sender", "Status", "LogLevel", "Data", "CorrelationId", "Timestamp", "Type", "Extra", });
-    internal_static_grpc_ModelUpdateRequest_descriptor =
+        internal_static_com_example_fedn_client_grpc_Status_descriptor,
+        new java.lang.String[] { "Sender", "Status", "LogLevel", "Data", "CorrelationId", "Timestamp", "Type", "Extra", "SessionId", });
+    internal_static_com_example_fedn_client_grpc_TaskRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_grpc_ModelUpdateRequest_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_TaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ModelUpdateRequest_descriptor,
-        new java.lang.String[] { "Sender", "Receiver", "ModelId", "Data", "CorrelationId", "Timestamp", "Meta", });
-    internal_static_grpc_ModelUpdate_descriptor =
+        internal_static_com_example_fedn_client_grpc_TaskRequest_descriptor,
+        new java.lang.String[] { "Sender", "Receiver", "ModelId", "Data", "CorrelationId", "Timestamp", "Meta", "SessionId", "Type", });
+    internal_static_com_example_fedn_client_grpc_ModelUpdate_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_grpc_ModelUpdate_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ModelUpdate_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ModelUpdate_descriptor,
-        new java.lang.String[] { "Sender", "Receiver", "ModelId", "ModelUpdateId", "CorrelationId", "Timestamp", "Meta", });
-    internal_static_grpc_ModelValidationRequest_descriptor =
+        internal_static_com_example_fedn_client_grpc_ModelUpdate_descriptor,
+        new java.lang.String[] { "Sender", "Receiver", "ModelId", "ModelUpdateId", "CorrelationId", "Timestamp", "Meta", "Config", });
+    internal_static_com_example_fedn_client_grpc_ModelValidation_descriptor =
       getDescriptor().getMessageTypes().get(4);
-    internal_static_grpc_ModelValidationRequest_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ModelValidation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ModelValidationRequest_descriptor,
-        new java.lang.String[] { "Sender", "Receiver", "ModelId", "Data", "CorrelationId", "Timestamp", "Meta", "IsInference", });
-    internal_static_grpc_ModelValidation_descriptor =
+        internal_static_com_example_fedn_client_grpc_ModelValidation_descriptor,
+        new java.lang.String[] { "Sender", "Receiver", "ModelId", "Data", "CorrelationId", "Timestamp", "Meta", "SessionId", });
+    internal_static_com_example_fedn_client_grpc_ModelRequest_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_grpc_ModelValidation_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ModelRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ModelValidation_descriptor,
-        new java.lang.String[] { "Sender", "Receiver", "ModelId", "Data", "CorrelationId", "Timestamp", "Meta", });
-    internal_static_grpc_ModelRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
-    internal_static_grpc_ModelRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ModelRequest_descriptor,
+        internal_static_com_example_fedn_client_grpc_ModelRequest_descriptor,
         new java.lang.String[] { "Sender", "Receiver", "Data", "Id", "Status", });
-    internal_static_grpc_ModelResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
-    internal_static_grpc_ModelResponse_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ModelResponse_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_com_example_fedn_client_grpc_ModelResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ModelResponse_descriptor,
+        internal_static_com_example_fedn_client_grpc_ModelResponse_descriptor,
         new java.lang.String[] { "Data", "Id", "Status", "Message", });
-    internal_static_grpc_GetGlobalModelRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
-    internal_static_grpc_GetGlobalModelRequest_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_GetGlobalModelRequest_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_com_example_fedn_client_grpc_GetGlobalModelRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_GetGlobalModelRequest_descriptor,
+        internal_static_com_example_fedn_client_grpc_GetGlobalModelRequest_descriptor,
         new java.lang.String[] { "Sender", "Receiver", });
-    internal_static_grpc_GetGlobalModelResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
-    internal_static_grpc_GetGlobalModelResponse_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_GetGlobalModelResponse_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_com_example_fedn_client_grpc_GetGlobalModelResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_GetGlobalModelResponse_descriptor,
+        internal_static_com_example_fedn_client_grpc_GetGlobalModelResponse_descriptor,
         new java.lang.String[] { "Sender", "Receiver", "ModelId", });
-    internal_static_grpc_Heartbeat_descriptor =
-      getDescriptor().getMessageTypes().get(10);
-    internal_static_grpc_Heartbeat_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_Heartbeat_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_com_example_fedn_client_grpc_Heartbeat_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_Heartbeat_descriptor,
+        internal_static_com_example_fedn_client_grpc_Heartbeat_descriptor,
         new java.lang.String[] { "Sender", });
-    internal_static_grpc_ClientAvailableMessage_descriptor =
-      getDescriptor().getMessageTypes().get(11);
-    internal_static_grpc_ClientAvailableMessage_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ClientAvailableMessage_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_com_example_fedn_client_grpc_ClientAvailableMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ClientAvailableMessage_descriptor,
+        internal_static_com_example_fedn_client_grpc_ClientAvailableMessage_descriptor,
         new java.lang.String[] { "Sender", "Data", "Timestamp", });
-    internal_static_grpc_ListClientsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
-    internal_static_grpc_ListClientsRequest_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ListClientsRequest_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_com_example_fedn_client_grpc_ListClientsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ListClientsRequest_descriptor,
+        internal_static_com_example_fedn_client_grpc_ListClientsRequest_descriptor,
         new java.lang.String[] { "Sender", "Channel", });
-    internal_static_grpc_ClientList_descriptor =
-      getDescriptor().getMessageTypes().get(13);
-    internal_static_grpc_ClientList_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ClientList_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_com_example_fedn_client_grpc_ClientList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ClientList_descriptor,
+        internal_static_com_example_fedn_client_grpc_ClientList_descriptor,
         new java.lang.String[] { "Client", });
-    internal_static_grpc_Client_descriptor =
-      getDescriptor().getMessageTypes().get(14);
-    internal_static_grpc_Client_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_Client_descriptor =
+      getDescriptor().getMessageTypes().get(13);
+    internal_static_com_example_fedn_client_grpc_Client_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_Client_descriptor,
+        internal_static_com_example_fedn_client_grpc_Client_descriptor,
         new java.lang.String[] { "Role", "Name", });
-    internal_static_grpc_ReassignRequest_descriptor =
-      getDescriptor().getMessageTypes().get(15);
-    internal_static_grpc_ReassignRequest_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ReassignRequest_descriptor =
+      getDescriptor().getMessageTypes().get(14);
+    internal_static_com_example_fedn_client_grpc_ReassignRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ReassignRequest_descriptor,
+        internal_static_com_example_fedn_client_grpc_ReassignRequest_descriptor,
         new java.lang.String[] { "Sender", "Receiver", "Server", "Port", });
-    internal_static_grpc_ReconnectRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
-    internal_static_grpc_ReconnectRequest_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ReconnectRequest_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_com_example_fedn_client_grpc_ReconnectRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ReconnectRequest_descriptor,
+        internal_static_com_example_fedn_client_grpc_ReconnectRequest_descriptor,
         new java.lang.String[] { "Sender", "Receiver", "Reconnect", });
-    internal_static_grpc_Parameter_descriptor =
-      getDescriptor().getMessageTypes().get(17);
-    internal_static_grpc_Parameter_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_Parameter_descriptor =
+      getDescriptor().getMessageTypes().get(16);
+    internal_static_com_example_fedn_client_grpc_Parameter_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_Parameter_descriptor,
+        internal_static_com_example_fedn_client_grpc_Parameter_descriptor,
         new java.lang.String[] { "Key", "Value", });
-    internal_static_grpc_ControlRequest_descriptor =
-      getDescriptor().getMessageTypes().get(18);
-    internal_static_grpc_ControlRequest_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ControlRequest_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_com_example_fedn_client_grpc_ControlRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ControlRequest_descriptor,
+        internal_static_com_example_fedn_client_grpc_ControlRequest_descriptor,
         new java.lang.String[] { "Command", "Parameter", });
-    internal_static_grpc_ControlResponse_descriptor =
-      getDescriptor().getMessageTypes().get(19);
-    internal_static_grpc_ControlResponse_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ControlResponse_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_com_example_fedn_client_grpc_ControlResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ControlResponse_descriptor,
+        internal_static_com_example_fedn_client_grpc_ControlResponse_descriptor,
         new java.lang.String[] { "Message", "Parameter", });
-    internal_static_grpc_ReportResponse_descriptor =
-      getDescriptor().getMessageTypes().get(20);
-    internal_static_grpc_ReportResponse_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ConnectionRequest_descriptor =
+      getDescriptor().getMessageTypes().get(19);
+    internal_static_com_example_fedn_client_grpc_ConnectionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ReportResponse_descriptor,
-        new java.lang.String[] { "Sender", "Parameter", });
-    internal_static_grpc_ConnectionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(21);
-    internal_static_grpc_ConnectionRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ConnectionRequest_descriptor,
+        internal_static_com_example_fedn_client_grpc_ConnectionRequest_descriptor,
         new java.lang.String[] { });
-    internal_static_grpc_ConnectionResponse_descriptor =
-      getDescriptor().getMessageTypes().get(22);
-    internal_static_grpc_ConnectionResponse_fieldAccessorTable = new
+    internal_static_com_example_fedn_client_grpc_ConnectionResponse_descriptor =
+      getDescriptor().getMessageTypes().get(20);
+    internal_static_com_example_fedn_client_grpc_ConnectionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_grpc_ConnectionResponse_descriptor,
+        internal_static_com_example_fedn_client_grpc_ConnectionResponse_descriptor,
         new java.lang.String[] { "Status", });
+    com.google.protobuf.TimestampProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

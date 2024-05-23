@@ -4,11 +4,11 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf type {@code grpc.ControlRequest}
+ * Protobuf type {@code com.example.fedn_client.grpc.ControlRequest}
  */
 public final class ControlRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:grpc.ControlRequest)
+    // @@protoc_insertion_point(message_implements:com.example.fedn_client.grpc.ControlRequest)
     ControlRequestOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use ControlRequest.newBuilder() to construct.
@@ -29,13 +29,13 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ControlRequest_descriptor;
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ControlRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ControlRequest_fieldAccessorTable
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ControlRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.example.fedn_client.grpc.ControlRequest.class, com.example.fedn_client.grpc.ControlRequest.Builder.class);
   }
@@ -43,14 +43,14 @@ private static final long serialVersionUID = 0L;
   public static final int COMMAND_FIELD_NUMBER = 1;
   private int command_ = 0;
   /**
-   * <code>.grpc.Command command = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Command command = 1;</code>
    * @return The enum numeric value on the wire for command.
    */
   @java.lang.Override public int getCommandValue() {
     return command_;
   }
   /**
-   * <code>.grpc.Command command = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Command command = 1;</code>
    * @return The command.
    */
   @java.lang.Override public com.example.fedn_client.grpc.Command getCommand() {
@@ -62,14 +62,14 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings("serial")
   private java.util.List<com.example.fedn_client.grpc.Parameter> parameter_;
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   @java.lang.Override
   public java.util.List<com.example.fedn_client.grpc.Parameter> getParameterList() {
     return parameter_;
   }
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   @java.lang.Override
   public java.util.List<? extends com.example.fedn_client.grpc.ParameterOrBuilder> 
@@ -77,21 +77,21 @@ private static final long serialVersionUID = 0L;
     return parameter_;
   }
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   @java.lang.Override
   public int getParameterCount() {
     return parameter_.size();
   }
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   @java.lang.Override
   public com.example.fedn_client.grpc.Parameter getParameter(int index) {
     return parameter_.get(index);
   }
   /**
-   * <code>repeated .grpc.Parameter parameter = 2;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
    */
   @java.lang.Override
   public com.example.fedn_client.grpc.ParameterOrBuilder getParameterOrBuilder(
@@ -269,21 +269,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code grpc.ControlRequest}
+   * Protobuf type {@code com.example.fedn_client.grpc.ControlRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:grpc.ControlRequest)
+      // @@protoc_insertion_point(builder_implements:com.example.fedn_client.grpc.ControlRequest)
       com.example.fedn_client.grpc.ControlRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ControlRequest_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ControlRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ControlRequest_fieldAccessorTable
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ControlRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.example.fedn_client.grpc.ControlRequest.class, com.example.fedn_client.grpc.ControlRequest.Builder.class);
     }
@@ -316,7 +316,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ControlRequest_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ControlRequest_descriptor;
     }
 
     @java.lang.Override
@@ -497,14 +497,14 @@ private static final long serialVersionUID = 0L;
 
     private int command_ = 0;
     /**
-     * <code>.grpc.Command command = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Command command = 1;</code>
      * @return The enum numeric value on the wire for command.
      */
     @java.lang.Override public int getCommandValue() {
       return command_;
     }
     /**
-     * <code>.grpc.Command command = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Command command = 1;</code>
      * @param value The enum numeric value on the wire for command to set.
      * @return This builder for chaining.
      */
@@ -515,7 +515,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Command command = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Command command = 1;</code>
      * @return The command.
      */
     @java.lang.Override
@@ -524,7 +524,7 @@ private static final long serialVersionUID = 0L;
       return result == null ? com.example.fedn_client.grpc.Command.UNRECOGNIZED : result;
     }
     /**
-     * <code>.grpc.Command command = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Command command = 1;</code>
      * @param value The command to set.
      * @return This builder for chaining.
      */
@@ -538,7 +538,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Command command = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Command command = 1;</code>
      * @return This builder for chaining.
      */
     public Builder clearCommand() {
@@ -561,7 +561,7 @@ private static final long serialVersionUID = 0L;
         com.example.fedn_client.grpc.Parameter, com.example.fedn_client.grpc.Parameter.Builder, com.example.fedn_client.grpc.ParameterOrBuilder> parameterBuilder_;
 
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public java.util.List<com.example.fedn_client.grpc.Parameter> getParameterList() {
       if (parameterBuilder_ == null) {
@@ -571,7 +571,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public int getParameterCount() {
       if (parameterBuilder_ == null) {
@@ -581,7 +581,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public com.example.fedn_client.grpc.Parameter getParameter(int index) {
       if (parameterBuilder_ == null) {
@@ -591,7 +591,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public Builder setParameter(
         int index, com.example.fedn_client.grpc.Parameter value) {
@@ -608,7 +608,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public Builder setParameter(
         int index, com.example.fedn_client.grpc.Parameter.Builder builderForValue) {
@@ -622,7 +622,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public Builder addParameter(com.example.fedn_client.grpc.Parameter value) {
       if (parameterBuilder_ == null) {
@@ -638,7 +638,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public Builder addParameter(
         int index, com.example.fedn_client.grpc.Parameter value) {
@@ -655,7 +655,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public Builder addParameter(
         com.example.fedn_client.grpc.Parameter.Builder builderForValue) {
@@ -669,7 +669,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public Builder addParameter(
         int index, com.example.fedn_client.grpc.Parameter.Builder builderForValue) {
@@ -683,7 +683,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public Builder addAllParameter(
         java.lang.Iterable<? extends com.example.fedn_client.grpc.Parameter> values) {
@@ -698,7 +698,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public Builder clearParameter() {
       if (parameterBuilder_ == null) {
@@ -711,7 +711,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public Builder removeParameter(int index) {
       if (parameterBuilder_ == null) {
@@ -724,14 +724,14 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public com.example.fedn_client.grpc.Parameter.Builder getParameterBuilder(
         int index) {
       return getParameterFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public com.example.fedn_client.grpc.ParameterOrBuilder getParameterOrBuilder(
         int index) {
@@ -741,7 +741,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public java.util.List<? extends com.example.fedn_client.grpc.ParameterOrBuilder> 
          getParameterOrBuilderList() {
@@ -752,14 +752,14 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public com.example.fedn_client.grpc.Parameter.Builder addParameterBuilder() {
       return getParameterFieldBuilder().addBuilder(
           com.example.fedn_client.grpc.Parameter.getDefaultInstance());
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public com.example.fedn_client.grpc.Parameter.Builder addParameterBuilder(
         int index) {
@@ -767,7 +767,7 @@ private static final long serialVersionUID = 0L;
           index, com.example.fedn_client.grpc.Parameter.getDefaultInstance());
     }
     /**
-     * <code>repeated .grpc.Parameter parameter = 2;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Parameter parameter = 2;</code>
      */
     public java.util.List<com.example.fedn_client.grpc.Parameter.Builder> 
          getParameterBuilderList() {
@@ -800,10 +800,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:grpc.ControlRequest)
+    // @@protoc_insertion_point(builder_scope:com.example.fedn_client.grpc.ControlRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:grpc.ControlRequest)
+  // @@protoc_insertion_point(class_scope:com.example.fedn_client.grpc.ControlRequest)
   private static final com.example.fedn_client.grpc.ControlRequest DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new com.example.fedn_client.grpc.ControlRequest();

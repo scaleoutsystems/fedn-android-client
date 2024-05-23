@@ -4,34 +4,18 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf enum {@code grpc.Channel}
+ * Protobuf enum {@code com.example.fedn_client.grpc.Queue}
  */
-public enum Channel
+public enum Queue
     implements com.google.protobuf.ProtocolMessageEnum {
   /**
    * <code>DEFAULT = 0;</code>
    */
   DEFAULT(0),
   /**
-   * <code>MODEL_UPDATE_REQUESTS = 1;</code>
+   * <code>TASK_QUEUE = 1;</code>
    */
-  MODEL_UPDATE_REQUESTS(1),
-  /**
-   * <code>MODEL_UPDATES = 2;</code>
-   */
-  MODEL_UPDATES(2),
-  /**
-   * <code>MODEL_VALIDATION_REQUESTS = 3;</code>
-   */
-  MODEL_VALIDATION_REQUESTS(3),
-  /**
-   * <code>MODEL_VALIDATIONS = 4;</code>
-   */
-  MODEL_VALIDATIONS(4),
-  /**
-   * <code>STATUS = 5;</code>
-   */
-  STATUS(5),
+  TASK_QUEUE(1),
   UNRECOGNIZED(-1),
   ;
 
@@ -40,25 +24,9 @@ public enum Channel
    */
   public static final int DEFAULT_VALUE = 0;
   /**
-   * <code>MODEL_UPDATE_REQUESTS = 1;</code>
+   * <code>TASK_QUEUE = 1;</code>
    */
-  public static final int MODEL_UPDATE_REQUESTS_VALUE = 1;
-  /**
-   * <code>MODEL_UPDATES = 2;</code>
-   */
-  public static final int MODEL_UPDATES_VALUE = 2;
-  /**
-   * <code>MODEL_VALIDATION_REQUESTS = 3;</code>
-   */
-  public static final int MODEL_VALIDATION_REQUESTS_VALUE = 3;
-  /**
-   * <code>MODEL_VALIDATIONS = 4;</code>
-   */
-  public static final int MODEL_VALIDATIONS_VALUE = 4;
-  /**
-   * <code>STATUS = 5;</code>
-   */
-  public static final int STATUS_VALUE = 5;
+  public static final int TASK_QUEUE_VALUE = 1;
 
 
   public final int getNumber() {
@@ -75,7 +43,7 @@ public enum Channel
    * @deprecated Use {@link #forNumber(int)} instead.
    */
   @java.lang.Deprecated
-  public static Channel valueOf(int value) {
+  public static Queue valueOf(int value) {
     return forNumber(value);
   }
 
@@ -83,27 +51,23 @@ public enum Channel
    * @param value The numeric wire value of the corresponding enum entry.
    * @return The enum associated with the given numeric wire value.
    */
-  public static Channel forNumber(int value) {
+  public static Queue forNumber(int value) {
     switch (value) {
       case 0: return DEFAULT;
-      case 1: return MODEL_UPDATE_REQUESTS;
-      case 2: return MODEL_UPDATES;
-      case 3: return MODEL_VALIDATION_REQUESTS;
-      case 4: return MODEL_VALIDATIONS;
-      case 5: return STATUS;
+      case 1: return TASK_QUEUE;
       default: return null;
     }
   }
 
-  public static com.google.protobuf.Internal.EnumLiteMap<Channel>
+  public static com.google.protobuf.Internal.EnumLiteMap<Queue>
       internalGetValueMap() {
     return internalValueMap;
   }
   private static final com.google.protobuf.Internal.EnumLiteMap<
-      Channel> internalValueMap =
-        new com.google.protobuf.Internal.EnumLiteMap<Channel>() {
-          public Channel findValueByNumber(int number) {
-            return Channel.forNumber(number);
+      Queue> internalValueMap =
+        new com.google.protobuf.Internal.EnumLiteMap<Queue>() {
+          public Queue findValueByNumber(int number) {
+            return Queue.forNumber(number);
           }
         };
 
@@ -124,9 +88,9 @@ public enum Channel
     return com.example.fedn_client.grpc.Fedn.getDescriptor().getEnumTypes().get(1);
   }
 
-  private static final Channel[] VALUES = values();
+  private static final Queue[] VALUES = values();
 
-  public static Channel valueOf(
+  public static Queue valueOf(
       com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
     if (desc.getType() != getDescriptor()) {
       throw new java.lang.IllegalArgumentException(
@@ -140,10 +104,10 @@ public enum Channel
 
   private final int value;
 
-  private Channel(int value) {
+  private Queue(int value) {
     this.value = value;
   }
 
-  // @@protoc_insertion_point(enum_scope:grpc.Channel)
+  // @@protoc_insertion_point(enum_scope:com.example.fedn_client.grpc.Queue)
 }
 

@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun status(block: com.example.fedn_client.grpc.StatusKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.Status =
   com.example.fedn_client.grpc.StatusKt.Dsl._create(com.example.fedn_client.grpc.Status.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.Status`
+ * Protobuf type `com.example.fedn_client.grpc.Status`
  */
 public object StatusKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -28,7 +28,7 @@ public object StatusKt {
     internal fun _build(): com.example.fedn_client.grpc.Status = _builder.build()
 
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public var sender: com.example.fedn_client.grpc.Client
       @JvmName("getSender")
@@ -38,13 +38,13 @@ public object StatusKt {
         _builder.setSender(value)
       }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public fun clearSender() {
       _builder.clearSender()
     }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      * @return Whether the sender field is set.
      */
     public fun hasSender(): kotlin.Boolean {
@@ -52,10 +52,6 @@ public object StatusKt {
     }
 
     /**
-     * ```
-     *string client = 1;
-     * ```
-     *
      * `string status = 2;`
      */
     public var status: kotlin.String
@@ -66,10 +62,6 @@ public object StatusKt {
         _builder.setStatus(value)
       }
     /**
-     * ```
-     *string client = 1;
-     * ```
-     *
      * `string status = 2;`
      */
     public fun clearStatus() {
@@ -77,7 +69,7 @@ public object StatusKt {
     }
 
     /**
-     * `.grpc.Status.LogLevel log_level = 3;`
+     * `.com.example.fedn_client.grpc.Status.LogLevel log_level = 3;`
      */
     public var logLevel: com.example.fedn_client.grpc.Status.LogLevel
       @JvmName("getLogLevel")
@@ -94,7 +86,7 @@ public object StatusKt {
         _builder.setLogLevelValue(value)
       }
     /**
-     * `.grpc.Status.LogLevel log_level = 3;`
+     * `.com.example.fedn_client.grpc.Status.LogLevel log_level = 3;`
      */
     public fun clearLogLevel() {
       _builder.clearLogLevel()
@@ -135,9 +127,9 @@ public object StatusKt {
     }
 
     /**
-     * `string timestamp = 6;`
+     * `.google.protobuf.Timestamp timestamp = 6;`
      */
-    public var timestamp: kotlin.String
+    public var timestamp: com.google.protobuf.Timestamp
       @JvmName("getTimestamp")
       get() = _builder.getTimestamp()
       @JvmName("setTimestamp")
@@ -145,14 +137,21 @@ public object StatusKt {
         _builder.setTimestamp(value)
       }
     /**
-     * `string timestamp = 6;`
+     * `.google.protobuf.Timestamp timestamp = 6;`
      */
     public fun clearTimestamp() {
       _builder.clearTimestamp()
     }
+    /**
+     * `.google.protobuf.Timestamp timestamp = 6;`
+     * @return Whether the timestamp field is set.
+     */
+    public fun hasTimestamp(): kotlin.Boolean {
+      return _builder.hasTimestamp()
+    }
 
     /**
-     * `.grpc.StatusType type = 7;`
+     * `.com.example.fedn_client.grpc.StatusType type = 7;`
      */
     public var type: com.example.fedn_client.grpc.StatusType
       @JvmName("getType")
@@ -169,7 +168,7 @@ public object StatusKt {
         _builder.setTypeValue(value)
       }
     /**
-     * `.grpc.StatusType type = 7;`
+     * `.com.example.fedn_client.grpc.StatusType type = 7;`
      */
     public fun clearType() {
       _builder.clearType()
@@ -191,6 +190,23 @@ public object StatusKt {
     public fun clearExtra() {
       _builder.clearExtra()
     }
+
+    /**
+     * `string session_id = 9;`
+     */
+    public var sessionId: kotlin.String
+      @JvmName("getSessionId")
+      get() = _builder.getSessionId()
+      @JvmName("setSessionId")
+      set(value) {
+        _builder.setSessionId(value)
+      }
+    /**
+     * `string session_id = 9;`
+     */
+    public fun clearSessionId() {
+      _builder.clearSessionId()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic
@@ -199,4 +215,7 @@ public inline fun com.example.fedn_client.grpc.Status.copy(block: com.example.fe
 
 public val com.example.fedn_client.grpc.StatusOrBuilder.senderOrNull: com.example.fedn_client.grpc.Client?
   get() = if (hasSender()) getSender() else null
+
+public val com.example.fedn_client.grpc.StatusOrBuilder.timestampOrNull: com.google.protobuf.Timestamp?
+  get() = if (hasTimestamp()) getTimestamp() else null
 

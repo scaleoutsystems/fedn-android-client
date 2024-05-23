@@ -4,7 +4,7 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf enum {@code grpc.Role}
+ * Protobuf enum {@code com.example.fedn_client.grpc.Role}
  */
 public enum Role
     implements com.google.protobuf.ProtocolMessageEnum {
@@ -126,6 +126,6 @@ public enum Role
     this.value = value;
   }
 
-  // @@protoc_insertion_point(enum_scope:grpc.Role)
+  // @@protoc_insertion_point(enum_scope:com.example.fedn_client.grpc.Role)
 }
 

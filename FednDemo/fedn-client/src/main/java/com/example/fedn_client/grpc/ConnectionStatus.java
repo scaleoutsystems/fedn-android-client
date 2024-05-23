@@ -4,7 +4,7 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf enum {@code grpc.ConnectionStatus}
+ * Protobuf enum {@code com.example.fedn_client.grpc.ConnectionStatus}
  */
 public enum ConnectionStatus
     implements com.google.protobuf.ProtocolMessageEnum {
@@ -117,6 +117,6 @@ public enum ConnectionStatus
     this.value = value;
   }
 
-  // @@protoc_insertion_point(enum_scope:grpc.ConnectionStatus)
+  // @@protoc_insertion_point(enum_scope:com.example.fedn_client.grpc.ConnectionStatus)
 }
 

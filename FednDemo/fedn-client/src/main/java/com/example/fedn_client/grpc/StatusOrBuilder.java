@@ -4,38 +4,30 @@
 package com.example.fedn_client.grpc;
 
 public interface StatusOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.Status)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.Status)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return Whether the sender field is set.
    */
   boolean hasSender();
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return The sender.
    */
   com.example.fedn_client.grpc.Client getSender();
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    */
   com.example.fedn_client.grpc.ClientOrBuilder getSenderOrBuilder();
 
   /**
-   * <pre>
-   *string client = 1;
-   * </pre>
-   *
    * <code>string status = 2;</code>
    * @return The status.
    */
   java.lang.String getStatus();
   /**
-   * <pre>
-   *string client = 1;
-   * </pre>
-   *
    * <code>string status = 2;</code>
    * @return The bytes for status.
    */
@@ -43,12 +35,12 @@ public interface StatusOrBuilder extends
       getStatusBytes();
 
   /**
-   * <code>.grpc.Status.LogLevel log_level = 3;</code>
+   * <code>.com.example.fedn_client.grpc.Status.LogLevel log_level = 3;</code>
    * @return The enum numeric value on the wire for logLevel.
    */
   int getLogLevelValue();
   /**
-   * <code>.grpc.Status.LogLevel log_level = 3;</code>
+   * <code>.com.example.fedn_client.grpc.Status.LogLevel log_level = 3;</code>
    * @return The logLevel.
    */
   com.example.fedn_client.grpc.Status.LogLevel getLogLevel();
@@ -78,24 +70,27 @@ public interface StatusOrBuilder extends
       getCorrelationIdBytes();
 
   /**
-   * <code>string timestamp = 6;</code>
+   * <code>.google.protobuf.Timestamp timestamp = 6;</code>
+   * @return Whether the timestamp field is set.
+   */
+  boolean hasTimestamp();
+  /**
+   * <code>.google.protobuf.Timestamp timestamp = 6;</code>
    * @return The timestamp.
    */
-  java.lang.String getTimestamp();
+  com.google.protobuf.Timestamp getTimestamp();
   /**
-   * <code>string timestamp = 6;</code>
-   * @return The bytes for timestamp.
+   * <code>.google.protobuf.Timestamp timestamp = 6;</code>
    */
-  com.google.protobuf.ByteString
-      getTimestampBytes();
+  com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
 
   /**
-   * <code>.grpc.StatusType type = 7;</code>
+   * <code>.com.example.fedn_client.grpc.StatusType type = 7;</code>
    * @return The enum numeric value on the wire for type.
    */
   int getTypeValue();
   /**
-   * <code>.grpc.StatusType type = 7;</code>
+   * <code>.com.example.fedn_client.grpc.StatusType type = 7;</code>
    * @return The type.
    */
   com.example.fedn_client.grpc.StatusType getType();
@@ -111,4 +106,16 @@ public interface StatusOrBuilder extends
    */
   com.google.protobuf.ByteString
       getExtraBytes();
+
+  /**
+   * <code>string session_id = 9;</code>
+   * @return The sessionId.
+   */
+  java.lang.String getSessionId();
+  /**
+   * <code>string session_id = 9;</code>
+   * @return The bytes for sessionId.
+   */
+  com.google.protobuf.ByteString
+      getSessionIdBytes();
 }

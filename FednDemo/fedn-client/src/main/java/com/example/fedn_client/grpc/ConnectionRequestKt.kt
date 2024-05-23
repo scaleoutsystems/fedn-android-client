@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun connectionRequest(block: com.example.fedn_client.grpc.ConnectionRequestKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.ConnectionRequest =
   com.example.fedn_client.grpc.ConnectionRequestKt.Dsl._create(com.example.fedn_client.grpc.ConnectionRequest.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.ConnectionRequest`
+ * Protobuf type `com.example.fedn_client.grpc.ConnectionRequest`
  */
 public object ConnectionRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)

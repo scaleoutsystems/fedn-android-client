@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun controlResponse(block: com.example.fedn_client.grpc.ControlResponseKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.ControlResponse =
   com.example.fedn_client.grpc.ControlResponseKt.Dsl._create(com.example.fedn_client.grpc.ControlResponse.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.ControlResponse`
+ * Protobuf type `com.example.fedn_client.grpc.ControlResponse`
  */
 public object ControlResponseKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -51,7 +51,7 @@ public object ControlResponseKt {
     @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
     public class ParameterProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
-     * `repeated .grpc.Parameter parameter = 2;`
+     * `repeated .com.example.fedn_client.grpc.Parameter parameter = 2;`
      */
      public val parameter: com.google.protobuf.kotlin.DslList<com.example.fedn_client.grpc.Parameter, ParameterProxy>
       @kotlin.jvm.JvmSynthetic
@@ -59,7 +59,7 @@ public object ControlResponseKt {
         _builder.getParameterList()
       )
     /**
-     * `repeated .grpc.Parameter parameter = 2;`
+     * `repeated .com.example.fedn_client.grpc.Parameter parameter = 2;`
      * @param value The parameter to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -68,7 +68,7 @@ public object ControlResponseKt {
       _builder.addParameter(value)
     }
     /**
-     * `repeated .grpc.Parameter parameter = 2;`
+     * `repeated .com.example.fedn_client.grpc.Parameter parameter = 2;`
      * @param value The parameter to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -78,7 +78,7 @@ public object ControlResponseKt {
       add(value)
     }
     /**
-     * `repeated .grpc.Parameter parameter = 2;`
+     * `repeated .com.example.fedn_client.grpc.Parameter parameter = 2;`
      * @param values The parameter to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -87,7 +87,7 @@ public object ControlResponseKt {
       _builder.addAllParameter(values)
     }
     /**
-     * `repeated .grpc.Parameter parameter = 2;`
+     * `repeated .com.example.fedn_client.grpc.Parameter parameter = 2;`
      * @param values The parameter to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -97,7 +97,7 @@ public object ControlResponseKt {
       addAll(values)
     }
     /**
-     * `repeated .grpc.Parameter parameter = 2;`
+     * `repeated .com.example.fedn_client.grpc.Parameter parameter = 2;`
      * @param index The index to set the value at.
      * @param value The parameter to set.
      */
@@ -107,7 +107,7 @@ public object ControlResponseKt {
       _builder.setParameter(index, value)
     }
     /**
-     * `repeated .grpc.Parameter parameter = 2;`
+     * `repeated .com.example.fedn_client.grpc.Parameter parameter = 2;`
      */
     @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("clearParameter")

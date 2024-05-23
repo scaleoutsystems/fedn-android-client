@@ -4,11 +4,11 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf type {@code grpc.ModelUpdate}
+ * Protobuf type {@code com.example.fedn_client.grpc.ModelUpdate}
  */
 public final class ModelUpdate extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:grpc.ModelUpdate)
+    // @@protoc_insertion_point(message_implements:com.example.fedn_client.grpc.ModelUpdate)
     ModelUpdateOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use ModelUpdate.newBuilder() to construct.
@@ -21,6 +21,7 @@ private static final long serialVersionUID = 0L;
     correlationId_ = "";
     timestamp_ = "";
     meta_ = "";
+    config_ = "";
   }
 
   @java.lang.Override
@@ -32,13 +33,13 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ModelUpdate_descriptor;
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ModelUpdate_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ModelUpdate_fieldAccessorTable
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ModelUpdate_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.example.fedn_client.grpc.ModelUpdate.class, com.example.fedn_client.grpc.ModelUpdate.Builder.class);
   }
@@ -46,7 +47,7 @@ private static final long serialVersionUID = 0L;
   public static final int SENDER_FIELD_NUMBER = 1;
   private com.example.fedn_client.grpc.Client sender_;
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return Whether the sender field is set.
    */
   @java.lang.Override
@@ -54,7 +55,7 @@ private static final long serialVersionUID = 0L;
     return sender_ != null;
   }
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return The sender.
    */
   @java.lang.Override
@@ -62,7 +63,7 @@ private static final long serialVersionUID = 0L;
     return sender_ == null ? com.example.fedn_client.grpc.Client.getDefaultInstance() : sender_;
   }
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    */
   @java.lang.Override
   public com.example.fedn_client.grpc.ClientOrBuilder getSenderOrBuilder() {
@@ -72,7 +73,7 @@ private static final long serialVersionUID = 0L;
   public static final int RECEIVER_FIELD_NUMBER = 2;
   private com.example.fedn_client.grpc.Client receiver_;
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    * @return Whether the receiver field is set.
    */
   @java.lang.Override
@@ -80,7 +81,7 @@ private static final long serialVersionUID = 0L;
     return receiver_ != null;
   }
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    * @return The receiver.
    */
   @java.lang.Override
@@ -88,7 +89,7 @@ private static final long serialVersionUID = 0L;
     return receiver_ == null ? com.example.fedn_client.grpc.Client.getDefaultInstance() : receiver_;
   }
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    */
   @java.lang.Override
   public com.example.fedn_client.grpc.ClientOrBuilder getReceiverOrBuilder() {
@@ -290,6 +291,45 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int CONFIG_FIELD_NUMBER = 8;
+  @SuppressWarnings("serial")
+  private volatile java.lang.Object config_ = "";
+  /**
+   * <code>string config = 8;</code>
+   * @return The config.
+   */
+  @java.lang.Override
+  public java.lang.String getConfig() {
+    java.lang.Object ref = config_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      config_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string config = 8;</code>
+   * @return The bytes for config.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getConfigBytes() {
+    java.lang.Object ref = config_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      config_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -325,6 +365,9 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(meta_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 7, meta_);
     }
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(config_)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 8, config_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -356,6 +399,9 @@ private static final long serialVersionUID = 0L;
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(meta_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, meta_);
+    }
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(config_)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, config_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -392,6 +438,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getTimestamp())) return false;
     if (!getMeta()
         .equals(other.getMeta())) return false;
+    if (!getConfig()
+        .equals(other.getConfig())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -421,6 +469,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getTimestamp().hashCode();
     hash = (37 * hash) + META_FIELD_NUMBER;
     hash = (53 * hash) + getMeta().hashCode();
+    hash = (37 * hash) + CONFIG_FIELD_NUMBER;
+    hash = (53 * hash) + getConfig().hashCode();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -519,21 +569,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code grpc.ModelUpdate}
+   * Protobuf type {@code com.example.fedn_client.grpc.ModelUpdate}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:grpc.ModelUpdate)
+      // @@protoc_insertion_point(builder_implements:com.example.fedn_client.grpc.ModelUpdate)
       com.example.fedn_client.grpc.ModelUpdateOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ModelUpdate_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ModelUpdate_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ModelUpdate_fieldAccessorTable
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ModelUpdate_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.example.fedn_client.grpc.ModelUpdate.class, com.example.fedn_client.grpc.ModelUpdate.Builder.class);
     }
@@ -567,13 +617,14 @@ private static final long serialVersionUID = 0L;
       correlationId_ = "";
       timestamp_ = "";
       meta_ = "";
+      config_ = "";
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ModelUpdate_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ModelUpdate_descriptor;
     }
 
     @java.lang.Override
@@ -624,6 +675,9 @@ private static final long serialVersionUID = 0L;
       }
       if (((from_bitField0_ & 0x00000040) != 0)) {
         result.meta_ = meta_;
+      }
+      if (((from_bitField0_ & 0x00000080) != 0)) {
+        result.config_ = config_;
       }
     }
 
@@ -702,6 +756,11 @@ private static final long serialVersionUID = 0L;
         bitField0_ |= 0x00000040;
         onChanged();
       }
+      if (!other.getConfig().isEmpty()) {
+        config_ = other.config_;
+        bitField0_ |= 0x00000080;
+        onChanged();
+      }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
       return this;
@@ -767,6 +826,11 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000040;
               break;
             } // case 58
+            case 66: {
+              config_ = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000080;
+              break;
+            } // case 66
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -788,14 +852,14 @@ private static final long serialVersionUID = 0L;
     private com.google.protobuf.SingleFieldBuilderV3<
         com.example.fedn_client.grpc.Client, com.example.fedn_client.grpc.Client.Builder, com.example.fedn_client.grpc.ClientOrBuilder> senderBuilder_;
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      * @return Whether the sender field is set.
      */
     public boolean hasSender() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      * @return The sender.
      */
     public com.example.fedn_client.grpc.Client getSender() {
@@ -806,7 +870,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public Builder setSender(com.example.fedn_client.grpc.Client value) {
       if (senderBuilder_ == null) {
@@ -822,7 +886,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public Builder setSender(
         com.example.fedn_client.grpc.Client.Builder builderForValue) {
@@ -836,7 +900,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public Builder mergeSender(com.example.fedn_client.grpc.Client value) {
       if (senderBuilder_ == null) {
@@ -855,7 +919,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public Builder clearSender() {
       bitField0_ = (bitField0_ & ~0x00000001);
@@ -868,7 +932,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public com.example.fedn_client.grpc.Client.Builder getSenderBuilder() {
       bitField0_ |= 0x00000001;
@@ -876,7 +940,7 @@ private static final long serialVersionUID = 0L;
       return getSenderFieldBuilder().getBuilder();
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public com.example.fedn_client.grpc.ClientOrBuilder getSenderOrBuilder() {
       if (senderBuilder_ != null) {
@@ -887,7 +951,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         com.example.fedn_client.grpc.Client, com.example.fedn_client.grpc.Client.Builder, com.example.fedn_client.grpc.ClientOrBuilder> 
@@ -907,14 +971,14 @@ private static final long serialVersionUID = 0L;
     private com.google.protobuf.SingleFieldBuilderV3<
         com.example.fedn_client.grpc.Client, com.example.fedn_client.grpc.Client.Builder, com.example.fedn_client.grpc.ClientOrBuilder> receiverBuilder_;
     /**
-     * <code>.grpc.Client receiver = 2;</code>
+     * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
      * @return Whether the receiver field is set.
      */
     public boolean hasReceiver() {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
-     * <code>.grpc.Client receiver = 2;</code>
+     * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
      * @return The receiver.
      */
     public com.example.fedn_client.grpc.Client getReceiver() {
@@ -925,7 +989,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.grpc.Client receiver = 2;</code>
+     * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
      */
     public Builder setReceiver(com.example.fedn_client.grpc.Client value) {
       if (receiverBuilder_ == null) {
@@ -941,7 +1005,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client receiver = 2;</code>
+     * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
      */
     public Builder setReceiver(
         com.example.fedn_client.grpc.Client.Builder builderForValue) {
@@ -955,7 +1019,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client receiver = 2;</code>
+     * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
      */
     public Builder mergeReceiver(com.example.fedn_client.grpc.Client value) {
       if (receiverBuilder_ == null) {
@@ -974,7 +1038,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client receiver = 2;</code>
+     * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
      */
     public Builder clearReceiver() {
       bitField0_ = (bitField0_ & ~0x00000002);
@@ -987,7 +1051,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client receiver = 2;</code>
+     * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
      */
     public com.example.fedn_client.grpc.Client.Builder getReceiverBuilder() {
       bitField0_ |= 0x00000002;
@@ -995,7 +1059,7 @@ private static final long serialVersionUID = 0L;
       return getReceiverFieldBuilder().getBuilder();
     }
     /**
-     * <code>.grpc.Client receiver = 2;</code>
+     * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
      */
     public com.example.fedn_client.grpc.ClientOrBuilder getReceiverOrBuilder() {
       if (receiverBuilder_ != null) {
@@ -1006,7 +1070,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.grpc.Client receiver = 2;</code>
+     * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         com.example.fedn_client.grpc.Client, com.example.fedn_client.grpc.Client.Builder, com.example.fedn_client.grpc.ClientOrBuilder> 
@@ -1381,6 +1445,78 @@ private static final long serialVersionUID = 0L;
       onChanged();
       return this;
     }
+
+    private java.lang.Object config_ = "";
+    /**
+     * <code>string config = 8;</code>
+     * @return The config.
+     */
+    public java.lang.String getConfig() {
+      java.lang.Object ref = config_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        config_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string config = 8;</code>
+     * @return The bytes for config.
+     */
+    public com.google.protobuf.ByteString
+        getConfigBytes() {
+      java.lang.Object ref = config_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        config_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string config = 8;</code>
+     * @param value The config to set.
+     * @return This builder for chaining.
+     */
+    public Builder setConfig(
+        java.lang.String value) {
+      if (value == null) { throw new NullPointerException(); }
+      config_ = value;
+      bitField0_ |= 0x00000080;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string config = 8;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearConfig() {
+      config_ = getDefaultInstance().getConfig();
+      bitField0_ = (bitField0_ & ~0x00000080);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string config = 8;</code>
+     * @param value The bytes for config to set.
+     * @return This builder for chaining.
+     */
+    public Builder setConfigBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) { throw new NullPointerException(); }
+      checkByteStringIsUtf8(value);
+      config_ = value;
+      bitField0_ |= 0x00000080;
+      onChanged();
+      return this;
+    }
     @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1394,10 +1530,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:grpc.ModelUpdate)
+    // @@protoc_insertion_point(builder_scope:com.example.fedn_client.grpc.ModelUpdate)
   }
 
-  // @@protoc_insertion_point(class_scope:grpc.ModelUpdate)
+  // @@protoc_insertion_point(class_scope:com.example.fedn_client.grpc.ModelUpdate)
   private static final com.example.fedn_client.grpc.ModelUpdate DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new com.example.fedn_client.grpc.ModelUpdate();

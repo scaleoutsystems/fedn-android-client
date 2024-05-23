@@ -4,11 +4,11 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf type {@code grpc.Heartbeat}
+ * Protobuf type {@code com.example.fedn_client.grpc.Heartbeat}
  */
 public final class Heartbeat extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:grpc.Heartbeat)
+    // @@protoc_insertion_point(message_implements:com.example.fedn_client.grpc.Heartbeat)
     HeartbeatOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use Heartbeat.newBuilder() to construct.
@@ -27,13 +27,13 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_Heartbeat_descriptor;
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_Heartbeat_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_Heartbeat_fieldAccessorTable
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_Heartbeat_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.example.fedn_client.grpc.Heartbeat.class, com.example.fedn_client.grpc.Heartbeat.Builder.class);
   }
@@ -41,7 +41,7 @@ private static final long serialVersionUID = 0L;
   public static final int SENDER_FIELD_NUMBER = 1;
   private com.example.fedn_client.grpc.Client sender_;
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return Whether the sender field is set.
    */
   @java.lang.Override
@@ -49,7 +49,7 @@ private static final long serialVersionUID = 0L;
     return sender_ != null;
   }
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return The sender.
    */
   @java.lang.Override
@@ -57,7 +57,7 @@ private static final long serialVersionUID = 0L;
     return sender_ == null ? com.example.fedn_client.grpc.Client.getDefaultInstance() : sender_;
   }
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    */
   @java.lang.Override
   public com.example.fedn_client.grpc.ClientOrBuilder getSenderOrBuilder() {
@@ -227,21 +227,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code grpc.Heartbeat}
+   * Protobuf type {@code com.example.fedn_client.grpc.Heartbeat}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:grpc.Heartbeat)
+      // @@protoc_insertion_point(builder_implements:com.example.fedn_client.grpc.Heartbeat)
       com.example.fedn_client.grpc.HeartbeatOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_Heartbeat_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_Heartbeat_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_Heartbeat_fieldAccessorTable
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_Heartbeat_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.example.fedn_client.grpc.Heartbeat.class, com.example.fedn_client.grpc.Heartbeat.Builder.class);
     }
@@ -271,7 +271,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_Heartbeat_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_Heartbeat_descriptor;
     }
 
     @java.lang.Override
@@ -406,14 +406,14 @@ private static final long serialVersionUID = 0L;
     private com.google.protobuf.SingleFieldBuilderV3<
         com.example.fedn_client.grpc.Client, com.example.fedn_client.grpc.Client.Builder, com.example.fedn_client.grpc.ClientOrBuilder> senderBuilder_;
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      * @return Whether the sender field is set.
      */
     public boolean hasSender() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      * @return The sender.
      */
     public com.example.fedn_client.grpc.Client getSender() {
@@ -424,7 +424,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public Builder setSender(com.example.fedn_client.grpc.Client value) {
       if (senderBuilder_ == null) {
@@ -440,7 +440,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public Builder setSender(
         com.example.fedn_client.grpc.Client.Builder builderForValue) {
@@ -454,7 +454,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public Builder mergeSender(com.example.fedn_client.grpc.Client value) {
       if (senderBuilder_ == null) {
@@ -473,7 +473,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public Builder clearSender() {
       bitField0_ = (bitField0_ & ~0x00000001);
@@ -486,7 +486,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public com.example.fedn_client.grpc.Client.Builder getSenderBuilder() {
       bitField0_ |= 0x00000001;
@@ -494,7 +494,7 @@ private static final long serialVersionUID = 0L;
       return getSenderFieldBuilder().getBuilder();
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     public com.example.fedn_client.grpc.ClientOrBuilder getSenderOrBuilder() {
       if (senderBuilder_ != null) {
@@ -505,7 +505,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.grpc.Client sender = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         com.example.fedn_client.grpc.Client, com.example.fedn_client.grpc.Client.Builder, com.example.fedn_client.grpc.ClientOrBuilder> 
@@ -533,10 +533,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:grpc.Heartbeat)
+    // @@protoc_insertion_point(builder_scope:com.example.fedn_client.grpc.Heartbeat)
   }
 
-  // @@protoc_insertion_point(class_scope:grpc.Heartbeat)
+  // @@protoc_insertion_point(class_scope:com.example.fedn_client.grpc.Heartbeat)
   private static final com.example.fedn_client.grpc.Heartbeat DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new com.example.fedn_client.grpc.Heartbeat();

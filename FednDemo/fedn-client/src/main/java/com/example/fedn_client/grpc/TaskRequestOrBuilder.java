@@ -3,37 +3,37 @@
 
 package com.example.fedn_client.grpc;
 
-public interface ModelUpdateRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.ModelUpdateRequest)
+public interface TaskRequestOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.TaskRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return Whether the sender field is set.
    */
   boolean hasSender();
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return The sender.
    */
   com.example.fedn_client.grpc.Client getSender();
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    */
   com.example.fedn_client.grpc.ClientOrBuilder getSenderOrBuilder();
 
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    * @return Whether the receiver field is set.
    */
   boolean hasReceiver();
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    * @return The receiver.
    */
   com.example.fedn_client.grpc.Client getReceiver();
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    */
   com.example.fedn_client.grpc.ClientOrBuilder getReceiverOrBuilder();
 
@@ -50,11 +50,19 @@ public interface ModelUpdateRequestOrBuilder extends
       getModelIdBytes();
 
   /**
+   * <pre>
+   * data is round_config when type is MODEL_UPDATE
+   * </pre>
+   *
    * <code>string data = 4;</code>
    * @return The data.
    */
   java.lang.String getData();
   /**
+   * <pre>
+   * data is round_config when type is MODEL_UPDATE
+   * </pre>
+   *
    * <code>string data = 4;</code>
    * @return The bytes for data.
    */
@@ -96,4 +104,27 @@ public interface ModelUpdateRequestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getMetaBytes();
+
+  /**
+   * <code>string session_id = 8;</code>
+   * @return The sessionId.
+   */
+  java.lang.String getSessionId();
+  /**
+   * <code>string session_id = 8;</code>
+   * @return The bytes for sessionId.
+   */
+  com.google.protobuf.ByteString
+      getSessionIdBytes();
+
+  /**
+   * <code>.com.example.fedn_client.grpc.StatusType type = 9;</code>
+   * @return The enum numeric value on the wire for type.
+   */
+  int getTypeValue();
+  /**
+   * <code>.com.example.fedn_client.grpc.StatusType type = 9;</code>
+   * @return The type.
+   */
+  com.example.fedn_client.grpc.StatusType getType();
 }

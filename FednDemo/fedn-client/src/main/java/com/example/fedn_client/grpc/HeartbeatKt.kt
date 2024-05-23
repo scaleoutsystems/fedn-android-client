@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun heartbeat(block: com.example.fedn_client.grpc.HeartbeatKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.Heartbeat =
   com.example.fedn_client.grpc.HeartbeatKt.Dsl._create(com.example.fedn_client.grpc.Heartbeat.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.Heartbeat`
+ * Protobuf type `com.example.fedn_client.grpc.Heartbeat`
  */
 public object HeartbeatKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -28,7 +28,7 @@ public object HeartbeatKt {
     internal fun _build(): com.example.fedn_client.grpc.Heartbeat = _builder.build()
 
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public var sender: com.example.fedn_client.grpc.Client
       @JvmName("getSender")
@@ -38,13 +38,13 @@ public object HeartbeatKt {
         _builder.setSender(value)
       }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public fun clearSender() {
       _builder.clearSender()
     }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      * @return Whether the sender field is set.
      */
     public fun hasSender(): kotlin.Boolean {

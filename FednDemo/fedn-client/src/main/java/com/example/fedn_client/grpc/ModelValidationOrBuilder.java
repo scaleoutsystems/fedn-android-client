@@ -4,36 +4,36 @@
 package com.example.fedn_client.grpc;
 
 public interface ModelValidationOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.ModelValidation)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.ModelValidation)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return Whether the sender field is set.
    */
   boolean hasSender();
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return The sender.
    */
   com.example.fedn_client.grpc.Client getSender();
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    */
   com.example.fedn_client.grpc.ClientOrBuilder getSenderOrBuilder();
 
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    * @return Whether the receiver field is set.
    */
   boolean hasReceiver();
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    * @return The receiver.
    */
   com.example.fedn_client.grpc.Client getReceiver();
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    */
   com.example.fedn_client.grpc.ClientOrBuilder getReceiverOrBuilder();
 
@@ -74,16 +74,19 @@ public interface ModelValidationOrBuilder extends
       getCorrelationIdBytes();
 
   /**
-   * <code>string timestamp = 6;</code>
+   * <code>.google.protobuf.Timestamp timestamp = 6;</code>
+   * @return Whether the timestamp field is set.
+   */
+  boolean hasTimestamp();
+  /**
+   * <code>.google.protobuf.Timestamp timestamp = 6;</code>
    * @return The timestamp.
    */
-  java.lang.String getTimestamp();
+  com.google.protobuf.Timestamp getTimestamp();
   /**
-   * <code>string timestamp = 6;</code>
-   * @return The bytes for timestamp.
+   * <code>.google.protobuf.Timestamp timestamp = 6;</code>
    */
-  com.google.protobuf.ByteString
-      getTimestampBytes();
+  com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
 
   /**
    * <code>string meta = 7;</code>
@@ -96,4 +99,16 @@ public interface ModelValidationOrBuilder extends
    */
   com.google.protobuf.ByteString
       getMetaBytes();
+
+  /**
+   * <code>string session_id = 8;</code>
+   * @return The sessionId.
+   */
+  java.lang.String getSessionId();
+  /**
+   * <code>string session_id = 8;</code>
+   * @return The bytes for sessionId.
+   */
+  com.google.protobuf.ByteString
+      getSessionIdBytes();
 }

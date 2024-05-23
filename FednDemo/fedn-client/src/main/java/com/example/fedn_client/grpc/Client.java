@@ -4,11 +4,11 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf type {@code grpc.Client}
+ * Protobuf type {@code com.example.fedn_client.grpc.Client}
  */
 public final class Client extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:grpc.Client)
+    // @@protoc_insertion_point(message_implements:com.example.fedn_client.grpc.Client)
     ClientOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use Client.newBuilder() to construct.
@@ -29,13 +29,13 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_Client_descriptor;
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_Client_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_Client_fieldAccessorTable
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_Client_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.example.fedn_client.grpc.Client.class, com.example.fedn_client.grpc.Client.Builder.class);
   }
@@ -43,14 +43,14 @@ private static final long serialVersionUID = 0L;
   public static final int ROLE_FIELD_NUMBER = 1;
   private int role_ = 0;
   /**
-   * <code>.grpc.Role role = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Role role = 1;</code>
    * @return The enum numeric value on the wire for role.
    */
   @java.lang.Override public int getRoleValue() {
     return role_;
   }
   /**
-   * <code>.grpc.Role role = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Role role = 1;</code>
    * @return The role.
    */
   @java.lang.Override public com.example.fedn_client.grpc.Role getRole() {
@@ -264,21 +264,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code grpc.Client}
+   * Protobuf type {@code com.example.fedn_client.grpc.Client}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:grpc.Client)
+      // @@protoc_insertion_point(builder_implements:com.example.fedn_client.grpc.Client)
       com.example.fedn_client.grpc.ClientOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_Client_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_Client_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_Client_fieldAccessorTable
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_Client_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.example.fedn_client.grpc.Client.class, com.example.fedn_client.grpc.Client.Builder.class);
     }
@@ -305,7 +305,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_Client_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_Client_descriptor;
     }
 
     @java.lang.Override
@@ -447,14 +447,14 @@ private static final long serialVersionUID = 0L;
 
     private int role_ = 0;
     /**
-     * <code>.grpc.Role role = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Role role = 1;</code>
      * @return The enum numeric value on the wire for role.
      */
     @java.lang.Override public int getRoleValue() {
       return role_;
     }
     /**
-     * <code>.grpc.Role role = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Role role = 1;</code>
      * @param value The enum numeric value on the wire for role to set.
      * @return This builder for chaining.
      */
@@ -465,7 +465,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Role role = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Role role = 1;</code>
      * @return The role.
      */
     @java.lang.Override
@@ -474,7 +474,7 @@ private static final long serialVersionUID = 0L;
       return result == null ? com.example.fedn_client.grpc.Role.UNRECOGNIZED : result;
     }
     /**
-     * <code>.grpc.Role role = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Role role = 1;</code>
      * @param value The role to set.
      * @return This builder for chaining.
      */
@@ -488,7 +488,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.Role role = 1;</code>
+     * <code>.com.example.fedn_client.grpc.Role role = 1;</code>
      * @return This builder for chaining.
      */
     public Builder clearRole() {
@@ -582,10 +582,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:grpc.Client)
+    // @@protoc_insertion_point(builder_scope:com.example.fedn_client.grpc.Client)
   }
 
-  // @@protoc_insertion_point(class_scope:grpc.Client)
+  // @@protoc_insertion_point(class_scope:com.example.fedn_client.grpc.Client)
   private static final com.example.fedn_client.grpc.Client DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new com.example.fedn_client.grpc.Client();

@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun listClientsRequest(block: com.example.fedn_client.grpc.ListClientsRequestKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.ListClientsRequest =
   com.example.fedn_client.grpc.ListClientsRequestKt.Dsl._create(com.example.fedn_client.grpc.ListClientsRequest.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.ListClientsRequest`
+ * Protobuf type `com.example.fedn_client.grpc.ListClientsRequest`
  */
 public object ListClientsRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -28,7 +28,7 @@ public object ListClientsRequestKt {
     internal fun _build(): com.example.fedn_client.grpc.ListClientsRequest = _builder.build()
 
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public var sender: com.example.fedn_client.grpc.Client
       @JvmName("getSender")
@@ -38,13 +38,13 @@ public object ListClientsRequestKt {
         _builder.setSender(value)
       }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public fun clearSender() {
       _builder.clearSender()
     }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      * @return Whether the sender field is set.
      */
     public fun hasSender(): kotlin.Boolean {
@@ -52,9 +52,9 @@ public object ListClientsRequestKt {
     }
 
     /**
-     * `.grpc.Channel channel = 2;`
+     * `.com.example.fedn_client.grpc.Queue channel = 2;`
      */
-    public var channel: com.example.fedn_client.grpc.Channel
+    public var channel: com.example.fedn_client.grpc.Queue
       @JvmName("getChannel")
       get() = _builder.getChannel()
       @JvmName("setChannel")
@@ -69,7 +69,7 @@ public object ListClientsRequestKt {
         _builder.setChannelValue(value)
       }
     /**
-     * `.grpc.Channel channel = 2;`
+     * `.com.example.fedn_client.grpc.Queue channel = 2;`
      */
     public fun clearChannel() {
       _builder.clearChannel()

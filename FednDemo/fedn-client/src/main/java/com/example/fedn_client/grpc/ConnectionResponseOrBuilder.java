@@ -4,16 +4,16 @@
 package com.example.fedn_client.grpc;
 
 public interface ConnectionResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.ConnectionResponse)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.ConnectionResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.grpc.ConnectionStatus status = 1;</code>
+   * <code>.com.example.fedn_client.grpc.ConnectionStatus status = 1;</code>
    * @return The enum numeric value on the wire for status.
    */
   int getStatusValue();
   /**
-   * <code>.grpc.ConnectionStatus status = 1;</code>
+   * <code>.com.example.fedn_client.grpc.ConnectionStatus status = 1;</code>
    * @return The status.
    */
   com.example.fedn_client.grpc.ConnectionStatus getStatus();

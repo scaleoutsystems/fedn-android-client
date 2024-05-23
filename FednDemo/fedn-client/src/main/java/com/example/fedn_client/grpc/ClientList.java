@@ -4,11 +4,11 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf type {@code grpc.ClientList}
+ * Protobuf type {@code com.example.fedn_client.grpc.ClientList}
  */
 public final class ClientList extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:grpc.ClientList)
+    // @@protoc_insertion_point(message_implements:com.example.fedn_client.grpc.ClientList)
     ClientListOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use ClientList.newBuilder() to construct.
@@ -28,13 +28,13 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ClientList_descriptor;
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ClientList_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ClientList_fieldAccessorTable
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ClientList_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.example.fedn_client.grpc.ClientList.class, com.example.fedn_client.grpc.ClientList.Builder.class);
   }
@@ -43,14 +43,14 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings("serial")
   private java.util.List<com.example.fedn_client.grpc.Client> client_;
   /**
-   * <code>repeated .grpc.Client client = 1;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
    */
   @java.lang.Override
   public java.util.List<com.example.fedn_client.grpc.Client> getClientList() {
     return client_;
   }
   /**
-   * <code>repeated .grpc.Client client = 1;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
    */
   @java.lang.Override
   public java.util.List<? extends com.example.fedn_client.grpc.ClientOrBuilder> 
@@ -58,21 +58,21 @@ private static final long serialVersionUID = 0L;
     return client_;
   }
   /**
-   * <code>repeated .grpc.Client client = 1;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
    */
   @java.lang.Override
   public int getClientCount() {
     return client_.size();
   }
   /**
-   * <code>repeated .grpc.Client client = 1;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
    */
   @java.lang.Override
   public com.example.fedn_client.grpc.Client getClient(int index) {
     return client_.get(index);
   }
   /**
-   * <code>repeated .grpc.Client client = 1;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
    */
   @java.lang.Override
   public com.example.fedn_client.grpc.ClientOrBuilder getClientOrBuilder(
@@ -240,21 +240,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code grpc.ClientList}
+   * Protobuf type {@code com.example.fedn_client.grpc.ClientList}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:grpc.ClientList)
+      // @@protoc_insertion_point(builder_implements:com.example.fedn_client.grpc.ClientList)
       com.example.fedn_client.grpc.ClientListOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ClientList_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ClientList_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ClientList_fieldAccessorTable
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ClientList_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.example.fedn_client.grpc.ClientList.class, com.example.fedn_client.grpc.ClientList.Builder.class);
     }
@@ -286,7 +286,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ClientList_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ClientList_descriptor;
     }
 
     @java.lang.Override
@@ -467,7 +467,7 @@ private static final long serialVersionUID = 0L;
         com.example.fedn_client.grpc.Client, com.example.fedn_client.grpc.Client.Builder, com.example.fedn_client.grpc.ClientOrBuilder> clientBuilder_;
 
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public java.util.List<com.example.fedn_client.grpc.Client> getClientList() {
       if (clientBuilder_ == null) {
@@ -477,7 +477,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public int getClientCount() {
       if (clientBuilder_ == null) {
@@ -487,7 +487,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public com.example.fedn_client.grpc.Client getClient(int index) {
       if (clientBuilder_ == null) {
@@ -497,7 +497,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public Builder setClient(
         int index, com.example.fedn_client.grpc.Client value) {
@@ -514,7 +514,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public Builder setClient(
         int index, com.example.fedn_client.grpc.Client.Builder builderForValue) {
@@ -528,7 +528,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public Builder addClient(com.example.fedn_client.grpc.Client value) {
       if (clientBuilder_ == null) {
@@ -544,7 +544,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public Builder addClient(
         int index, com.example.fedn_client.grpc.Client value) {
@@ -561,7 +561,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public Builder addClient(
         com.example.fedn_client.grpc.Client.Builder builderForValue) {
@@ -575,7 +575,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public Builder addClient(
         int index, com.example.fedn_client.grpc.Client.Builder builderForValue) {
@@ -589,7 +589,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public Builder addAllClient(
         java.lang.Iterable<? extends com.example.fedn_client.grpc.Client> values) {
@@ -604,7 +604,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public Builder clearClient() {
       if (clientBuilder_ == null) {
@@ -617,7 +617,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public Builder removeClient(int index) {
       if (clientBuilder_ == null) {
@@ -630,14 +630,14 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public com.example.fedn_client.grpc.Client.Builder getClientBuilder(
         int index) {
       return getClientFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public com.example.fedn_client.grpc.ClientOrBuilder getClientOrBuilder(
         int index) {
@@ -647,7 +647,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public java.util.List<? extends com.example.fedn_client.grpc.ClientOrBuilder> 
          getClientOrBuilderList() {
@@ -658,14 +658,14 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public com.example.fedn_client.grpc.Client.Builder addClientBuilder() {
       return getClientFieldBuilder().addBuilder(
           com.example.fedn_client.grpc.Client.getDefaultInstance());
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public com.example.fedn_client.grpc.Client.Builder addClientBuilder(
         int index) {
@@ -673,7 +673,7 @@ private static final long serialVersionUID = 0L;
           index, com.example.fedn_client.grpc.Client.getDefaultInstance());
     }
     /**
-     * <code>repeated .grpc.Client client = 1;</code>
+     * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
      */
     public java.util.List<com.example.fedn_client.grpc.Client.Builder> 
          getClientBuilderList() {
@@ -706,10 +706,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:grpc.ClientList)
+    // @@protoc_insertion_point(builder_scope:com.example.fedn_client.grpc.ClientList)
   }
 
-  // @@protoc_insertion_point(class_scope:grpc.ClientList)
+  // @@protoc_insertion_point(class_scope:com.example.fedn_client.grpc.ClientList)
   private static final com.example.fedn_client.grpc.ClientList DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new com.example.fedn_client.grpc.ClientList();

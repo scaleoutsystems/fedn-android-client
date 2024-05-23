@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun client(block: com.example.fedn_client.grpc.ClientKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.Client =
   com.example.fedn_client.grpc.ClientKt.Dsl._create(com.example.fedn_client.grpc.Client.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.Client`
+ * Protobuf type `com.example.fedn_client.grpc.Client`
  */
 public object ClientKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -28,7 +28,7 @@ public object ClientKt {
     internal fun _build(): com.example.fedn_client.grpc.Client = _builder.build()
 
     /**
-     * `.grpc.Role role = 1;`
+     * `.com.example.fedn_client.grpc.Role role = 1;`
      */
     public var role: com.example.fedn_client.grpc.Role
       @JvmName("getRole")
@@ -45,7 +45,7 @@ public object ClientKt {
         _builder.setRoleValue(value)
       }
     /**
-     * `.grpc.Role role = 1;`
+     * `.com.example.fedn_client.grpc.Role role = 1;`
      */
     public fun clearRole() {
       _builder.clearRole()

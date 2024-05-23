@@ -12,7 +12,7 @@ public final class ControlGrpc {
 
   private ControlGrpc() {}
 
-  public static final java.lang.String SERVICE_NAME = "grpc.Control";
+  public static final java.lang.String SERVICE_NAME = "com.example.fedn_client.grpc.Control";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ControlRequest,
@@ -78,65 +78,65 @@ public final class ControlGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ControlRequest,
-      com.example.fedn_client.grpc.ReportResponse> getConfigureMethod;
+      com.example.fedn_client.grpc.ControlResponse> getFlushAggregationQueueMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "Configure",
+      fullMethodName = SERVICE_NAME + '/' + "FlushAggregationQueue",
       requestType = com.example.fedn_client.grpc.ControlRequest.class,
-      responseType = com.example.fedn_client.grpc.ReportResponse.class,
+      responseType = com.example.fedn_client.grpc.ControlResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ControlRequest,
-      com.example.fedn_client.grpc.ReportResponse> getConfigureMethod() {
-    io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ControlRequest, com.example.fedn_client.grpc.ReportResponse> getConfigureMethod;
-    if ((getConfigureMethod = ControlGrpc.getConfigureMethod) == null) {
+      com.example.fedn_client.grpc.ControlResponse> getFlushAggregationQueueMethod() {
+    io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ControlRequest, com.example.fedn_client.grpc.ControlResponse> getFlushAggregationQueueMethod;
+    if ((getFlushAggregationQueueMethod = ControlGrpc.getFlushAggregationQueueMethod) == null) {
       synchronized (ControlGrpc.class) {
-        if ((getConfigureMethod = ControlGrpc.getConfigureMethod) == null) {
-          ControlGrpc.getConfigureMethod = getConfigureMethod =
-              io.grpc.MethodDescriptor.<com.example.fedn_client.grpc.ControlRequest, com.example.fedn_client.grpc.ReportResponse>newBuilder()
+        if ((getFlushAggregationQueueMethod = ControlGrpc.getFlushAggregationQueueMethod) == null) {
+          ControlGrpc.getFlushAggregationQueueMethod = getFlushAggregationQueueMethod =
+              io.grpc.MethodDescriptor.<com.example.fedn_client.grpc.ControlRequest, com.example.fedn_client.grpc.ControlResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Configure"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "FlushAggregationQueue"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.example.fedn_client.grpc.ControlRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.fedn_client.grpc.ReportResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new ControlMethodDescriptorSupplier("Configure"))
+                  com.example.fedn_client.grpc.ControlResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ControlMethodDescriptorSupplier("FlushAggregationQueue"))
               .build();
         }
       }
     }
-    return getConfigureMethod;
+    return getFlushAggregationQueueMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ControlRequest,
-      com.example.fedn_client.grpc.ReportResponse> getReportMethod;
+      com.example.fedn_client.grpc.ControlResponse> getSetAggregatorMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "Report",
+      fullMethodName = SERVICE_NAME + '/' + "SetAggregator",
       requestType = com.example.fedn_client.grpc.ControlRequest.class,
-      responseType = com.example.fedn_client.grpc.ReportResponse.class,
+      responseType = com.example.fedn_client.grpc.ControlResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ControlRequest,
-      com.example.fedn_client.grpc.ReportResponse> getReportMethod() {
-    io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ControlRequest, com.example.fedn_client.grpc.ReportResponse> getReportMethod;
-    if ((getReportMethod = ControlGrpc.getReportMethod) == null) {
+      com.example.fedn_client.grpc.ControlResponse> getSetAggregatorMethod() {
+    io.grpc.MethodDescriptor<com.example.fedn_client.grpc.ControlRequest, com.example.fedn_client.grpc.ControlResponse> getSetAggregatorMethod;
+    if ((getSetAggregatorMethod = ControlGrpc.getSetAggregatorMethod) == null) {
       synchronized (ControlGrpc.class) {
-        if ((getReportMethod = ControlGrpc.getReportMethod) == null) {
-          ControlGrpc.getReportMethod = getReportMethod =
-              io.grpc.MethodDescriptor.<com.example.fedn_client.grpc.ControlRequest, com.example.fedn_client.grpc.ReportResponse>newBuilder()
+        if ((getSetAggregatorMethod = ControlGrpc.getSetAggregatorMethod) == null) {
+          ControlGrpc.getSetAggregatorMethod = getSetAggregatorMethod =
+              io.grpc.MethodDescriptor.<com.example.fedn_client.grpc.ControlRequest, com.example.fedn_client.grpc.ControlResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Report"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "SetAggregator"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.example.fedn_client.grpc.ControlRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.fedn_client.grpc.ReportResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new ControlMethodDescriptorSupplier("Report"))
+                  com.example.fedn_client.grpc.ControlResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ControlMethodDescriptorSupplier("SetAggregator"))
               .build();
         }
       }
     }
-    return getReportMethod;
+    return getSetAggregatorMethod;
   }
 
   /**
@@ -203,16 +203,16 @@ public final class ControlGrpc {
 
     /**
      */
-    default void configure(com.example.fedn_client.grpc.ControlRequest request,
-        io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ReportResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getConfigureMethod(), responseObserver);
+    default void flushAggregationQueue(com.example.fedn_client.grpc.ControlRequest request,
+        io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ControlResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getFlushAggregationQueueMethod(), responseObserver);
     }
 
     /**
      */
-    default void report(com.example.fedn_client.grpc.ControlRequest request,
-        io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ReportResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getReportMethod(), responseObserver);
+    default void setAggregator(com.example.fedn_client.grpc.ControlRequest request,
+        io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ControlResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSetAggregatorMethod(), responseObserver);
     }
   }
 
@@ -261,18 +261,18 @@ public final class ControlGrpc {
 
     /**
      */
-    public void configure(com.example.fedn_client.grpc.ControlRequest request,
-        io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ReportResponse> responseObserver) {
+    public void flushAggregationQueue(com.example.fedn_client.grpc.ControlRequest request,
+        io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ControlResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getConfigureMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getFlushAggregationQueueMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void report(com.example.fedn_client.grpc.ControlRequest request,
-        io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ReportResponse> responseObserver) {
+    public void setAggregator(com.example.fedn_client.grpc.ControlRequest request,
+        io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ControlResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getReportMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getSetAggregatorMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -308,16 +308,16 @@ public final class ControlGrpc {
 
     /**
      */
-    public com.example.fedn_client.grpc.ReportResponse configure(com.example.fedn_client.grpc.ControlRequest request) {
+    public com.example.fedn_client.grpc.ControlResponse flushAggregationQueue(com.example.fedn_client.grpc.ControlRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getConfigureMethod(), getCallOptions(), request);
+          getChannel(), getFlushAggregationQueueMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public com.example.fedn_client.grpc.ReportResponse report(com.example.fedn_client.grpc.ControlRequest request) {
+    public com.example.fedn_client.grpc.ControlResponse setAggregator(com.example.fedn_client.grpc.ControlRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getReportMethod(), getCallOptions(), request);
+          getChannel(), getSetAggregatorMethod(), getCallOptions(), request);
     }
   }
 
@@ -355,25 +355,25 @@ public final class ControlGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.example.fedn_client.grpc.ReportResponse> configure(
+    public com.google.common.util.concurrent.ListenableFuture<com.example.fedn_client.grpc.ControlResponse> flushAggregationQueue(
         com.example.fedn_client.grpc.ControlRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getConfigureMethod(), getCallOptions()), request);
+          getChannel().newCall(getFlushAggregationQueueMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.example.fedn_client.grpc.ReportResponse> report(
+    public com.google.common.util.concurrent.ListenableFuture<com.example.fedn_client.grpc.ControlResponse> setAggregator(
         com.example.fedn_client.grpc.ControlRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getReportMethod(), getCallOptions()), request);
+          getChannel().newCall(getSetAggregatorMethod(), getCallOptions()), request);
     }
   }
 
   private static final int METHODID_START = 0;
   private static final int METHODID_STOP = 1;
-  private static final int METHODID_CONFIGURE = 2;
-  private static final int METHODID_REPORT = 3;
+  private static final int METHODID_FLUSH_AGGREGATION_QUEUE = 2;
+  private static final int METHODID_SET_AGGREGATOR = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -400,13 +400,13 @@ public final class ControlGrpc {
           serviceImpl.stop((com.example.fedn_client.grpc.ControlRequest) request,
               (io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ControlResponse>) responseObserver);
           break;
-        case METHODID_CONFIGURE:
-          serviceImpl.configure((com.example.fedn_client.grpc.ControlRequest) request,
-              (io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ReportResponse>) responseObserver);
+        case METHODID_FLUSH_AGGREGATION_QUEUE:
+          serviceImpl.flushAggregationQueue((com.example.fedn_client.grpc.ControlRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ControlResponse>) responseObserver);
           break;
-        case METHODID_REPORT:
-          serviceImpl.report((com.example.fedn_client.grpc.ControlRequest) request,
-              (io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ReportResponse>) responseObserver);
+        case METHODID_SET_AGGREGATOR:
+          serviceImpl.setAggregator((com.example.fedn_client.grpc.ControlRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.fedn_client.grpc.ControlResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -441,19 +441,19 @@ public final class ControlGrpc {
               com.example.fedn_client.grpc.ControlResponse>(
                 service, METHODID_STOP)))
         .addMethod(
-          getConfigureMethod(),
+          getFlushAggregationQueueMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
               com.example.fedn_client.grpc.ControlRequest,
-              com.example.fedn_client.grpc.ReportResponse>(
-                service, METHODID_CONFIGURE)))
+              com.example.fedn_client.grpc.ControlResponse>(
+                service, METHODID_FLUSH_AGGREGATION_QUEUE)))
         .addMethod(
-          getReportMethod(),
+          getSetAggregatorMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
               com.example.fedn_client.grpc.ControlRequest,
-              com.example.fedn_client.grpc.ReportResponse>(
-                service, METHODID_REPORT)))
+              com.example.fedn_client.grpc.ControlResponse>(
+                service, METHODID_SET_AGGREGATOR)))
         .build();
   }
 
@@ -504,8 +504,8 @@ public final class ControlGrpc {
               .setSchemaDescriptor(new ControlFileDescriptorSupplier())
               .addMethod(getStartMethod())
               .addMethod(getStopMethod())
-              .addMethod(getConfigureMethod())
-              .addMethod(getReportMethod())
+              .addMethod(getFlushAggregationQueueMethod())
+              .addMethod(getSetAggregatorMethod())
               .build();
         }
       }

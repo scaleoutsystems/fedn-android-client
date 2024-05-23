@@ -4,7 +4,7 @@
 package com.example.fedn_client.grpc;
 
 public interface ParameterOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.Parameter)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.Parameter)
     com.google.protobuf.MessageOrBuilder {
 
   /**

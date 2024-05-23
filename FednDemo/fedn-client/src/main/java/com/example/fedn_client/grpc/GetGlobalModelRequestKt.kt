@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun getGlobalModelRequest(block: com.example.fedn_client.grpc.GetGlobalModelRequestKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.GetGlobalModelRequest =
   com.example.fedn_client.grpc.GetGlobalModelRequestKt.Dsl._create(com.example.fedn_client.grpc.GetGlobalModelRequest.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.GetGlobalModelRequest`
+ * Protobuf type `com.example.fedn_client.grpc.GetGlobalModelRequest`
  */
 public object GetGlobalModelRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -28,7 +28,7 @@ public object GetGlobalModelRequestKt {
     internal fun _build(): com.example.fedn_client.grpc.GetGlobalModelRequest = _builder.build()
 
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public var sender: com.example.fedn_client.grpc.Client
       @JvmName("getSender")
@@ -38,13 +38,13 @@ public object GetGlobalModelRequestKt {
         _builder.setSender(value)
       }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public fun clearSender() {
       _builder.clearSender()
     }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      * @return Whether the sender field is set.
      */
     public fun hasSender(): kotlin.Boolean {
@@ -52,7 +52,7 @@ public object GetGlobalModelRequestKt {
     }
 
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      */
     public var receiver: com.example.fedn_client.grpc.Client
       @JvmName("getReceiver")
@@ -62,13 +62,13 @@ public object GetGlobalModelRequestKt {
         _builder.setReceiver(value)
       }
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      */
     public fun clearReceiver() {
       _builder.clearReceiver()
     }
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      * @return Whether the receiver field is set.
      */
     public fun hasReceiver(): kotlin.Boolean {

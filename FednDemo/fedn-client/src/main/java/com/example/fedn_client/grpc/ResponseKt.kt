@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun response(block: com.example.fedn_client.grpc.ResponseKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.Response =
   com.example.fedn_client.grpc.ResponseKt.Dsl._create(com.example.fedn_client.grpc.Response.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.Response`
+ * Protobuf type `com.example.fedn_client.grpc.Response`
  */
 public object ResponseKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -28,7 +28,7 @@ public object ResponseKt {
     internal fun _build(): com.example.fedn_client.grpc.Response = _builder.build()
 
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public var sender: com.example.fedn_client.grpc.Client
       @JvmName("getSender")
@@ -38,13 +38,13 @@ public object ResponseKt {
         _builder.setSender(value)
       }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public fun clearSender() {
       _builder.clearSender()
     }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      * @return Whether the sender field is set.
      */
     public fun hasSender(): kotlin.Boolean {
@@ -52,10 +52,6 @@ public object ResponseKt {
     }
 
     /**
-     * ```
-     *string client = 1;
-     * ```
-     *
      * `string response = 2;`
      */
     public var response: kotlin.String
@@ -66,10 +62,6 @@ public object ResponseKt {
         _builder.setResponse(value)
       }
     /**
-     * ```
-     *string client = 1;
-     * ```
-     *
      * `string response = 2;`
      */
     public fun clearResponse() {

@@ -4,7 +4,7 @@
 package com.example.fedn_client.grpc;
 
 public interface ModelResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.ModelResponse)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.ModelResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -26,12 +26,12 @@ public interface ModelResponseOrBuilder extends
       getIdBytes();
 
   /**
-   * <code>.grpc.ModelStatus status = 3;</code>
+   * <code>.com.example.fedn_client.grpc.ModelStatus status = 3;</code>
    * @return The enum numeric value on the wire for status.
    */
   int getStatusValue();
   /**
-   * <code>.grpc.ModelStatus status = 3;</code>
+   * <code>.com.example.fedn_client.grpc.ModelStatus status = 3;</code>
    * @return The status.
    */
   com.example.fedn_client.grpc.ModelStatus getStatus();

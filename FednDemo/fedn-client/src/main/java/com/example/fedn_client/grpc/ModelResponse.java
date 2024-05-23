@@ -4,11 +4,11 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf type {@code grpc.ModelResponse}
+ * Protobuf type {@code com.example.fedn_client.grpc.ModelResponse}
  */
 public final class ModelResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:grpc.ModelResponse)
+    // @@protoc_insertion_point(message_implements:com.example.fedn_client.grpc.ModelResponse)
     ModelResponseOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use ModelResponse.newBuilder() to construct.
@@ -31,13 +31,13 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ModelResponse_descriptor;
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ModelResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ModelResponse_fieldAccessorTable
+    return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ModelResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.example.fedn_client.grpc.ModelResponse.class, com.example.fedn_client.grpc.ModelResponse.Builder.class);
   }
@@ -95,14 +95,14 @@ private static final long serialVersionUID = 0L;
   public static final int STATUS_FIELD_NUMBER = 3;
   private int status_ = 0;
   /**
-   * <code>.grpc.ModelStatus status = 3;</code>
+   * <code>.com.example.fedn_client.grpc.ModelStatus status = 3;</code>
    * @return The enum numeric value on the wire for status.
    */
   @java.lang.Override public int getStatusValue() {
     return status_;
   }
   /**
-   * <code>.grpc.ModelStatus status = 3;</code>
+   * <code>.com.example.fedn_client.grpc.ModelStatus status = 3;</code>
    * @return The status.
    */
   @java.lang.Override public com.example.fedn_client.grpc.ModelStatus getStatus() {
@@ -337,21 +337,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code grpc.ModelResponse}
+   * Protobuf type {@code com.example.fedn_client.grpc.ModelResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:grpc.ModelResponse)
+      // @@protoc_insertion_point(builder_implements:com.example.fedn_client.grpc.ModelResponse)
       com.example.fedn_client.grpc.ModelResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ModelResponse_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ModelResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ModelResponse_fieldAccessorTable
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ModelResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.example.fedn_client.grpc.ModelResponse.class, com.example.fedn_client.grpc.ModelResponse.Builder.class);
     }
@@ -380,7 +380,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.example.fedn_client.grpc.Fedn.internal_static_grpc_ModelResponse_descriptor;
+      return com.example.fedn_client.grpc.Fedn.internal_static_com_example_fedn_client_grpc_ModelResponse_descriptor;
     }
 
     @java.lang.Override
@@ -650,14 +650,14 @@ private static final long serialVersionUID = 0L;
 
     private int status_ = 0;
     /**
-     * <code>.grpc.ModelStatus status = 3;</code>
+     * <code>.com.example.fedn_client.grpc.ModelStatus status = 3;</code>
      * @return The enum numeric value on the wire for status.
      */
     @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
-     * <code>.grpc.ModelStatus status = 3;</code>
+     * <code>.com.example.fedn_client.grpc.ModelStatus status = 3;</code>
      * @param value The enum numeric value on the wire for status to set.
      * @return This builder for chaining.
      */
@@ -668,7 +668,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.ModelStatus status = 3;</code>
+     * <code>.com.example.fedn_client.grpc.ModelStatus status = 3;</code>
      * @return The status.
      */
     @java.lang.Override
@@ -677,7 +677,7 @@ private static final long serialVersionUID = 0L;
       return result == null ? com.example.fedn_client.grpc.ModelStatus.UNRECOGNIZED : result;
     }
     /**
-     * <code>.grpc.ModelStatus status = 3;</code>
+     * <code>.com.example.fedn_client.grpc.ModelStatus status = 3;</code>
      * @param value The status to set.
      * @return This builder for chaining.
      */
@@ -691,7 +691,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.grpc.ModelStatus status = 3;</code>
+     * <code>.com.example.fedn_client.grpc.ModelStatus status = 3;</code>
      * @return This builder for chaining.
      */
     public Builder clearStatus() {
@@ -785,10 +785,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:grpc.ModelResponse)
+    // @@protoc_insertion_point(builder_scope:com.example.fedn_client.grpc.ModelResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:grpc.ModelResponse)
+  // @@protoc_insertion_point(class_scope:com.example.fedn_client.grpc.ModelResponse)
   private static final com.example.fedn_client.grpc.ModelResponse DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new com.example.fedn_client.grpc.ModelResponse();

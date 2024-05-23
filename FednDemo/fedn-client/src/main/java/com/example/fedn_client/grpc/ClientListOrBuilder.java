@@ -4,29 +4,29 @@
 package com.example.fedn_client.grpc;
 
 public interface ClientListOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.ClientList)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.ClientList)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>repeated .grpc.Client client = 1;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
    */
   java.util.List<com.example.fedn_client.grpc.Client> 
       getClientList();
   /**
-   * <code>repeated .grpc.Client client = 1;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
    */
   com.example.fedn_client.grpc.Client getClient(int index);
   /**
-   * <code>repeated .grpc.Client client = 1;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
    */
   int getClientCount();
   /**
-   * <code>repeated .grpc.Client client = 1;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
    */
   java.util.List<? extends com.example.fedn_client.grpc.ClientOrBuilder> 
       getClientOrBuilderList();
   /**
-   * <code>repeated .grpc.Client client = 1;</code>
+   * <code>repeated .com.example.fedn_client.grpc.Client client = 1;</code>
    */
   com.example.fedn_client.grpc.ClientOrBuilder getClientOrBuilder(
       int index);

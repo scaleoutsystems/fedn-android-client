@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun parameter(block: com.example.fedn_client.grpc.ParameterKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.Parameter =
   com.example.fedn_client.grpc.ParameterKt.Dsl._create(com.example.fedn_client.grpc.Parameter.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.Parameter`
+ * Protobuf type `com.example.fedn_client.grpc.Parameter`
  */
 public object ParameterKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)

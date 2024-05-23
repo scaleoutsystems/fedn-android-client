@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun modelResponse(block: com.example.fedn_client.grpc.ModelResponseKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.ModelResponse =
   com.example.fedn_client.grpc.ModelResponseKt.Dsl._create(com.example.fedn_client.grpc.ModelResponse.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.ModelResponse`
+ * Protobuf type `com.example.fedn_client.grpc.ModelResponse`
  */
 public object ModelResponseKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -62,7 +62,7 @@ public object ModelResponseKt {
     }
 
     /**
-     * `.grpc.ModelStatus status = 3;`
+     * `.com.example.fedn_client.grpc.ModelStatus status = 3;`
      */
     public var status: com.example.fedn_client.grpc.ModelStatus
       @JvmName("getStatus")
@@ -79,7 +79,7 @@ public object ModelResponseKt {
         _builder.setStatusValue(value)
       }
     /**
-     * `.grpc.ModelStatus status = 3;`
+     * `.com.example.fedn_client.grpc.ModelStatus status = 3;`
      */
     public fun clearStatus() {
       _builder.clearStatus()

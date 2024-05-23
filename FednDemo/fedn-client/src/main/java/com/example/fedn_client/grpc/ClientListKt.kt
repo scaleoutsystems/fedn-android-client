@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun clientList(block: com.example.fedn_client.grpc.ClientListKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.ClientList =
   com.example.fedn_client.grpc.ClientListKt.Dsl._create(com.example.fedn_client.grpc.ClientList.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.ClientList`
+ * Protobuf type `com.example.fedn_client.grpc.ClientList`
  */
 public object ClientListKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -34,7 +34,7 @@ public object ClientListKt {
     @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
     public class ClientProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
-     * `repeated .grpc.Client client = 1;`
+     * `repeated .com.example.fedn_client.grpc.Client client = 1;`
      */
      public val client: com.google.protobuf.kotlin.DslList<com.example.fedn_client.grpc.Client, ClientProxy>
       @kotlin.jvm.JvmSynthetic
@@ -42,7 +42,7 @@ public object ClientListKt {
         _builder.getClientList()
       )
     /**
-     * `repeated .grpc.Client client = 1;`
+     * `repeated .com.example.fedn_client.grpc.Client client = 1;`
      * @param value The client to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -51,7 +51,7 @@ public object ClientListKt {
       _builder.addClient(value)
     }
     /**
-     * `repeated .grpc.Client client = 1;`
+     * `repeated .com.example.fedn_client.grpc.Client client = 1;`
      * @param value The client to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -61,7 +61,7 @@ public object ClientListKt {
       add(value)
     }
     /**
-     * `repeated .grpc.Client client = 1;`
+     * `repeated .com.example.fedn_client.grpc.Client client = 1;`
      * @param values The client to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -70,7 +70,7 @@ public object ClientListKt {
       _builder.addAllClient(values)
     }
     /**
-     * `repeated .grpc.Client client = 1;`
+     * `repeated .com.example.fedn_client.grpc.Client client = 1;`
      * @param values The client to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -80,7 +80,7 @@ public object ClientListKt {
       addAll(values)
     }
     /**
-     * `repeated .grpc.Client client = 1;`
+     * `repeated .com.example.fedn_client.grpc.Client client = 1;`
      * @param index The index to set the value at.
      * @param value The client to set.
      */
@@ -90,7 +90,7 @@ public object ClientListKt {
       _builder.setClient(index, value)
     }
     /**
-     * `repeated .grpc.Client client = 1;`
+     * `repeated .com.example.fedn_client.grpc.Client client = 1;`
      */
     @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("clearClient")

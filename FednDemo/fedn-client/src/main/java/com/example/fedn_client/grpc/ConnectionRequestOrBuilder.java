@@ -4,6 +4,6 @@
 package com.example.fedn_client.grpc;
 
 public interface ConnectionRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.ConnectionRequest)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.ConnectionRequest)
     com.google.protobuf.MessageOrBuilder {
 }

@@ -4,7 +4,7 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf enum {@code grpc.Command}
+ * Protobuf enum {@code com.example.fedn_client.grpc.Command}
  */
 public enum Command
     implements com.google.protobuf.ProtocolMessageEnum {
@@ -144,6 +144,6 @@ public enum Command
     this.value = value;
   }
 
-  // @@protoc_insertion_point(enum_scope:grpc.Command)
+  // @@protoc_insertion_point(enum_scope:com.example.fedn_client.grpc.Command)
 }
 

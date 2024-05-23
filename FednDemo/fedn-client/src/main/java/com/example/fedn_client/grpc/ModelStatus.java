@@ -4,7 +4,7 @@
 package com.example.fedn_client.grpc;
 
 /**
- * Protobuf enum {@code grpc.ModelStatus}
+ * Protobuf enum {@code com.example.fedn_client.grpc.ModelStatus}
  */
 public enum ModelStatus
     implements com.google.protobuf.ProtocolMessageEnum {
@@ -24,6 +24,10 @@ public enum ModelStatus
    * <code>FAILED = 3;</code>
    */
   FAILED(3),
+  /**
+   * <code>UNKNOWN = 4;</code>
+   */
+  UNKNOWN(4),
   UNRECOGNIZED(-1),
   ;
 
@@ -43,6 +47,10 @@ public enum ModelStatus
    * <code>FAILED = 3;</code>
    */
   public static final int FAILED_VALUE = 3;
+  /**
+   * <code>UNKNOWN = 4;</code>
+   */
+  public static final int UNKNOWN_VALUE = 4;
 
 
   public final int getNumber() {
@@ -73,6 +81,7 @@ public enum ModelStatus
       case 1: return IN_PROGRESS;
       case 2: return IN_PROGRESS_OK;
       case 3: return FAILED;
+      case 4: return UNKNOWN;
       default: return null;
     }
   }
@@ -126,6 +135,6 @@ public enum ModelStatus
     this.value = value;
   }
 
-  // @@protoc_insertion_point(enum_scope:grpc.ModelStatus)
+  // @@protoc_insertion_point(enum_scope:com.example.fedn_client.grpc.ModelStatus)
 }
 

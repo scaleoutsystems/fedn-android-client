@@ -5,30 +5,30 @@
 @file:Suppress("DEPRECATION")
 package com.example.fedn_client.grpc;
 
-@kotlin.jvm.JvmName("-initializemodelValidationRequest")
-public inline fun modelValidationRequest(block: com.example.fedn_client.grpc.ModelValidationRequestKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.ModelValidationRequest =
-  com.example.fedn_client.grpc.ModelValidationRequestKt.Dsl._create(com.example.fedn_client.grpc.ModelValidationRequest.newBuilder()).apply { block() }._build()
+@kotlin.jvm.JvmName("-initializetaskRequest")
+public inline fun taskRequest(block: com.example.fedn_client.grpc.TaskRequestKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.TaskRequest =
+  com.example.fedn_client.grpc.TaskRequestKt.Dsl._create(com.example.fedn_client.grpc.TaskRequest.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.ModelValidationRequest`
+ * Protobuf type `com.example.fedn_client.grpc.TaskRequest`
  */
-public object ModelValidationRequestKt {
+public object TaskRequestKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
   @com.google.protobuf.kotlin.ProtoDslMarker
   public class Dsl private constructor(
-    private val _builder: com.example.fedn_client.grpc.ModelValidationRequest.Builder
+    private val _builder: com.example.fedn_client.grpc.TaskRequest.Builder
   ) {
     public companion object {
       @kotlin.jvm.JvmSynthetic
       @kotlin.PublishedApi
-      internal fun _create(builder: com.example.fedn_client.grpc.ModelValidationRequest.Builder): Dsl = Dsl(builder)
+      internal fun _create(builder: com.example.fedn_client.grpc.TaskRequest.Builder): Dsl = Dsl(builder)
     }
 
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
-    internal fun _build(): com.example.fedn_client.grpc.ModelValidationRequest = _builder.build()
+    internal fun _build(): com.example.fedn_client.grpc.TaskRequest = _builder.build()
 
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public var sender: com.example.fedn_client.grpc.Client
       @JvmName("getSender")
@@ -38,13 +38,13 @@ public object ModelValidationRequestKt {
         _builder.setSender(value)
       }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public fun clearSender() {
       _builder.clearSender()
     }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      * @return Whether the sender field is set.
      */
     public fun hasSender(): kotlin.Boolean {
@@ -52,7 +52,7 @@ public object ModelValidationRequestKt {
     }
 
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      */
     public var receiver: com.example.fedn_client.grpc.Client
       @JvmName("getReceiver")
@@ -62,13 +62,13 @@ public object ModelValidationRequestKt {
         _builder.setReceiver(value)
       }
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      */
     public fun clearReceiver() {
       _builder.clearReceiver()
     }
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      * @return Whether the receiver field is set.
      */
     public fun hasReceiver(): kotlin.Boolean {
@@ -93,6 +93,10 @@ public object ModelValidationRequestKt {
     }
 
     /**
+     * ```
+     * data is round_config when type is MODEL_UPDATE
+     * ```
+     *
      * `string data = 4;`
      */
     public var data: kotlin.String
@@ -103,6 +107,10 @@ public object ModelValidationRequestKt {
         _builder.setData(value)
       }
     /**
+     * ```
+     * data is round_config when type is MODEL_UPDATE
+     * ```
+     *
      * `string data = 4;`
      */
     public fun clearData() {
@@ -161,30 +169,54 @@ public object ModelValidationRequestKt {
     }
 
     /**
-     * `bool is_inference = 8;`
+     * `string session_id = 8;`
      */
-    public var isInference: kotlin.Boolean
-      @JvmName("getIsInference")
-      get() = _builder.getIsInference()
-      @JvmName("setIsInference")
+    public var sessionId: kotlin.String
+      @JvmName("getSessionId")
+      get() = _builder.getSessionId()
+      @JvmName("setSessionId")
       set(value) {
-        _builder.setIsInference(value)
+        _builder.setSessionId(value)
       }
     /**
-     * `bool is_inference = 8;`
+     * `string session_id = 8;`
      */
-    public fun clearIsInference() {
-      _builder.clearIsInference()
+    public fun clearSessionId() {
+      _builder.clearSessionId()
+    }
+
+    /**
+     * `.com.example.fedn_client.grpc.StatusType type = 9;`
+     */
+    public var type: com.example.fedn_client.grpc.StatusType
+      @JvmName("getType")
+      get() = _builder.getType()
+      @JvmName("setType")
+      set(value) {
+        _builder.setType(value)
+      }
+    public var typeValue: kotlin.Int
+      @JvmName("getTypeValue")
+      get() = _builder.getTypeValue()
+      @JvmName("setTypeValue")
+      set(value) {
+        _builder.setTypeValue(value)
+      }
+    /**
+     * `.com.example.fedn_client.grpc.StatusType type = 9;`
+     */
+    public fun clearType() {
+      _builder.clearType()
     }
   }
 }
 @kotlin.jvm.JvmSynthetic
-public inline fun com.example.fedn_client.grpc.ModelValidationRequest.copy(block: com.example.fedn_client.grpc.ModelValidationRequestKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.ModelValidationRequest =
-  com.example.fedn_client.grpc.ModelValidationRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+public inline fun com.example.fedn_client.grpc.TaskRequest.copy(block: com.example.fedn_client.grpc.TaskRequestKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.TaskRequest =
+  com.example.fedn_client.grpc.TaskRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
-public val com.example.fedn_client.grpc.ModelValidationRequestOrBuilder.senderOrNull: com.example.fedn_client.grpc.Client?
+public val com.example.fedn_client.grpc.TaskRequestOrBuilder.senderOrNull: com.example.fedn_client.grpc.Client?
   get() = if (hasSender()) getSender() else null
 
-public val com.example.fedn_client.grpc.ModelValidationRequestOrBuilder.receiverOrNull: com.example.fedn_client.grpc.Client?
+public val com.example.fedn_client.grpc.TaskRequestOrBuilder.receiverOrNull: com.example.fedn_client.grpc.Client?
   get() = if (hasReceiver()) getReceiver() else null
 

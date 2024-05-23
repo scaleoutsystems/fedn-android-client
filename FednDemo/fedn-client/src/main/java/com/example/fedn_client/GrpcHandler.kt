@@ -9,8 +9,8 @@ import com.example.fedn_client.grpc.ModelRequest
 import com.example.fedn_client.grpc.ModelServiceGrpcKt
 import com.example.fedn_client.grpc.ModelStatus
 import com.example.fedn_client.grpc.ModelUpdate
-import com.example.fedn_client.grpc.ModelUpdateRequest
 import com.example.fedn_client.grpc.Role
+import com.example.fedn_client.grpc.TaskRequest
 import com.google.protobuf.ByteString
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
@@ -49,7 +49,7 @@ internal class GrpcHandler(
 
     private val headers = Metadata().apply {
         val key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
-        put(key, "Token $token")
+        put(key, "Bearer $token")
         val clientNameKey = Metadata.Key.of("client", Metadata.ASCII_STRING_MARSHALLER)
         put(clientNameKey, name)
         val contentTypeKey = Metadata.Key.of("Grpc-Server", Metadata.ASCII_STRING_MARSHALLER)
@@ -87,10 +87,12 @@ internal class GrpcHandler(
 
         try {
 
+            val sender = Client.newBuilder().setName(name).setRole(
+                Role.WORKER
+            ).build()
+
             val request: Heartbeat = Heartbeat.newBuilder().setSender(
-                Client.newBuilder().setName(name).setRole(
-                    Role.WORKER
-                ).build()
+                sender
             ).build()
 
             connectorStub.sendHeartbeat(request, headers)
@@ -109,12 +111,17 @@ internal class GrpcHandler(
 
         println("initialize listener for model update requests...")
 
+        val sender = Client.newBuilder().setName(name).setRole(Role.WORKER).build()
+        println(sender.name)
+        println(sender.role)
+        println(sender.roleValue)
+
         val clientAvailableMessage: ClientAvailableMessage =
             ClientAvailableMessage.newBuilder().setSender(
-                Client.newBuilder().setName(name).setRole(Role.WORKER).build()
+                sender
             ).build()
 
-        val stream = combinerStub.modelUpdateRequestStream(clientAvailableMessage, headers)
+        val stream = combinerStub.taskStream(clientAvailableMessage, headers)
 
         try {
             onStateChanged?.invoke(ModelUpdateState.LISTENER_INITIALIZED)
@@ -140,7 +147,7 @@ internal class GrpcHandler(
     }
 
     private suspend fun processTrainingRequest(
-        value: ModelUpdateRequest,
+        value: TaskRequest,
         trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?,
         onStateChangedInternal: (state: ModelUpdateState) -> Unit
@@ -211,7 +218,7 @@ internal class GrpcHandler(
 
     private suspend fun sendModelUpdate(
         updatedModelId: String,
-        value: ModelUpdateRequest,
+        value: TaskRequest,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?,
         onStateChangedInternal: (state: ModelUpdateState) -> Unit
     ) {
@@ -258,7 +265,7 @@ internal class GrpcHandler(
         }
     }
 
-    private suspend fun getServerModel(value: ModelUpdateRequest): ByteArray? {
+    private suspend fun getServerModel(value: TaskRequest): ByteArray? {
         var result: ByteArray? = null
 
         try {

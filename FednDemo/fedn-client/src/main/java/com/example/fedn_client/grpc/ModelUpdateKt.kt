@@ -9,7 +9,7 @@ package com.example.fedn_client.grpc;
 public inline fun modelUpdate(block: com.example.fedn_client.grpc.ModelUpdateKt.Dsl.() -> kotlin.Unit): com.example.fedn_client.grpc.ModelUpdate =
   com.example.fedn_client.grpc.ModelUpdateKt.Dsl._create(com.example.fedn_client.grpc.ModelUpdate.newBuilder()).apply { block() }._build()
 /**
- * Protobuf type `grpc.ModelUpdate`
+ * Protobuf type `com.example.fedn_client.grpc.ModelUpdate`
  */
 public object ModelUpdateKt {
   @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
@@ -28,7 +28,7 @@ public object ModelUpdateKt {
     internal fun _build(): com.example.fedn_client.grpc.ModelUpdate = _builder.build()
 
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public var sender: com.example.fedn_client.grpc.Client
       @JvmName("getSender")
@@ -38,13 +38,13 @@ public object ModelUpdateKt {
         _builder.setSender(value)
       }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      */
     public fun clearSender() {
       _builder.clearSender()
     }
     /**
-     * `.grpc.Client sender = 1;`
+     * `.com.example.fedn_client.grpc.Client sender = 1;`
      * @return Whether the sender field is set.
      */
     public fun hasSender(): kotlin.Boolean {
@@ -52,7 +52,7 @@ public object ModelUpdateKt {
     }
 
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      */
     public var receiver: com.example.fedn_client.grpc.Client
       @JvmName("getReceiver")
@@ -62,13 +62,13 @@ public object ModelUpdateKt {
         _builder.setReceiver(value)
       }
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      */
     public fun clearReceiver() {
       _builder.clearReceiver()
     }
     /**
-     * `.grpc.Client receiver = 2;`
+     * `.com.example.fedn_client.grpc.Client receiver = 2;`
      * @return Whether the receiver field is set.
      */
     public fun hasReceiver(): kotlin.Boolean {
@@ -158,6 +158,23 @@ public object ModelUpdateKt {
      */
     public fun clearMeta() {
       _builder.clearMeta()
+    }
+
+    /**
+     * `string config = 8;`
+     */
+    public var config: kotlin.String
+      @JvmName("getConfig")
+      get() = _builder.getConfig()
+      @JvmName("setConfig")
+      set(value) {
+        _builder.setConfig(value)
+      }
+    /**
+     * `string config = 8;`
+     */
+    public fun clearConfig() {
+      _builder.clearConfig()
     }
   }
 }

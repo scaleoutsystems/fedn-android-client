@@ -4,36 +4,36 @@
 package com.example.fedn_client.grpc;
 
 public interface ModelUpdateOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.ModelUpdate)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.ModelUpdate)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return Whether the sender field is set.
    */
   boolean hasSender();
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return The sender.
    */
   com.example.fedn_client.grpc.Client getSender();
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    */
   com.example.fedn_client.grpc.ClientOrBuilder getSenderOrBuilder();
 
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    * @return Whether the receiver field is set.
    */
   boolean hasReceiver();
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    * @return The receiver.
    */
   com.example.fedn_client.grpc.Client getReceiver();
   /**
-   * <code>.grpc.Client receiver = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Client receiver = 2;</code>
    */
   com.example.fedn_client.grpc.ClientOrBuilder getReceiverOrBuilder();
 
@@ -96,4 +96,16 @@ public interface ModelUpdateOrBuilder extends
    */
   com.google.protobuf.ByteString
       getMetaBytes();
+
+  /**
+   * <code>string config = 8;</code>
+   * @return The config.
+   */
+  java.lang.String getConfig();
+  /**
+   * <code>string config = 8;</code>
+   * @return The bytes for config.
+   */
+  com.google.protobuf.ByteString
+      getConfigBytes();
 }

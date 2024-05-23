@@ -4,32 +4,32 @@
 package com.example.fedn_client.grpc;
 
 public interface ListClientsRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:grpc.ListClientsRequest)
+    // @@protoc_insertion_point(interface_extends:com.example.fedn_client.grpc.ListClientsRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return Whether the sender field is set.
    */
   boolean hasSender();
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    * @return The sender.
    */
   com.example.fedn_client.grpc.Client getSender();
   /**
-   * <code>.grpc.Client sender = 1;</code>
+   * <code>.com.example.fedn_client.grpc.Client sender = 1;</code>
    */
   com.example.fedn_client.grpc.ClientOrBuilder getSenderOrBuilder();
 
   /**
-   * <code>.grpc.Channel channel = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Queue channel = 2;</code>
    * @return The enum numeric value on the wire for channel.
    */
   int getChannelValue();
   /**
-   * <code>.grpc.Channel channel = 2;</code>
+   * <code>.com.example.fedn_client.grpc.Queue channel = 2;</code>
    * @return The channel.
    */
-  com.example.fedn_client.grpc.Channel getChannel();
+  com.example.fedn_client.grpc.Queue getChannel();
 }
