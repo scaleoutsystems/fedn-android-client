@@ -44,8 +44,9 @@ data class AddClientResponse(
 interface IHttpHandler {
     suspend fun attach(
         connectionString: String,
-        name: String,
+        id: String,
         token: String,
+        name: String?,
         onStateChanged: ((state: AttachState) -> Unit)? = null
     ): Pair<AddClientResponse?, Pair<AttachResponseStatus, String>>
 }
@@ -55,8 +56,9 @@ internal class HttpHandler(private val httpClientWrapper: IHttpClientWrapper<Add
 
     override suspend fun attach(
         connectionString: String,
-        name: String,
+        id: String,
         token: String,
+        name: String?,
         onStateChanged: ((state: AttachState) -> Unit)?
     ): Pair<AddClientResponse?, Pair<AttachResponseStatus, String>> {
 
@@ -79,7 +81,7 @@ internal class HttpHandler(private val httpClientWrapper: IHttpClientWrapper<Add
             onStateChanged?.invoke(AttachState.INITIALIZED)
 
             val (attachResponse, statusCode, msg) = httpClientWrapper.httpPost(
-                url, verifiedToken, name
+                url, verifiedToken, id, name
             )
 
             result = attachResponse

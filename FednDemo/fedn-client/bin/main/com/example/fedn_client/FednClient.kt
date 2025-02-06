@@ -42,6 +42,7 @@ class FednClient(
     private val name: String? = null,
     private val heartbeatInterval: Long = 5000,
     private val port: Int = 443,
+    private val secureGrpcConnection: Boolean = true,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private var _httpHandler: IHttpHandler? = null,
     private var _grpcHandler: IGrpcHandler? = null
@@ -140,7 +141,14 @@ class FednClient(
 
             val fqdn = response.fqdn
 
-            grpcHandler = GrpcHandler(clientName, fqdn, port, token, response.host)
+            grpcHandler = GrpcHandler(
+                clientName,
+                fqdn,
+                port,
+                token,
+                response.host,
+                secureGrpcConnection = secureGrpcConnection
+            )
 
             attached = true
 

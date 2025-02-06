@@ -173,14 +173,14 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun AppContent(modifier: Modifier = Modifier) {
 
-        var connectionString by remember { mutableStateOf("https://studio.scaleoutplatform.com/") }
+        var connectionString by remember { mutableStateOf("https://api.studio.scaleoutplatform.com/") }
         var token by remember { mutableStateOf("") }
         var name by remember { mutableStateOf("") }
         var timeoutSeconds by remember {
             mutableStateOf<Long>(60)
         }
 
-        val observer: LifecycleOwner = this as LifecycleOwner
+        val observer: LifecycleOwner = this
 
         var clientState by remember {
             mutableStateOf("")

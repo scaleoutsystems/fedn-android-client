@@ -45,7 +45,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
         var fileInputStream: InputStream = applicationContext.assets.open(fileName)
         var inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
         val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
-        var text: String? = null
+        var text: String?
 
         val result: MutableList<List<Float>> = mutableListOf()
 
@@ -103,7 +103,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
         return Pair(result, success)
     }
 
-    fun floatArrayToByteArray(floatArray: FloatArray): ByteArray {
+    private fun floatArrayToByteArray(floatArray: FloatArray): ByteArray {
         val byteBuffer = ByteBuffer.allocate(floatArray.size * 4) // 4 bytes per float
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN) // Choose the byte order (little-endian or big-endian)
 
@@ -173,9 +173,14 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
 
             if (weightsAfterTraining != null) {
 
-                val weights: ModelWeights = toWeightsModel(weightsAfterTraining)
+                val modelWeightsAfterTraining
+                : ModelWeights = toWeightsModel(weightsAfterTraining)
 
-                val oneDimensional: FloatArray = (weights.layer0 + weights.layer1 + weights.layer2 + weights.layer3).toFloatArray()
+                val oneDimensional: FloatArray = (modelWeightsAfterTraining
+                    .layer0 + modelWeightsAfterTraining
+                        .layer1 + modelWeightsAfterTraining
+                            .layer2 + modelWeightsAfterTraining
+                                .layer3).toFloatArray()
 
                 result = floatArrayToByteArray(oneDimensional)
             }
@@ -197,7 +202,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
         if (connectionString != null && token != null) {
 
             val fednClient: IFednClient = FednClient(
-                connectionString, token, name = name
+                connectionString = connectionString, token = token, name = name
             )
 
             setProgress(workDataOf(Progress to "Client connecting"))

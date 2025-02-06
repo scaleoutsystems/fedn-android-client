@@ -15,7 +15,6 @@ import com.google.protobuf.ByteString
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
-import io.grpc.NameResolver
 import io.grpc.StatusException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -29,6 +28,7 @@ const val CHUNK_SIZE: Int = 1024 * 1024
 enum class ModelUpdateState {
     LISTENER_INITIALIZED, SERVER_MODEL_DOWNLOADED, TRAINING_STARTED, TRAINING_COMPLETED, MODEL_UPLOADED, TRAINING_ROUND_FINISHED
 }
+
 interface IGrpcHandler : Closeable {
     suspend fun sendHeartbeat()
     suspend fun listenToModelUpdateRequestStream(
@@ -43,7 +43,8 @@ internal class GrpcHandler(
     private val url: String,
     private val port: Int,
     private val token: String,
-    private val combinerName: String
+    private val combinerName: String,
+    private val secureGrpcConnection: Boolean = true
 ) : IGrpcHandler {
 
     private val headers = Metadata().apply {
@@ -62,7 +63,10 @@ internal class GrpcHandler(
             if (_managedChannel == null) {
 
                 _managedChannel =
-                    ManagedChannelBuilder.forAddress(url, port).useTransportSecurity().build()
+                    if (secureGrpcConnection)
+                        ManagedChannelBuilder.forAddress(url, port).useTransportSecurity().build()
+                    else
+                        ManagedChannelBuilder.forAddress(url, port).usePlaintext().build()
             }
 
             return _managedChannel ?: throw AssertionError("Set to null by another thread")
