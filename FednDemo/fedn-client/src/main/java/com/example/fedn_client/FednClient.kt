@@ -40,19 +40,19 @@ class FednClient(
     private val connectionString: String,
     private val token: String,
     private val name: String? = null,
+    private val id: String? = null,
     private val heartbeatInterval: Long = 5000,
-    private val port: Int = 443,
     private val secureGrpcConnection: Boolean = true,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private var _httpHandler: IHttpHandler? = null,
     private var _grpcHandler: IGrpcHandler? = null
 ) : IFednClient {
 
-    var running: Boolean = false
-    var attached: Boolean = false
+    private var running: Boolean = false
+    private var attached: Boolean = false
     private var training: Boolean = false
-    var heartbeatsInitiated: Boolean = false
-    var listeningToModelUpdate: Boolean = false
+    private var heartbeatsInitiated: Boolean = false
+    private var listeningToModelUpdate: Boolean = false
 
     private val httpHandler: IHttpHandler
         get() {
@@ -126,11 +126,14 @@ class FednClient(
     override suspend fun attachClientToNetwork(onStateChanged: ((state: AttachState) -> Unit)?): Pair<String, Boolean> {
 
         var result: Boolean = true
-
-        val clientName: String = name ?: generateRandomString()
+        val clientId: String = id ?: generateRandomString()
 
         val (response, responseStatus) = httpHandler.attach(
-            connectionString, clientName, token, onStateChanged
+            connectionString = connectionString,
+            id = clientId,
+            token = token,
+            name = name,
+            onStateChanged = onStateChanged
         )
 
         val (statusCode, statusMessage) = responseStatus
@@ -142,9 +145,10 @@ class FednClient(
             val fqdn = response.fqdn
 
             grpcHandler = GrpcHandler(
-                clientName,
+                name = name?: clientId,
+                clientId,
                 fqdn,
-                port,
+                port = if(secureGrpcConnection)  443 else response.port,
                 token,
                 response.host,
                 secureGrpcConnection = secureGrpcConnection
@@ -192,7 +196,7 @@ class FednClient(
 
             withTimeoutOrNullCustom(timeoutAfterMillis) {
 
-                grpcHandler?.listenToModelUpdateRequestStream(
+                grpcHandler?.listenToTaskStream(
                     trainModel, onStateChanged, onStateChangedInternal
                 )
             }

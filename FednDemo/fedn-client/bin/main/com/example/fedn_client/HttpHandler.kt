@@ -34,10 +34,11 @@ data class AddClientResponse(
     val ip: String? = null,
     val port: Int? = null,
     val certificate: String? = null,
-    val msg: String? = null,
-    val helper_type: String? = null,
+//    val msg: String? = null,
+//    val helper_type: String? = null,
+    @SerialName("helper_type") val helperType: String? = null,
     @SerialName("package") val myPackage: String? = null,
-    @SerialName("model_type") val modelType: String? = null
+//    @SerialName("model_type") val modelType: String? = null
 )
 
 interface IHttpHandler {

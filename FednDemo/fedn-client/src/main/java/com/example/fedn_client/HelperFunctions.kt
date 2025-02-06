@@ -59,7 +59,7 @@ fun getUrl(
     val url =
         if (connectionString.contains("http")) connectionString else "http://$connectionString"
 
-    return "$url/add_client"
+    return "$url/api/v1/clients/add"
 }
 
 fun getVerifiedToken(token: String): String? {
@@ -67,7 +67,7 @@ fun getVerifiedToken(token: String): String? {
     var result: String? = null
 
     if (token.isNotEmpty()) {
-        result = if (token.startsWith("Token ")) token else "Token $token"
+        result = if (token.startsWith("Bearer ")) token else "Bearer $token"
     }
 
     return result

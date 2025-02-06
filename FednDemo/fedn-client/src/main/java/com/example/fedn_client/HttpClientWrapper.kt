@@ -17,7 +17,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AddClientBody(val client_id: String, val preferred_combiner: String?)
+data class AddClientBody(val client_id: String, val preferred_combiner: String?, val name: String?)
 interface IHttpClientWrapper<T> {
 
     suspend fun httpGet(
@@ -25,7 +25,7 @@ interface IHttpClientWrapper<T> {
     ): Triple<T?, HttpStatusCode?, String?>
 
     suspend fun httpPost(
-        url: String, token: String, name: String
+        url: String, token: String, id: String, name: String?
     ): Triple<T?, HttpStatusCode?, String?>
 }
 
@@ -74,7 +74,8 @@ class HttpClientAssignWrapper : IHttpClientWrapper<AddClientResponse> {
     override suspend fun httpPost(
         url: String,
         token: String,
-        name: String
+        id: String,
+        name: String?,
     ): Triple<AddClientResponse?, HttpStatusCode?, String?> {
 
         val httpClient: HttpClient = HttpClient(CIO) {
@@ -95,7 +96,7 @@ class HttpClientAssignWrapper : IHttpClientWrapper<AddClientResponse> {
                     append(HttpHeaders.Accept, "application/json")
                 }
                 contentType(ContentType.Application.Json)
-                setBody(AddClientBody(client_id = name, preferred_combiner = null))
+                setBody(AddClientBody(client_id = id, preferred_combiner = null, name = name))
             }
 
             val result: AddClientResponse? = if (httpResponse.status == HttpStatusCode.OK) {

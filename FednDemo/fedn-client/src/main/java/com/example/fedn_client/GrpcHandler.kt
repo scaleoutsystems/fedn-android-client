@@ -1,17 +1,12 @@
 package com.example.fedn_client
 
-import com.example.fedn_client.grpc.Client
-import com.example.fedn_client.grpc.ClientAvailableMessage
-import com.example.fedn_client.grpc.CombinerGrpcKt
-import com.example.fedn_client.grpc.ConnectorGrpcKt
-import com.example.fedn_client.grpc.Heartbeat
-import com.example.fedn_client.grpc.ModelRequest
-import com.example.fedn_client.grpc.ModelServiceGrpcKt
-import com.example.fedn_client.grpc.ModelStatus
-import com.example.fedn_client.grpc.ModelUpdate
-import com.example.fedn_client.grpc.ModelUpdateRequest
-import com.example.fedn_client.grpc.Role
+
 import com.google.protobuf.ByteString
+import fedn.CombinerGrpcKt
+import fedn.ConnectorGrpcKt
+import fedn.Fedn
+import fedn.Fedn.TaskRequest
+import fedn.ModelServiceGrpcKt
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
@@ -31,7 +26,7 @@ enum class ModelUpdateState {
 
 interface IGrpcHandler : Closeable {
     suspend fun sendHeartbeat()
-    suspend fun listenToModelUpdateRequestStream(
+    suspend fun listenToTaskStream(
         trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)? = null,
         onStateChangedInternal: (state: ModelUpdateState) -> Unit
@@ -40,6 +35,7 @@ interface IGrpcHandler : Closeable {
 
 internal class GrpcHandler(
     private val name: String,
+    private val id: String,
     private val url: String,
     private val port: Int,
     private val token: String,
@@ -49,7 +45,7 @@ internal class GrpcHandler(
 
     private val headers = Metadata().apply {
         val key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
-        put(key, "Token $token")
+        put(key, "Bearer $token")
         val clientNameKey = Metadata.Key.of("client", Metadata.ASCII_STRING_MARSHALLER)
         put(clientNameKey, name)
         val contentTypeKey = Metadata.Key.of("Grpc-Server", Metadata.ASCII_STRING_MARSHALLER)
@@ -87,10 +83,10 @@ internal class GrpcHandler(
 
         try {
 
-            val request: Heartbeat = Heartbeat.newBuilder().setSender(
-                Client.newBuilder().setName(name).setRole(
-                    Role.WORKER
-                ).build()
+            val request: Fedn.Heartbeat = Fedn.Heartbeat.newBuilder().setSender(
+                Fedn.Client.newBuilder().setName(name).setRole(
+                    Fedn.Role.CLIENT
+                ).setClientId(id).build()
             ).build()
 
             connectorStub.sendHeartbeat(request, headers)
@@ -101,20 +97,20 @@ internal class GrpcHandler(
         }
     }
 
-    override suspend fun listenToModelUpdateRequestStream(
+    override suspend fun listenToTaskStream(
         trainModel: (modelIn: ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?,
         onStateChangedInternal: (state: ModelUpdateState) -> Unit
     ) {
 
-        println("initialize listener for model update requests...")
+        println("initialize listener for task requests...")
 
-        val clientAvailableMessage: ClientAvailableMessage =
-            ClientAvailableMessage.newBuilder().setSender(
-                Client.newBuilder().setName(name).setRole(Role.WORKER).build()
+        val clientAvailableMessage: Fedn.ClientAvailableMessage =
+            Fedn.ClientAvailableMessage.newBuilder().setSender(
+                Fedn.Client.newBuilder().setName(name).setRole(Fedn.Role.CLIENT).setClientId(id).build()
             ).build()
 
-        val stream = combinerStub.modelUpdateRequestStream(clientAvailableMessage, headers)
+        val stream = combinerStub.taskStream(clientAvailableMessage, headers)
 
         try {
             onStateChanged?.invoke(ModelUpdateState.LISTENER_INITIALIZED)
@@ -122,7 +118,7 @@ internal class GrpcHandler(
 
             stream.collect { value ->
 
-                if (value.sender.role == Role.COMBINER) {
+                if (value.sender.role == Fedn.Role.COMBINER) {
 
                     processTrainingRequest(
                         value,
@@ -140,7 +136,7 @@ internal class GrpcHandler(
     }
 
     private suspend fun processTrainingRequest(
-        value: ModelUpdateRequest,
+        value: TaskRequest,
         trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?,
         onStateChangedInternal: (state: ModelUpdateState) -> Unit
@@ -167,7 +163,7 @@ internal class GrpcHandler(
                 val uuid = UUID.randomUUID()
                 val uuidStr = uuid.toString()
 
-                val flow: Flow<ModelRequest> = flow {
+                val flow: Flow<Fedn.ModelRequest> = flow {
 
                     if (trainedModel != null) {
 
@@ -176,9 +172,9 @@ internal class GrpcHandler(
 
                         for (chunk in arr) {
 
-                            val modelRequest: ModelRequest =
-                                ModelRequest.newBuilder().setData(chunk).setId(uuidStr)
-                                    .setStatus(ModelStatus.IN_PROGRESS).build()
+                            val modelRequest: Fedn.ModelRequest =
+                                Fedn.ModelRequest.newBuilder().setData(chunk).setId(uuidStr)
+                                    .setStatus(Fedn.ModelStatus.IN_PROGRESS).build()
 
                             emit(modelRequest)
                         }
@@ -188,8 +184,8 @@ internal class GrpcHandler(
                         println("Training resulted in null")
                     }
 
-                    val modelRequest: ModelRequest =
-                        ModelRequest.newBuilder().setId(uuidStr).setStatus(ModelStatus.OK).build()
+                    val modelRequest: Fedn.ModelRequest =
+                        Fedn.ModelRequest.newBuilder().setId(uuidStr).setStatus(Fedn.ModelStatus.OK).build()
 
                     emit(modelRequest)
                 }
@@ -211,7 +207,7 @@ internal class GrpcHandler(
 
     private suspend fun sendModelUpdate(
         updatedModelId: String,
-        value: ModelUpdateRequest,
+        value: TaskRequest,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?,
         onStateChangedInternal: (state: ModelUpdateState) -> Unit
     ) {
@@ -234,12 +230,12 @@ internal class GrpcHandler(
         }
 
         try {
-            val modelUpdate: ModelUpdate = ModelUpdate.newBuilder().setSender(
-                Client.newBuilder().setName(
+            val modelUpdate: Fedn.ModelUpdate = Fedn.ModelUpdate.newBuilder().setSender(
+                Fedn.Client.newBuilder().setName(
                     name
-                ).setRole(Role.WORKER)
+                ).setRole(Fedn.Role.CLIENT)
             ).setReceiver(
-                Client.newBuilder().setName(value.sender.name).setRole(value.sender.role)
+                Fedn.Client.newBuilder().setName(value.sender.name).setRole(value.sender.role)
             ).setModelId(value.modelId).setModelUpdateId(updatedModelId)
                 .setTimestamp(getCurrentTimestamp()).setCorrelationId(value.correlationId)
                 .setMeta(json.toString())
@@ -258,16 +254,16 @@ internal class GrpcHandler(
         }
     }
 
-    private suspend fun getServerModel(value: ModelUpdateRequest): ByteArray? {
+    private suspend fun getServerModel(value: TaskRequest): ByteArray? {
         var result: ByteArray? = null
 
         try {
-            val request: ModelRequest = ModelRequest.newBuilder().setId(value.modelId).build()
+            val request: Fedn.ModelRequest = Fedn.ModelRequest.newBuilder().setId(value.modelId).build()
             val stream = modelServiceStub.download(request, headers)
 
             stream.collect { s ->
 
-                if (s.status == ModelStatus.IN_PROGRESS || s.status == ModelStatus.OK) {
+                if (s.status == Fedn.ModelStatus.IN_PROGRESS || s.status == Fedn.ModelStatus.OK) {
 
                     result = if (result == null) {
 
