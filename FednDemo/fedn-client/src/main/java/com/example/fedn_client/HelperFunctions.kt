@@ -46,7 +46,7 @@ fun generateRandomString(): String {
 }
 
 
-fun getUrl(
+fun getAddClientUrl(
     connectionString: String,
 ): String? {
 
@@ -60,6 +60,22 @@ fun getUrl(
         if (connectionString.contains("http")) connectionString else "http://$connectionString"
 
     return "$url/api/v1/clients/add"
+}
+
+fun getAnalyticsUrl(
+    connectionString: String,
+): String? {
+
+    val valid = connectionString.isNotEmpty()
+
+    if(!valid){
+
+        return null
+    }
+    val url =
+        if (connectionString.contains("http")) connectionString else "http://$connectionString"
+
+    return "$url/api/v1/analytics/"
 }
 
 fun getVerifiedToken(token: String): String? {

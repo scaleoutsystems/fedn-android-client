@@ -22,7 +22,6 @@ import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-
 @Serializable
 data class ModelWeights(
     var layer0: List<Float>,
@@ -113,6 +112,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
 
         return byteBuffer.array()
     }
+
     private fun toWeightsModel(weights: MutableMap<String, Any>): ModelWeights {
 
         val layer0 = weights["layer0"] as FloatBuffer
@@ -174,13 +174,13 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
             if (weightsAfterTraining != null) {
 
                 val modelWeightsAfterTraining
-                : ModelWeights = toWeightsModel(weightsAfterTraining)
+                        : ModelWeights = toWeightsModel(weightsAfterTraining)
 
                 val oneDimensional: FloatArray = (modelWeightsAfterTraining
                     .layer0 + modelWeightsAfterTraining
-                        .layer1 + modelWeightsAfterTraining
-                            .layer2 + modelWeightsAfterTraining
-                                .layer3).toFloatArray()
+                    .layer1 + modelWeightsAfterTraining
+                    .layer2 + modelWeightsAfterTraining
+                    .layer3).toFloatArray()
 
                 result = floatArrayToByteArray(oneDimensional)
             }
@@ -197,12 +197,17 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
         val connectionString: String? = inputData.getString("CONNECTION_STRING")
         val token: String? = inputData.getString("TOKEN")
         val name: String? = inputData.getString("NAME")
+        val id: String? = inputData.getString("ID")
         val timeoutAfterMillis: Long = inputData.getLong("TIMEOUT_AFTER_MILLIS", 30000)
 
         if (connectionString != null && token != null) {
 
             val fednClient: IFednClient = FednClient(
-                connectionString = connectionString, token = token, name = name
+                connectionString = connectionString,
+                token = token,
+                name = name,
+                id = id,
+                sendAnalytics = true
             )
 
             setProgress(workDataOf(Progress to "Client connecting"))

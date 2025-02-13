@@ -1,8 +1,20 @@
 package com.example.fedn_client
 
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.headers
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.contentType
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 
 enum class AttachState {
@@ -34,12 +46,30 @@ data class AddClientResponse(
     val ip: String? = null,
     val port: Int? = null,
     val certificate: String? = null,
-//    val msg: String? = null,
-//    val helper_type: String? = null,
     @SerialName("helper_type") val helperType: String? = null,
     @SerialName("package") val myPackage: String? = null,
-//    @SerialName("model_type") val modelType: String? = null
 )
+
+@Serializable
+data class AddClientBody(val client_id: String, val preferred_combiner: String?, val name: String?)
+
+@Serializable
+data class AnalyticsResponse(
+    val id: String? = null,
+    val status: String? = null,
+    val type: String? = null,
+    @SerialName("client_id") val clientId: String? = null,
+    @SerialName("model_id") val modelId: String? = null,
+)
+
+@Serializable
+data class AnalyticsBody(
+    val client_id: String,
+    val model_id: String,
+    val type: String,
+    val execution_duration: Long
+)
+
 
 interface IHttpHandler {
     suspend fun attach(
@@ -49,9 +79,18 @@ interface IHttpHandler {
         name: String?,
         onStateChanged: ((state: AttachState) -> Unit)? = null
     ): Pair<AddClientResponse?, Pair<AttachResponseStatus, String>>
+
+    suspend fun sendAnalytics(
+        connectionString: String,
+        token: String,
+        id: String,
+        executionDuration: Long,
+        modelId: String,
+        type: String
+    ): Pair<AnalyticsResponse?, Boolean>
 }
 
-internal class HttpHandler(private val httpClientWrapper: IHttpClientWrapper<AddClientResponse>) :
+internal class HttpHandler() :
     IHttpHandler {
 
     override suspend fun attach(
@@ -66,7 +105,7 @@ internal class HttpHandler(private val httpClientWrapper: IHttpClientWrapper<Add
             Pair(AttachResponseStatus.OK, AttachResponseStatus.OK.toString())
         var result: AddClientResponse? = null
 
-        val url: String? = getUrl(connectionString)
+        val url: String? = getAddClientUrl(connectionString)
         val verifiedToken: String? = getVerifiedToken(token)
 
         if (url.isNullOrBlank()) {
@@ -80,7 +119,7 @@ internal class HttpHandler(private val httpClientWrapper: IHttpClientWrapper<Add
 
             onStateChanged?.invoke(AttachState.INITIALIZED)
 
-            val (attachResponse, statusCode, msg) = httpClientWrapper.httpPost(
+            val (attachResponse, statusCode, msg) = attachClientPost(
                 url, verifiedToken, id, name
             )
 
@@ -106,5 +145,110 @@ internal class HttpHandler(private val httpClientWrapper: IHttpClientWrapper<Add
         }
 
         return Pair(result, response)
+    }
+
+    private suspend fun attachClientPost(
+        url: String,
+        token: String,
+        id: String,
+        name: String?,
+    ): Triple<AddClientResponse?, HttpStatusCode?, String?> {
+
+        val httpClient: HttpClient = HttpClient(CIO) {
+            install(ContentNegotiation) {
+                json(Json {
+                    prettyPrint = true
+                    isLenient = true
+                })
+            }
+            followRedirects = true
+        }
+
+        val result = try {
+
+            val httpResponse = httpClient.post(url) {
+                headers {
+                    append(HttpHeaders.Authorization, token)
+                    append(HttpHeaders.Accept, "application/json")
+                }
+                contentType(ContentType.Application.Json)
+                setBody(AddClientBody(client_id = id, preferred_combiner = null, name = name))
+            }
+
+            val result: AddClientResponse? = if (httpResponse.status == HttpStatusCode.OK) {
+                httpResponse.body<AddClientResponse>()
+            } else null
+
+            Triple(result, httpResponse.status, null)
+
+        } catch (e: Exception) {
+
+            println(e.message)
+            Triple(null, null, e.message)
+        }
+
+        httpClient.close()
+
+        return result
+    }
+
+    override suspend fun sendAnalytics(
+        connectionString: String,
+        token: String,
+        id: String,
+        executionDuration: Long,
+        modelId: String,
+        type: String
+    ): Pair<AnalyticsResponse?, Boolean> {
+        val url: String? = getAnalyticsUrl(connectionString)
+        val verifiedToken: String? = getVerifiedToken(token)
+
+        if (url.isNullOrBlank() || verifiedToken.isNullOrBlank()) {
+            return Pair(null, false)
+        }
+
+        val httpClient: HttpClient = HttpClient(CIO) {
+            install(ContentNegotiation) {
+                json(Json {
+                    prettyPrint = true
+                    isLenient = true
+                })
+            }
+            followRedirects = true
+        }
+
+        val result = try {
+
+            val httpResponse = httpClient.post(url) {
+                headers {
+                    append(HttpHeaders.Authorization, token)
+                    append(HttpHeaders.Accept, "application/json")
+                }
+                contentType(ContentType.Application.Json)
+                setBody(
+                    AnalyticsBody(
+                        client_id = id,
+                        model_id = modelId,
+                        type = type,
+                        execution_duration = executionDuration
+                    )
+                )
+            }
+
+            val result: AnalyticsResponse? = if (httpResponse.status == HttpStatusCode.OK) {
+                httpResponse.body<AnalyticsResponse>()
+            } else null
+
+            Pair(result, httpResponse.status == HttpStatusCode.OK)
+
+        } catch (e: Exception) {
+
+            println(e.message)
+            Pair(null, false)
+        }
+
+        httpClient.close()
+
+        return result
     }
 }
