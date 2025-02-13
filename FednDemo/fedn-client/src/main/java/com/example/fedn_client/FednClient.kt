@@ -43,7 +43,7 @@ class FednClient(
     private val name: String? = null,
     private val id: String? = null,
     private val heartbeatInterval: Long = 5000,
-    private val secureGrpcConnection: Boolean = false,
+    private val secureGrpcConnection: Boolean = true,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private var _httpHandler: IHttpHandler? = null,
     private var _grpcHandler: IGrpcHandler? = null,

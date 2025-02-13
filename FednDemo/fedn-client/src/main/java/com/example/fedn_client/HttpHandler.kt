@@ -221,7 +221,7 @@ internal class HttpHandler() :
 
             val httpResponse = httpClient.post(url) {
                 headers {
-                    append(HttpHeaders.Authorization, token)
+                    append(HttpHeaders.Authorization, verifiedToken)
                     append(HttpHeaders.Accept, "application/json")
                 }
                 contentType(ContentType.Application.Json)
