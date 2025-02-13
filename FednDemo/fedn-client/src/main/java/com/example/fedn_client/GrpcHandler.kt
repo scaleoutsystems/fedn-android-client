@@ -1,6 +1,7 @@
 package com.example.fedn_client
 
 
+import PerformanceMonitor
 import com.google.protobuf.ByteString
 import fedn.CombinerGrpcKt
 import fedn.ConnectorGrpcKt
@@ -29,7 +30,8 @@ interface IGrpcHandler : Closeable {
     suspend fun listenToTaskStream(
         trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)? = null,
-        onStateChangedInternal: (state: ModelUpdateState) -> Unit
+        onStateChangedInternal: (state: ModelUpdateState) -> Unit,
+        onPerformanceResultMeasured: ((executionDuration: Long, modelId: String) -> Unit)? = null
     )
 }
 
@@ -100,14 +102,16 @@ internal class GrpcHandler(
     override suspend fun listenToTaskStream(
         trainModel: (modelIn: ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?,
-        onStateChangedInternal: (state: ModelUpdateState) -> Unit
+        onStateChangedInternal: (state: ModelUpdateState) -> Unit,
+        onPerformanceResultMeasured: ((executionDuration: Long, modelId: String) -> Unit)?
     ) {
 
         println("initialize listener for task requests...")
 
         val clientAvailableMessage: Fedn.ClientAvailableMessage =
             Fedn.ClientAvailableMessage.newBuilder().setSender(
-                Fedn.Client.newBuilder().setName(name).setRole(Fedn.Role.CLIENT).setClientId(id).build()
+                Fedn.Client.newBuilder().setName(name).setRole(Fedn.Role.CLIENT).setClientId(id)
+                    .build()
             ).build()
 
         val stream = combinerStub.taskStream(clientAvailableMessage, headers)
@@ -118,14 +122,21 @@ internal class GrpcHandler(
 
             stream.collect { value ->
 
-                if (value.sender.role == Fedn.Role.COMBINER) {
+                if (value.sender.role == Fedn.Role.COMBINER && value.type == Fedn.StatusType.MODEL_UPDATE) {
 
-                    processTrainingRequest(
-                        value,
-                        trainModel,
-                        onStateChanged,
-                        onStateChangedInternal
-                    )
+                    val performanceMonitor = PerformanceMonitor()
+
+                    val executionDuration = performanceMonitor.measurePerformance {
+
+                        processTrainingRequest(
+                            value,
+                            trainModel,
+                            onStateChanged,
+                            onStateChangedInternal
+                        )
+                    }
+
+                    onPerformanceResultMeasured?.invoke(executionDuration, value.modelId)
                 }
             }
         } catch (e: StatusException) {
@@ -185,7 +196,8 @@ internal class GrpcHandler(
                     }
 
                     val modelRequest: Fedn.ModelRequest =
-                        Fedn.ModelRequest.newBuilder().setId(uuidStr).setStatus(Fedn.ModelStatus.OK).build()
+                        Fedn.ModelRequest.newBuilder().setId(uuidStr).setStatus(Fedn.ModelStatus.OK)
+                            .build()
 
                     emit(modelRequest)
                 }
@@ -258,7 +270,8 @@ internal class GrpcHandler(
         var result: ByteArray? = null
 
         try {
-            val request: Fedn.ModelRequest = Fedn.ModelRequest.newBuilder().setId(value.modelId).build()
+            val request: Fedn.ModelRequest =
+                Fedn.ModelRequest.newBuilder().setId(value.modelId).build()
             val stream = modelServiceStub.download(request, headers)
 
             stream.collect { s ->

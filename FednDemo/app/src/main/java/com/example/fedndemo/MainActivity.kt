@@ -47,6 +47,7 @@ import androidx.work.workDataOf
 import com.example.fedndemo.FednWorker.Companion.Progress
 import com.example.fedndemo.ui.theme.FednDemoTheme
 import com.example.fedndemo.ui.theme.scaleoutBlack
+import java.util.UUID
 
 val manropeFamily = FontFamily(
     Font(R.font.manrope, FontWeight.Normal),
@@ -56,7 +57,6 @@ val manropeFamily = FontFamily(
 
 const val TRAINING_ROUND_PROCESS = "TRAINING_ROUND_PROCESS"
 val REGEX_NUMBERS_ONLY = Regex("^\\d+\$")
-
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -173,7 +173,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun AppContent(modifier: Modifier = Modifier) {
 
-        var connectionString by remember { mutableStateOf("https://api.studio.scaleoutplatform.com/") }
+        var connectionString by remember { mutableStateOf("https://api.studio.scaleoutplatform.com") }
         var token by remember { mutableStateOf("") }
         var name by remember { mutableStateOf("") }
         var timeoutSeconds by remember {
@@ -242,7 +242,8 @@ class MainActivity : ComponentActivity() {
                             "CONNECTION_STRING" to connectionString,
                             "TOKEN" to token,
                             "NAME" to if (name.isNullOrBlank()) null else name,
-                            "TIMEOUT_AFTER_MILLIS" to timeoutSeconds * 1000
+                            "TIMEOUT_AFTER_MILLIS" to timeoutSeconds * 1000,
+                            "ID" to UUID.randomUUID().toString()
                         )
                     ).build()
 

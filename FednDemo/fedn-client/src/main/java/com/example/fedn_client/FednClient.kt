@@ -1,6 +1,7 @@
 package com.example.fedn_client
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
@@ -42,10 +43,11 @@ class FednClient(
     private val name: String? = null,
     private val id: String? = null,
     private val heartbeatInterval: Long = 5000,
-    private val secureGrpcConnection: Boolean = true,
+    private val secureGrpcConnection: Boolean = false,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private var _httpHandler: IHttpHandler? = null,
-    private var _grpcHandler: IGrpcHandler? = null
+    private var _grpcHandler: IGrpcHandler? = null,
+    private var sendAnalytics: Boolean = false
 ) : IFednClient {
 
     private var running: Boolean = false
@@ -58,10 +60,7 @@ class FednClient(
         get() {
 
             if (_httpHandler == null) {
-
-                val httpClientWrapper: IHttpClientWrapper<AddClientResponse> =
-                    HttpClientAssignWrapper()
-                _httpHandler = HttpHandler(httpClientWrapper)
+                _httpHandler = HttpHandler()
             }
 
             return _httpHandler ?: throw AssertionError("Set to null by another thread")
@@ -145,10 +144,10 @@ class FednClient(
             val fqdn = response.fqdn
 
             grpcHandler = GrpcHandler(
-                name = name?: clientId,
+                name = name ?: clientId,
                 clientId,
                 fqdn,
-                port = if(secureGrpcConnection)  443 else response.port,
+                port = if (secureGrpcConnection) 443 else response.port,
                 token,
                 response.host,
                 secureGrpcConnection = secureGrpcConnection
@@ -178,6 +177,27 @@ class FednClient(
         }
     }
 
+    private suspend fun sendAnalytics(executionDuration: Long, modelId: String) {
+        println("Execution took $executionDuration ms for model: $modelId")
+
+        if(!sendAnalytics || id == null){
+            return
+        }
+
+        val (response, success) = httpHandler.sendAnalytics(
+            connectionString = connectionString,
+            id = id,
+            token = token,
+            executionDuration = executionDuration,
+            modelId = modelId,
+            type = "training"
+        )
+
+        if(success){
+            println(response)
+        }
+    }
+
     override suspend fun listenToModelUpdateRequestStream(
         trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)?,
@@ -197,7 +217,14 @@ class FednClient(
             withTimeoutOrNullCustom(timeoutAfterMillis) {
 
                 grpcHandler?.listenToTaskStream(
-                    trainModel, onStateChanged, onStateChangedInternal
+                    trainModel,
+                    onStateChanged,
+                    onStateChangedInternal,
+                    onPerformanceResultMeasured = { executionDuration, modelId ->
+                        CoroutineScope(Dispatchers.Default).launch {
+                            sendAnalytics(executionDuration, modelId)
+                        }
+                    }
                 )
             }
 
