@@ -45,9 +45,11 @@ data class AddClientResponse(
     val fqdn: String? = null,
     val ip: String? = null,
     val port: Int? = null,
-    val certificate: String? = null,
+//    val certificate: String? = null,
     @SerialName("helper_type") val helperType: String? = null,
     @SerialName("package") val myPackage: String? = null,
+    @SerialName("client_id") val clientId: String? = null,
+
 )
 
 @Serializable
