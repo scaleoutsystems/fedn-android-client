@@ -4,20 +4,15 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import com.example.fedn_client.AttachState
 import com.example.fedn_client.FednClient
 import com.example.fedn_client.IFednClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
-import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.nio.FloatBuffer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
 import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -207,7 +202,7 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
                 token = token,
                 name = name,
                 id = id,
-                sendAnalytics = true
+                sendTelemetry = true
             )
 
             setProgress(workDataOf(Progress to "Client connecting"))

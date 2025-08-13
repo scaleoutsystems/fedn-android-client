@@ -47,7 +47,7 @@ class FednClient(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private var _httpHandler: IHttpHandler? = null,
     private var _grpcHandler: IGrpcHandler? = null,
-    private var sendAnalytics: Boolean = false
+    private var sendTelemetry: Boolean = false
 ) : IFednClient {
 
     private var running: Boolean = false
@@ -177,25 +177,14 @@ class FednClient(
         }
     }
 
-    private suspend fun sendAnalytics(executionDuration: Long, modelId: String) {
+    private suspend fun sendTelemetry(executionDuration: Long, modelId: String) {
         println("Execution took $executionDuration ms for model: $modelId")
 
-        if(!sendAnalytics || id == null){
+        if(!sendTelemetry || id == null){
             return
         }
 
-        val (response, success) = httpHandler.sendAnalytics(
-            connectionString = connectionString,
-            id = id,
-            token = token,
-            executionDuration = executionDuration,
-            modelId = modelId,
-            type = "training"
-        )
-
-        if(success){
-            println(response)
-        }
+        grpcHandler?.sendTelemetry(-1, "cpu_usage", executionDuration.toFloat())
     }
 
     override suspend fun listenToModelUpdateRequestStream(
@@ -222,7 +211,7 @@ class FednClient(
                     onStateChangedInternal,
                     onPerformanceResultMeasured = { executionDuration, modelId ->
                         CoroutineScope(Dispatchers.Default).launch {
-                            sendAnalytics(executionDuration, modelId)
+                            sendTelemetry(executionDuration, modelId)
                         }
                     }
                 )

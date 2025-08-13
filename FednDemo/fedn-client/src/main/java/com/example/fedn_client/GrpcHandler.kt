@@ -3,6 +3,7 @@ package com.example.fedn_client
 
 import PerformanceMonitor
 import com.google.protobuf.ByteString
+import com.google.protobuf.Timestamp
 import fedn.CombinerGrpcKt
 import fedn.ConnectorGrpcKt
 import fedn.Fedn
@@ -33,6 +34,8 @@ interface IGrpcHandler : Closeable {
         onStateChangedInternal: (state: ModelUpdateState) -> Unit,
         onPerformanceResultMeasured: ((executionDuration: Long, modelId: String) -> Unit)? = null
     )
+
+    suspend fun sendTelemetry(index: Int, key: String, value: Float)
 }
 
 internal class GrpcHandler(
@@ -78,6 +81,29 @@ internal class GrpcHandler(
 
     private val modelServiceStub: ModelServiceGrpcKt.ModelServiceCoroutineStub =
         ModelServiceGrpcKt.ModelServiceCoroutineStub(managedChannel)
+
+    override suspend fun sendTelemetry(index: Int, key: String, value: Float) {
+        println("sending Telemetry...")
+
+        try {
+            val millis = System.currentTimeMillis()
+            val seconds = millis / 1000
+            val nanos = ((millis % 1000) * 1_000_000).toInt()
+
+            val request: Fedn.TelemetryMessage = Fedn.TelemetryMessage.newBuilder().setSender(
+                Fedn.Client.newBuilder().setName(name).setRole(Fedn.Role.CLIENT)
+                    .setClientId(id).build()
+            ).setTimestamp(
+                Timestamp.newBuilder().setSeconds(seconds).setNanos(nanos).build()
+            ).addTelemetries(Fedn.TelemetryElem.newBuilder().setKey(key).setValue(value).build())
+                .build()
+
+            combinerStub.sendTelemetryMessage(request, headers)
+
+        } catch (e: Exception) {
+            println("Exception: ${e.message}")
+        }
+    }
 
     override suspend fun sendHeartbeat() {
 

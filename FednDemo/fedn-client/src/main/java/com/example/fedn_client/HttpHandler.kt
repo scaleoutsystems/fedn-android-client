@@ -81,15 +81,6 @@ interface IHttpHandler {
         name: String?,
         onStateChanged: ((state: AttachState) -> Unit)? = null
     ): Pair<AddClientResponse?, Pair<AttachResponseStatus, String>>
-
-    suspend fun sendAnalytics(
-        connectionString: String,
-        token: String,
-        id: String,
-        executionDuration: Long,
-        modelId: String,
-        type: String
-    ): Pair<AnalyticsResponse?, Boolean>
 }
 
 internal class HttpHandler() :
@@ -194,63 +185,4 @@ internal class HttpHandler() :
         return result
     }
 
-    override suspend fun sendAnalytics(
-        connectionString: String,
-        token: String,
-        id: String,
-        executionDuration: Long,
-        modelId: String,
-        type: String
-    ): Pair<AnalyticsResponse?, Boolean> {
-        val url: String? = getAnalyticsUrl(connectionString)
-        val verifiedToken: String? = getVerifiedToken(token)
-
-        if (url.isNullOrBlank() || verifiedToken.isNullOrBlank()) {
-            return Pair(null, false)
-        }
-
-        val httpClient: HttpClient = HttpClient(CIO) {
-            install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                })
-            }
-            followRedirects = true
-        }
-
-        val result = try {
-
-            val httpResponse = httpClient.post(url) {
-                headers {
-                    append(HttpHeaders.Authorization, verifiedToken)
-                    append(HttpHeaders.Accept, "application/json")
-                }
-                contentType(ContentType.Application.Json)
-                setBody(
-                    AnalyticsBody(
-                        client_id = id,
-                        model_id = modelId,
-                        type = type,
-                        execution_duration = executionDuration
-                    )
-                )
-            }
-
-            val result: AnalyticsResponse? = if (httpResponse.status == HttpStatusCode.OK) {
-                httpResponse.body<AnalyticsResponse>()
-            } else null
-
-            Pair(result, httpResponse.status == HttpStatusCode.OK)
-
-        } catch (e: Exception) {
-
-            println(e.message)
-            Pair(null, false)
-        }
-
-        httpClient.close()
-
-        return result
-    }
 }

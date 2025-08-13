@@ -3,6 +3,7 @@ syntax = "proto3";
 package fedn;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 message Response {
     Client sender = 1;
@@ -17,6 +18,10 @@ enum StatusType {
   MODEL_VALIDATION = 4;
   MODEL_PREDICTION = 5;
   NETWORK = 6;
+  FORWARD_REQUEST = 7;
+  FORWARD = 8;
+  BACKWARD_REQUEST = 9;
+  BACKWARD = 10;
 }
 
 enum LogLevel {
@@ -92,6 +97,53 @@ message ModelPrediction {
   string prediction_id = 8;
 }
 
+message BackwardCompletion {
+  Client sender = 1;
+  Client receiver = 2;
+  string gradient_id = 3;
+  string correlation_id = 4;
+  string session_id = 5;
+  google.protobuf.Timestamp timestamp = 6;
+  string meta = 7;
+}
+
+message ModelMetric {
+  Client sender = 1;
+  repeated MetricElem metrics = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  google.protobuf.UInt32Value step = 4;
+  string model_id = 5;
+  string round_id = 6;
+  string session_id = 7;
+}
+
+message MetricElem {
+  string key = 1;
+  float value = 2;
+}
+
+message AttributeMessage {
+  Client sender = 1;
+  repeated AttributeElem attributes = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message AttributeElem {
+  string key = 1;
+  string value = 2;
+}
+
+message TelemetryMessage {
+  Client sender = 1;
+  repeated TelemetryElem telemetries = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message TelemetryElem {
+  string key = 1;
+  float value = 2;
+}
+
 enum ModelStatus {
   OK = 0;
   IN_PROGRESS = 1;
@@ -134,6 +186,8 @@ message GetGlobalModelResponse {
 
 message Heartbeat {
   Client sender = 1;
+  float memory_utilisation = 2;
+  float cpu_utilisation = 3;
 }
 
 message ClientAvailableMessage {
@@ -248,14 +302,16 @@ service Connector {
 }
 
 service Combiner {
-
     // Stream endpoints for training/validation pub/sub
     rpc TaskStream (ClientAvailableMessage) returns (stream TaskRequest);
 
     rpc SendModelUpdate (ModelUpdate) returns (Response);
     rpc SendModelValidation (ModelValidation) returns (Response);
     rpc SendModelPrediction (ModelPrediction) returns (Response);
-
+    rpc SendBackwardCompletion (BackwardCompletion) returns (Response);
+    rpc SendModelMetric(ModelMetric) returns (Response);
+    rpc SendAttributeMessage(AttributeMessage) returns (Response);
+    rpc SendTelemetryMessage(TelemetryMessage) returns (Response);
 }
 
 message ProvidedFunctionsRequest {
