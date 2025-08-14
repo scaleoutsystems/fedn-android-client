@@ -197,20 +197,17 @@ class FednWorker(appContext: Context, workerParams: WorkerParameters) :
 
         if (connectionString != null && token != null) {
 
-            val fednClient: IFednClient = FednClient(
-                connectionString = connectionString,
-                token = token,
-                name = name,
-                id = id,
-                sendTelemetry = true
+            val client = FednClientManager.getOrCreate(
+                FednParams(connectionString = connectionString, token = token, name = name, id = id)
             )
+
 
             setProgress(workDataOf(Progress to "Client connecting"))
 
             launch {
 
                 val result =
-                    fednClient.runProcess(runTrainingProcess, onAttachStateChanged = { state ->
+                    client.runProcess(runTrainingProcess, onAttachStateChanged = { state ->
 
                         launch {
                             setProgress(workDataOf(Progress to state.toString()))

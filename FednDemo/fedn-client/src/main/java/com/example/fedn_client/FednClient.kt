@@ -1,7 +1,6 @@
 package com.example.fedn_client
 
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
@@ -27,9 +26,10 @@ interface IFednClient {
         onUpdateModelStateChanged: ((state: ModelUpdateState) -> Unit)? = null,
         timeoutAfterMillis: Long = 60000
     ): Pair<String, Boolean>
-
+    fun stopProcess()
     suspend fun attachClientToNetwork(onStateChanged: ((state: AttachState) -> Unit)? = null): Pair<String, Boolean>
     suspend fun sendHeartbeats(timeoutAfterMillis: Long = 60000)
+    suspend fun sendTelemetry(values: Map<String, Float>)
     suspend fun listenToModelUpdateRequestStream(
         trainModel: (ByteArray) -> ByteArray,
         onStateChanged: ((state: ModelUpdateState) -> Unit)? = null,
@@ -47,7 +47,6 @@ class FednClient(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private var _httpHandler: IHttpHandler? = null,
     private var _grpcHandler: IGrpcHandler? = null,
-    private var sendTelemetry: Boolean = false
 ) : IFednClient {
 
     private var running: Boolean = false
@@ -124,7 +123,7 @@ class FednClient(
 
     override suspend fun attachClientToNetwork(onStateChanged: ((state: AttachState) -> Unit)?): Pair<String, Boolean> {
 
-        var result: Boolean = true
+        var result = true
         val clientId: String = id ?: generateRandomString()
 
         val (response, responseStatus) = httpHandler.attach(
@@ -177,14 +176,9 @@ class FednClient(
         }
     }
 
-    private suspend fun sendTelemetry(executionDuration: Long, modelId: String) {
-        println("Execution took $executionDuration ms for model: $modelId")
+    override suspend fun sendTelemetry(values: Map<String, Float>) {
 
-        if(!sendTelemetry || id == null){
-            return
-        }
-
-        grpcHandler?.sendTelemetry(-1, "cpu_usage", executionDuration.toFloat())
+        grpcHandler?.sendTelemetry(values)
     }
 
     override suspend fun listenToModelUpdateRequestStream(
@@ -209,11 +203,6 @@ class FednClient(
                     trainModel,
                     onStateChanged,
                     onStateChangedInternal,
-                    onPerformanceResultMeasured = { executionDuration, modelId ->
-                        CoroutineScope(Dispatchers.Default).launch {
-                            sendTelemetry(executionDuration, modelId)
-                        }
-                    }
                 )
             }
 
@@ -232,7 +221,7 @@ class FednClient(
                 null
             }
 
-            val resultOrNull = select<T?> {
+            val resultOrNull = select {
                 result.onAwait { it }
                 timeoutJob.onAwait { it }
             }
@@ -253,7 +242,7 @@ class FednClient(
         }
     }
 
-    private fun stopProcess() {
+    override fun stopProcess() {
 
         running = false
         grpcHandler?.close()

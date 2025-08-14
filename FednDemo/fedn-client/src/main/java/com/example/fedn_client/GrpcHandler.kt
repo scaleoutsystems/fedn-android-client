@@ -34,8 +34,7 @@ interface IGrpcHandler : Closeable {
         onStateChangedInternal: (state: ModelUpdateState) -> Unit,
         onPerformanceResultMeasured: ((executionDuration: Long, modelId: String) -> Unit)? = null
     )
-
-    suspend fun sendTelemetry(index: Int, key: String, value: Float)
+    suspend fun sendTelemetry(values: Map<String, Float>)
 }
 
 internal class GrpcHandler(
@@ -82,10 +81,18 @@ internal class GrpcHandler(
     private val modelServiceStub: ModelServiceGrpcKt.ModelServiceCoroutineStub =
         ModelServiceGrpcKt.ModelServiceCoroutineStub(managedChannel)
 
-    override suspend fun sendTelemetry(index: Int, key: String, value: Float) {
+    override suspend fun sendTelemetry(values: Map<String, Float>) {
         println("sending Telemetry...")
 
         try {
+
+            val entries = values.map { (key, value) ->
+                Fedn.TelemetryElem.newBuilder()
+                    .setKey(key)
+                    .setValue(value)
+                    .build()
+            }
+
             val millis = System.currentTimeMillis()
             val seconds = millis / 1000
             val nanos = ((millis % 1000) * 1_000_000).toInt()
@@ -95,7 +102,7 @@ internal class GrpcHandler(
                     .setClientId(id).build()
             ).setTimestamp(
                 Timestamp.newBuilder().setSeconds(seconds).setNanos(nanos).build()
-            ).addTelemetries(Fedn.TelemetryElem.newBuilder().setKey(key).setValue(value).build())
+            ).addAllTelemetries(entries)
                 .build()
 
             combinerStub.sendTelemetryMessage(request, headers)

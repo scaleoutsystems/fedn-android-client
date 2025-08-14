@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,7 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -54,7 +52,7 @@ val manropeFamily = FontFamily(
     Font(R.font.manrope_bold, FontWeight.Bold)
 )
 
-
+const val TELEMETRY_PROCESS = "TELEMETRY_PROCESS"
 const val TRAINING_ROUND_PROCESS = "TRAINING_ROUND_PROCESS"
 val REGEX_NUMBERS_ONLY = Regex("^\\d+\$")
 
@@ -78,9 +76,6 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun App() {
         AppContent(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center)
         )
     }
 
@@ -171,7 +166,7 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun AppContent(modifier: Modifier = Modifier) {
+    fun AppContent() {
 
         var connectionString by remember { mutableStateOf("https://api.studio.scaleoutplatform.com") }
         var token by remember { mutableStateOf("") }
@@ -197,7 +192,69 @@ class MainActivity : ComponentActivity() {
         Column(
             Modifier.padding(16.dp)
         ) {
+            ButtonRow(formValid = formValid, onClick = {
 
+                clientActive = true
+
+                val telemetryWorkRequest: OneTimeWorkRequest =
+                    OneTimeWorkRequestBuilder<TelemetryWorker>().setInputData(
+                        workDataOf(
+                            "CONNECTION_STRING" to connectionString,
+                            "TOKEN" to token,
+                            "NAME" to name.ifBlank { null },
+                            "ID" to UUID.randomUUID().toString()
+                        )
+                    ).build()
+
+                WorkManager.getInstance(applicationContext)
+                    .enqueueUniqueWork(
+                        TELEMETRY_PROCESS,
+                        ExistingWorkPolicy.REPLACE,
+                        telemetryWorkRequest
+                    )
+
+                val fednWorkRequest: OneTimeWorkRequest =
+                    OneTimeWorkRequestBuilder<FednWorker>().setInputData(
+                        workDataOf(
+                            "CONNECTION_STRING" to connectionString,
+                            "TOKEN" to token,
+                            "NAME" to name.ifBlank { null },
+                            "TIMEOUT_AFTER_MILLIS" to timeoutSeconds * 1000,
+                            "ID" to UUID.randomUUID().toString()
+                        )
+                    ).build()
+
+                WorkManager.getInstance(applicationContext).enqueueUniqueWork(
+                    TRAINING_ROUND_PROCESS,
+                    ExistingWorkPolicy.KEEP,
+                    fednWorkRequest
+                )
+
+                WorkManager.getInstance(applicationContext)
+                    // requestId is the WorkRequest id
+                    .getWorkInfoByIdLiveData(fednWorkRequest.id)
+                    .observe(observer, Observer { workInfo: WorkInfo? ->
+                        if (workInfo != null) {
+
+                            if (listOf(WorkInfo.State.ENQUEUED, WorkInfo.State.RUNNING).contains(
+                                    workInfo.state
+                                )
+                            ) {
+
+                                val progress = workInfo.progress
+                                // Do something with progress information
+                                clientState = progress.getString(Progress) ?: ""
+
+                            } else {
+                                clientActive = false
+                                clientState = ""
+                                //Turn off telemetry
+                                WorkManager.getInstance(applicationContext)
+                                    .cancelUniqueWork(TELEMETRY_PROCESS)
+                            }
+                        }
+                    })
+            })
             Row(
                 Modifier.padding(vertical = 24.dp)
             ) {
@@ -232,49 +289,7 @@ class MainActivity : ComponentActivity() {
             TextFieldRow(text = "Name (optional)", value = name, onValueChange = {
                 name = it
             })
-            ButtonRow(formValid = formValid, onClick = {
 
-                clientActive = true
-
-                val fednWorkRequest: OneTimeWorkRequest =
-                    OneTimeWorkRequestBuilder<FednWorker>().setInputData(
-                        workDataOf(
-                            "CONNECTION_STRING" to connectionString,
-                            "TOKEN" to token,
-                            "NAME" to if (name.isNullOrBlank()) null else name,
-                            "TIMEOUT_AFTER_MILLIS" to timeoutSeconds * 1000,
-                            "ID" to UUID.randomUUID().toString()
-                        )
-                    ).build()
-
-                WorkManager.getInstance(applicationContext).enqueueUniqueWork(
-                    TRAINING_ROUND_PROCESS,
-                    ExistingWorkPolicy.KEEP,
-                    fednWorkRequest
-                )
-
-                WorkManager.getInstance(applicationContext)
-                    // requestId is the WorkRequest id
-                    .getWorkInfoByIdLiveData(fednWorkRequest.id)
-                    .observe(observer, Observer { workInfo: WorkInfo? ->
-                        if (workInfo != null) {
-
-                            if (listOf(WorkInfo.State.ENQUEUED, WorkInfo.State.RUNNING).contains(
-                                    workInfo.state
-                                )
-                            ) {
-
-                                val progress = workInfo.progress
-                                // Do something with progress information
-                                clientState = progress.getString(Progress) ?: ""
-
-                            } else {
-                                clientActive = false
-                                clientState = ""
-                            }
-                        }
-                    })
-            })
         }
     }
 }
